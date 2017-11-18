@@ -1,19 +1,20 @@
 package network
 
 import (
-	"github.com/kylehennig/petah-quest/server/game"
-	"net"
 	"bufio"
+	"net"
+
+	"github.com/kylehennig/petah-quest/server/game"
 )
 
 var connections []playerConnection
 
-type playerConnection struct{
-	player game.Entity
+type playerConnection struct {
+	player     game.Entity
 	connection net.Conn
 }
 
-func CreateServer(){
+func CreateServer() {
 	connections = make([]playerConnection, 0)
 
 	ln, err := net.Listen("tcp", ":8888")
@@ -29,11 +30,11 @@ func CreateServer(){
 	}
 }
 
-func addPlayer(conn net.Conn){
-// add a new playerConnection to connection list
+func addPlayer(conn net.Conn) {
+	// add a new playerConnection to connection list
 	ch, _ := bufio.NewReader(conn).ReadByte()
 	newEntity := game.NewPlayer(ch)
 	newConnection := playerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
-	bufio.NewWriter(conn).Write(game.GetMap().ToBytes())
+	conn.Write(game.GetMap().ToBytes())
 }

@@ -40,6 +40,9 @@ func (wMap WorldMap) ToBytes() []byte {
 	return bytes
 }
 
+func GetMap() WorldMap{
+	return loadMap()
+}
 func intToBytes(n int) []byte {
 	bytes := make([]byte, 4)
 	bytes[0] = (byte) ((n >> 24) & 0xFF)

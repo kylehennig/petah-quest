@@ -35,4 +35,5 @@ func addPlayer(conn net.Conn){
 	newEntity := game.NewPlayer(ch)
 	newConnection := playerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
+	bufio.NewWriter(conn).Write(game.GetMap().ToBytes())
 }

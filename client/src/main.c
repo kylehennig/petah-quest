@@ -6,11 +6,10 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-// #include <netinet/in.h>
-// #include <netdb.h>
 #include <arpa/inet.h>
 
 #include "net.h"
+#include "controller.h"
 
 
 int main(int argc, char *argv[]) {
@@ -31,9 +30,13 @@ int main(int argc, char *argv[]) {
     write(sock, "hello\n", 6);
 
     struct map map;
-    struct entity_list elist;
+    struct entity_list *elist = malloc(256*sizeof(struct entity_list));
 
     handshake(&map, ch, sock);
+
+    while (1) {
+        server_controller(sock, &map, elist);
+    }
 
     // initscr();
     // raw();

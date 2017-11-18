@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/kylehennig/petah-quest/server/network"
 )
 

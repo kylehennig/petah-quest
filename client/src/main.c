@@ -10,6 +10,8 @@
 // #include <netdb.h>
 #include <arpa/inet.h>
 
+#include "net.h"
+
 
 int main(int argc, char *argv[]) {
     struct sockaddr_in server;
@@ -27,6 +29,11 @@ int main(int argc, char *argv[]) {
     }
 
     write(sock, "hello\n", 6);
+
+    struct map map;
+    struct entity_list elist;
+
+    handshake(&map, ch, sock);
 
     // initscr();
     // raw();

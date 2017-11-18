@@ -8,4 +8,6 @@ void draw_entities_screen(struct entity_list *list, uint32_t x, uint32_t y);
 
 void redraw_entity(struct entity_list *list, uint32_t id);
 
+void do_flash(uint32_t x, uint32_t y);
+
 #endif

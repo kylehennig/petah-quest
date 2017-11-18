@@ -11,5 +11,5 @@ bin:
 .PHONY: clean
 
 clean:
-	rm -r bin
-	rm pquest
+	rm -r bin || true
+	rm pquest || true

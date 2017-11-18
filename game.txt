@@ -1,0 +1,53 @@
+﻿###########################
+########### MAP ###########
+###########################
+Plain txt format
+
+g    goblins, melee attacks                      Green on Black           10 health
+p    piranha plant, can't move, range of one.    Red on Black             50 health
+e    elves ranged weapons                        Blue on Black            120 health
+n    ninjas, can't see them until attack.        Black on Black           100
+w    wolves, fast, no drop                       White on Black           50
+
+
+
+###### Map ######
+
+# Hazards types #
+
+M   spikes         White on Black
+~    lava           Black on Red
+
+# Impassable    #
+
+~    water          White on Blue
+#    wall           White space on Black
+
+
+# Ground types  #
+
+,    grass          Random punctuation that's green on black
+.    stone          White on black
+
+# Weapon types  #
+
+All White
+
+)    bow             5
+}    recurve bow     25
+><^v arrows          depends on bow
+/    sword           10
+-    dagger          5
+*    ninja star      ∞
+!    club            2
+@    whip            20
+╱    long sword      50
+┤    shield          0
+     fist            1
+
+
+######## Colours ##########
+White is base        100% to be hit
+Yellow is better     80%
+Red is ++            60%
+Cyan is best         33%

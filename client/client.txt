@@ -1,0 +1,39 @@
+#################################
+######### Controler #############
+#################################
+
+# Keyboard #
+1234567890 is weapon switching
+wasd is movement
+ijkl is interact in a direction
+
+
+# Arduino  #
+dual joysticks for movement and interaction
+touchscreen for weapon switching
+
+
+#################################
+######### Networkng #############
+#################################
+
+action format, 1 byte
+
+first 4 bits are action type 0000 0000 last 4 bits are action data
+
+action types
+0000 nothing
+0001 move
+0010 interact
+0011 switch weapons
+
+action data
+0000   north
+0001   east
+0010   south
+0011   west
+
+#################################
+######### Rendering #############
+#################################
+see map in game.txt

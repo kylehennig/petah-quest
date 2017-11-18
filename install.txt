@@ -1,0 +1,2 @@
+sudo apt-get install libncurses-dev
+Install Go

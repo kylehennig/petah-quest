@@ -22,13 +22,11 @@ func CreateServer() net.Listener {
 		// handle error
 	}
 
-	for {
-		checkForNewPlayers(ln)
-	}
-
 	return ln
 }
-func checkForNewPlayers(ln net.Listener){
+
+//
+func CheckForNewPlayers(ln net.Listener){
 	conn, err := ln.Accept()
 	if err != nil {
 		// handle error

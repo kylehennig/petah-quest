@@ -7,7 +7,10 @@ import (
 
 func main() {
 	fmt.Println("hello world")
-	network.CreateServer()
+	ln := network.CreateServer()
 
+	for {
+		network.CheckForNewPlayers(ln)
+	}
 
 }

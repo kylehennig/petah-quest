@@ -25,7 +25,7 @@ func CreateServer() net.Listener {
 	return ln
 }
 
-//
+// CheckForNewPlayers allows players to join
 func CheckForNewPlayers(ln net.Listener){
 	conn, err := ln.Accept()
 	if err != nil {

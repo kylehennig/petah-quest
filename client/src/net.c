@@ -19,6 +19,13 @@ int handshake(struct map *map, char ch, int sockfd) {
 }
 
 
+enum srv_cmd read_cmd(int sockfd) {
+    uint8_t val;
+    read(sockfd, &val, sizeof(uint8_t));
+    return val;
+}
+
+
 //reads the first sizeof() bytes into variables left to right
 void get_flash(int sockfd, uint32_t *x, uint32_t *y){
 	read(sockfd, x, sizeof(uint32_t)); //should read x from sockfd

@@ -20,7 +20,7 @@ M   spikes         White on Black
 
 # Impassable    #
 
-~    water          White on Blue
+w    water          White on Blue
 #    wall           White space on Black
 
 

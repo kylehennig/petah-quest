@@ -9,7 +9,7 @@ import (
 func main() {
 	fmt.Println("hello world")
 	ln := network.CreateServer()
-
+	world := CreateWorld()
 	for {
 		network.CheckForNewPlayers(ln)
 	}

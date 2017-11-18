@@ -1,0 +1,44 @@
+Load map, see client for symbol
+
+###############################
+### Server messenge sending ###
+###############################
+
+0##  FLASH  ###
+sends x, y to flash
+
+UINT32 x
+UINT32 y
+
+1##   NEW   ###
+ID to create as well as draw char, and colour
+
+UINT32 id
+CHAR character
+UINT8 colour
+
+2## DELETE  ###
+ID to remove
+UINT32 id
+
+3##  TEXT   ###
+sends size of message and null terminated string
+UINT32 message size
+STRING message(null terminated)
+
+4##   MOVE  ###
+sends id, and new x, y
+UINT32 id
+UINT32 x
+UINT32 y
+
+4##   MOVE  ###
+sends id, and new character and colour
+UINT32 id
+CHAR character
+UINT8 colour
+
+
+5##  HEALTH ###
+sends player health
+UINT8 health 

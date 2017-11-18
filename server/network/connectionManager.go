@@ -14,20 +14,26 @@ type playerConnection struct {
 	connection net.Conn
 }
 
-func CreateServer() {
+func CreateServer() net.Listener {
 	connections = make([]playerConnection, 0)
 
 	ln, err := net.Listen("tcp", ":8888")
 	if err != nil {
 		// handle error
 	}
+
 	for {
-		conn, err := ln.Accept()
-		if err != nil {
-			// handle error
-		}
-		go addPlayer(conn)
+		checkForNewPlayers(ln)
 	}
+
+	return ln
+}
+func checkForNewPlayers(ln net.Listener){
+	conn, err := ln.Accept()
+	if err != nil {
+		// handle error
+	}
+	go addPlayer(conn)
 }
 
 func addPlayer(conn net.Conn) {
@@ -36,5 +42,5 @@ func addPlayer(conn net.Conn) {
 	newEntity := game.NewPlayer(ch)
 	newConnection := playerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
-	conn.Write(game.GetMap().ToBytes())
+	sendMap(conn, game.GetMap())
 }

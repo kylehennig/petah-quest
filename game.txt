@@ -3,6 +3,8 @@
 ###########################
 Plain txt format
 
+P    player spawn location
+
 g    goblins, melee attacks                      Green on Black           10 health
 p    piranha plant, can't move, range of one.    Red on Black             50 health
 e    elves ranged weapons                        Blue on Black            120 health

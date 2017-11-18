@@ -69,7 +69,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
         }
         case HEALTH: {
             uint8_t health;
-            get_health(sockfd, health);
+            get_health(sockfd, &health);
             printf("health: %i\n", health);
             break;
         }

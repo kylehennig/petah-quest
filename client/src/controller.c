@@ -10,7 +10,7 @@
 
 
 void keyboard_controller(int sockfd) {
-    char keypress = getch();
+    char keypress = getchar();
 
     // switch (keypress) {
     //     case 'w':

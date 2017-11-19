@@ -48,7 +48,7 @@ func addPlayer(conn net.TCPConn, connections []PlayerConnection) {
 	connections = append(connections, newConnection)
 	sendMap(conn, GetMap())
 	sendPlayerHealth(conn, 100)
-	runTests(conn)
+	// runTests(conn)
 }
 
 func runTests(conn net.TCPConn) {

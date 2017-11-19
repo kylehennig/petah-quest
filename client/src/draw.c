@@ -113,9 +113,9 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 		break;
 
 		default:
-		attron(COLOR_PAIR(5));
-		mvprintw(screenDesty,screenDestx,"?");
-		attroff(COLOR_PAIR(5));
+		attron(COLOR_PAIR(4));
+		mvprintw(screenDesty,screenDestx,",");
+		attroff(COLOR_PAIR(4));
 		break;
 	}//end switch
 

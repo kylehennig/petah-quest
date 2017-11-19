@@ -15,6 +15,7 @@ func main() {
 
 	for {
 		game.CheckForNewPlayers(ln, connections)
+		game.ListenToPlayers(world)
 		game.UpdateWorld(world)
 	}
 }

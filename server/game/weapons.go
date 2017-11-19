@@ -9,3 +9,7 @@ type Weapon struct {
 func fist() Weapon {
 	return Weapon{false, 1, -1}
 }
+
+func getWeaponByID(id byte) Weapon{
+	return fist()
+}

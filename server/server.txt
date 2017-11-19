@@ -4,7 +4,7 @@ Load map, see client for symbol
 ### Server messenge sending ###
 ###############################
 
-0##   MAP   ###
+###   MAP   ###
 UINT32 x
 UINT32 y
 STRING entire map, no newlines

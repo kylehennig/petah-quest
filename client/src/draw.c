@@ -142,3 +142,15 @@ void draw_entity(struct entity *ent){
 		mvaddch(screenDesty,screenDestx,c);
 		attroff(COLOR_PAIR(18)); // turn color off
 }
+
+
+void draw_ent_scr(struct entity *ent, struct entity *player) {
+	uint32_t x_low = player->x - player->x % CHUNK_WIDTH;
+	uint32_t x_high = x_low + CHUNK_WIDTH;
+	uint32_t y_low = player->y - player->y % CHUNK_HEIGHT;
+	uint32_t y_high = y_low + CHUNK_HEIGHT;
+
+	if (ent->x >= x_low && ent->x < x_high && ent->y >= y_low && ent->y < y_high) {
+		draw_entity(struct entity *ent);
+	}
+}

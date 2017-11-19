@@ -48,7 +48,7 @@ void keyboard_controller(int sockfd) {
 }
 
 
-void server_controller(int sockfd, struct map *map, struct entity_list *elist, uint32_t id) {
+void server_controller(int sockfd, struct map *map, struct entity_list *elist, uint32_t you) {
     uint8_t cmd = read_cmd(sockfd);
 
     switch (cmd) {
@@ -77,8 +77,8 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             elist->list[id].ch = ch;
             elist->list[id].colour = colour;
 
-            // draw_entity(&elist->list[id]);
-            // refresh();
+            draw_ent_scr(&elist->list[id], &elist->list[you]);
+            refresh();
             printf("id: %i, x: %i, y: %i, ch: %c, colour: %i\n", id, x, y, ch, colour);
             break;
         }

@@ -5,6 +5,6 @@
 
 void keyboard_controller(int sockfd);
 
-void server_controller(int sockfd, struct map *map, struct entity_list *elist, uint32_t id);
+void server_controller(int sockfd, struct map *map, struct entity_list *elist, uint32_t you);
 
 #endif

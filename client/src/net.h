@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 enum srv_cmd {
-    FLASH, NEW, DELETE, TEXT, MOVE, UPDATE, HEALTH
+    NEW, DELETE, TEXT, MOVE, UPDATE, HEALTH, FLASH
 };
 
 int handshake(struct map *map, char ch, int sockfd);

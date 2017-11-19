@@ -3,12 +3,13 @@ package game
 import "time"
 
 type World struct {
-	worldMap WorldMap
-	entities []Entity
-	players  []player
+	worldMap    WorldMap
+	players     []player
+	entities    []Entity
+	projectiles []Projectile
 }
 type player struct {
-	entity Entity
+	entity    Entity
 	playerCon PlayerConnection
 }
 
@@ -22,5 +23,7 @@ func CreateWorld() World {
 }
 
 func UpdateWorld(world World, deltaNano time.Duration) {
-
+	for _, projectile := range world.projectiles {
+		projectile.update(deltaNano)
+	}
 }

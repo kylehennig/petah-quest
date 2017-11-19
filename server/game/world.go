@@ -1,9 +1,9 @@
 package game
 
 import (
+	"fmt"
 	"net"
 	"time"
-	"fmt"
 )
 
 const idLength int = 100000
@@ -20,7 +20,7 @@ type player struct {
 	playerCon net.TCPConn
 }
 
-func GetAvailableID(world *World) int32 {// TODO: recycle ID's
+func GetAvailableID(world *World) int32 { // TODO: recycle ID's
 	for i := 0; i < idLength; i++ {
 		b := world.availableID[i]
 		if b {
@@ -45,9 +45,7 @@ func CreateWorld() World {
 	for x := int32(0); x < myWorld.worldMap.width; x++ {
 		for y := int32(0); y < myWorld.worldMap.height; y++ {
 			var entity Entity
-			entity.x = x
-			entity.y = y
-			entity.id = GetAvailableID(&myWorld)
+			shouldInit := true
 			switch myWorld.worldMap.tiles[x+y*myWorld.worldMap.width] {
 			case 'g':
 				entity.gameType = getTypeByID(GOBLIN)
@@ -63,8 +61,15 @@ func CreateWorld() World {
 				entity.gameType = getTypeByID(NINJA)
 			case 'b':
 				entity.gameType = getTypeByID(FINALBOSS)
+			default:
+				shouldInit = false
 			}
-			newEntity(&myWorld, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
+			if shouldInit {
+				entity.x = x
+				entity.y = y
+				entity.id = GetAvailableID(&myWorld)
+				newEntity(&myWorld, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
+			}
 		}
 	}
 	return myWorld

@@ -154,7 +154,7 @@ void redraw_entity(struct entity_list *inlist, uint32_t id){
 	start_color();
 	init_pair(1, COLOR_WHITE, COLOR_BLACK); //COLOR WILL THROW ERROR
 	attron(COLOR_PAIR(1)); // use the above combination
-	mvprintw(screenDesty,screenDestx,&c);
+	mvaddch(screenDesty,screenDestx,c);
 	attroff(COLOR_PAIR(1)); // turn color off
 
 

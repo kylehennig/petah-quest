@@ -14,13 +14,13 @@ func loadMap() WorldMap {
 	}
 
 	// Calculate the width of the map by finding the first newline.
-	width := 0
+	width := int32(0)
 	for dirtyTiles[width] != '\n' {
 		width++
 	}
 
 	// Calculate the height of the map by counting the number of newlines.
-	height := 0
+	height := int32(0)
 	for _, tile := range dirtyTiles {
 		if tile == '\n' {
 			height++

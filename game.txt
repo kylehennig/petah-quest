@@ -10,7 +10,7 @@ h    goblin boss, melee attacks                  Green on Black     aggro 5     
 p    piranha plant, can't move                   Red on Black       aggro 1     50 health      damage 50     speed 0
 e    elves, ranged weapons                       Blue on Black      aggro 20    120 health     damage 25     speed 5
 n    ninjas, can't see them until attack.        Black on Black     aggro 10    100            damage 75     speed 6
-w    wolves, fast, no drop                       White on Black     aggro 20    50             damage 10     speed 7
+w    wolves, fast, no drop                       White on Black     aggro 20    10             damage 10     speed 7
 b    final boss, melee and ranged                Yellow on Black    aggro 10    500 health     damage 125    speed 6
 
 
@@ -18,13 +18,14 @@ b    final boss, melee and ranged                Yellow on Black    aggro 10    
 
 # Hazards types #
 
-M   spikes         White on Black
-~    lava           Black on Red
+M   spikes         White on Black     range 0     damage 20
+~    lava           Black on Red      range 0     damage 100
 
 # Impassable    #
 
-w    water          White on Blue
+W    water          White on Blue
 #    wall           White space on Black
+t    tree           Green on Black
 
 
 # Ground types  #
@@ -65,4 +66,4 @@ b       boss spawn
 White is base        100% to be hit
 Yellow is better     80%
 Red is ++            60%
-Cyan is best         33%
+Cyan is best         33% ***also reduces lava damage by 80

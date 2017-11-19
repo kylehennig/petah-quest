@@ -68,57 +68,48 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 		attron(COLOR_PAIR(1));
 		mvprintw(screenDesty,screenDestx,"M");
 		attroff(COLOR_PAIR(1));
-		refresh();
 		break;
 
 		case '~'://lava
 		attron(COLOR_PAIR(2));
 		mvprintw(screenDesty,screenDestx,"~");
 		attroff(COLOR_PAIR(2));
-		refresh();
 		break;
 
 		case 't'://lava
 		attron(COLOR_PAIR(4));
 		mvprintw(screenDesty,screenDestx,"%%");
 		attroff(COLOR_PAIR(4));
-		refresh();
 		break;
 
 		case 'W': //Water
 		attron(COLOR_PAIR(3));
 		mvprintw(screenDesty,screenDestx,"~");
 		attroff(COLOR_PAIR(3));
-		refresh();
 		break;
 
 		case '#': //wall
 		attron(COLOR_PAIR(20));
 		mvaddch(screenDesty,screenDestx,' ');
 		attroff(COLOR_PAIR(20));
-		refresh();
 		break;
 
 		case ',': //grass
 		attron(COLOR_PAIR(4));
 		mvprintw(screenDesty,screenDestx,",");
 		attroff(COLOR_PAIR(4));
-		refresh();
 		break;
 
 		case '.': //stone
 		attron(COLOR_PAIR(1));
 		mvprintw(screenDesty,screenDestx,".");
 		attroff(COLOR_PAIR(1));
-		refresh();
 		break;
 
 		default:
 		attron(COLOR_PAIR(5));
 		mvprintw(screenDesty,screenDestx,"?");
 		attroff(COLOR_PAIR(5));
-		refresh();
-
 		break;
 	}//end switch
 

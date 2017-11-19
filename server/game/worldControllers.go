@@ -80,6 +80,7 @@ func interactPlayer(world *World, p *player, dir byte) {
 		for i := len(world.entities) - 1; i != 0; i-- {
 			e := world.entities[i]
 			if e.x == attackX && e.y == attackY {
+				flashAtPoint(world, e.x, e.y)
 				isDead := false
 				if world.entities[i].gameType.health < p.entity.gameType.weapon.damage {
 					isDead = true

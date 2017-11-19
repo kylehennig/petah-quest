@@ -17,17 +17,21 @@ void keyboard_controller(int sockfd) {
         draw_weapon_sel(keypress - '1');
         refresh();
         send_switch(sockfd, keypress - '1');
-    } else {
+    }
+    else {
         switch (keypress) {
             case 'w':
                 send_move(sockfd, NORTH);
                 break;
+
             case 'a':
                 send_move(sockfd, WEST);
                 break;
+
             case 's':
                 send_move(sockfd, SOUTH);
                 break;
+
             case 'd':
                 send_move(sockfd, EAST);
                 break;
@@ -35,19 +39,21 @@ void keyboard_controller(int sockfd) {
             case 'i':
                 send_action(sockfd, NORTH);
                 break;
+
             case 'j':
                 send_action(sockfd, WEST);
                 break;
+
             case 'k':
                 send_action(sockfd, SOUTH);
                 break;
+
             case 'l':
                 send_action(sockfd, EAST);
                 break;
         }
     }
 }
-
 
 void server_controller(int sockfd, struct map *map, struct entity_list *elist, uint32_t you) {
     uint8_t cmd = read_cmd(sockfd);
@@ -58,13 +64,13 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             get_flash(sockfd, &x, &y);
             do_flash(x, y, &elist->list[you]);
             refresh();
-            printf("x: %i, y: %i\n", x, y);
             break;
         }
+
         case NEW: {
             uint32_t id, x, y;
-            char ch;
-            uint8_t colour;
+            char     ch;
+            uint8_t  colour;
 
             if (id >= elist->size) {
                 size_t new_size = elist->size * ELIST_FACTOR;
@@ -73,9 +79,9 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             }
 
             get_new(sockfd, &id, &x, &y, &ch, &colour);
-            elist->list[id].x = x;
-            elist->list[id].y = y;
-            elist->list[id].ch = ch;
+            elist->list[id].x      = x;
+            elist->list[id].y      = y;
+            elist->list[id].ch     = ch;
             elist->list[id].colour = colour;
 
             draw_ent_scr(&elist->list[id], &elist->list[you]);
@@ -88,6 +94,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             refresh();
             break;
         }
+
         case DELETE: {
             uint32_t id;
             get_delete(sockfd, &id);
@@ -96,14 +103,16 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             refresh();
             break;
         }
+
         case TEXT: {
             uint32_t len;
-            char *str;
+            char *   str;
             get_text(sockfd, &len, &str);
             printf("%s\n", str);
             free(str);
             break;
         }
+
         case MOVE: {
             uint32_t id, x, y;
             get_move(sockfd, &id, &x, &y);
@@ -117,26 +126,28 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
 
             draw_ent_scr(&elist->list[id], &elist->list[you]);
 
-            if (id == you && (x/CHUNK_WIDTH != oldx/CHUNK_WIDTH || y/CHUNK_HEIGHT != oldy/CHUNK_HEIGHT)) {
+            if (id == you && (x / CHUNK_WIDTH != oldx / CHUNK_WIDTH || y / CHUNK_HEIGHT != oldy / CHUNK_HEIGHT)) {
                 draw_map_at(map, elist->list[you].x, elist->list[you].y);
                 draw_entities_screen(elist, &elist->list[you]);
             }
             refresh();
             break;
         }
+
         case UPDATE: {
             uint32_t id;
-            char ch;
-            uint8_t colour;
+            char     ch;
+            uint8_t  colour;
             get_update(sockfd, &id, &ch, &colour);
 
-            elist->list[id].ch = ch;
+            elist->list[id].ch     = ch;
             elist->list[id].colour = colour;
 
             draw_ent_scr(&elist->list[id], &elist->list[you]);
             refresh();
             break;
         }
+
         case HEALTH: {
             uint8_t health;
             get_health(sockfd, &health);
@@ -145,6 +156,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             refresh();
             break;
         }
+
         default: {
             endwin();
             fprintf(stderr, "invalid server command %i\n", cmd);

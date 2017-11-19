@@ -1,0 +1,23 @@
+{
+
+	"tiles": [{
+		"map_token": ",",
+		"foreground_colour": 2,
+		"background_colour": 0,
+		"render_token": ",",
+		"passable": true
+	}],
+	"npc": [{
+		"x": 1,
+		"y": 2,
+		"msg": "MESSAGE"
+	}, {
+		"x": 1,
+		"y": 2,
+		"msg": "MESSAGE"
+	}, {
+		"x": 1,
+		"y": 2,
+		"msg": "MESSAGE"
+	}]
+}

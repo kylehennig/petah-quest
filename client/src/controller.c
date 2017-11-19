@@ -78,6 +78,12 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             elist->list[id].colour = colour;
 
             draw_ent_scr(&elist->list[id], &elist->list[you]);
+
+            if (id == you) {
+                draw_map_at(map, elist->list[you].x, elist->list[you].y);
+                draw_entities_screen(elist, &elist->list[you]);
+            }
+
             refresh();
             printf("id: %i, x: %i, y: %i, ch: %c, colour: %i\n", id, x, y, ch, colour);
             break;

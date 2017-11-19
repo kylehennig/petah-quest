@@ -1,6 +1,9 @@
 package game
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 //This is the file that will hold the entity controllers
 func movePlayer(world *World, p *player, dir byte) {
@@ -100,4 +103,23 @@ func interactPlayer(world *World, p *player, dir byte) {
 		}
 	}
 
+}
+
+
+func MoveToPlayer(e *Entity, p player) {
+	dx := p.entity.x - e.x
+	dy := p.entity.y - e.y
+	if math.Abs(float64(dx)) > math.Abs(float64(dy)) {
+		if dx > 0 {
+			e.x += 1
+		} else {
+			e.x -= 1
+		}
+	} else {
+		if dy > 0 {
+			e.y += 1
+		} else {
+			e.y -= 1
+		}
+	}
 }

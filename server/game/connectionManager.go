@@ -35,6 +35,7 @@ func CheckForNewPlayers(ln net.TCPListener, connections []PlayerConnection) {
 		fmt.Println(err)
 	}
 	go addPlayer(*conn, connections)
+	CheckForNewPlayers(ln, connections)
 }
 
 func addPlayer(conn net.TCPConn, connections []PlayerConnection) {

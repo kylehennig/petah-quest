@@ -14,12 +14,15 @@ func main() {
 	ln := game.CreateServer()
 	world := game.CreateWorld()
 
+	game.CheckForNewPlayers(ln, connections)
+
+
 	currentTime := time.Now()
 	for {
-		game.CheckForNewPlayers(ln, connections)
-		game.ListenToPlayers(world)
-		game.UpdateWorld(world,time.Now().Sub(currentTime))
+		go game.ListenToPlayers(world)
+		go game.UpdateWorld(world,time.Now().Sub(currentTime))
 		currentTime = time.Now()
+
 
 	}
 }

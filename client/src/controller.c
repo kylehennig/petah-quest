@@ -85,7 +85,6 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             }
 
             refresh();
-            printf("id: %i, x: %i, y: %i, ch: %c, colour: %i\n", id, x, y, ch, colour);
             break;
         }
         case DELETE: {
@@ -94,7 +93,6 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             elist->list[id].ch = 0;
             draw_mapch_scr(map, elist->list[id].x, elist->list[id].y, &elist->list[you]);
             refresh();
-            printf("id: %i\n", id);
             break;
         }
         case TEXT: {
@@ -123,8 +121,6 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
                 draw_entities_screen(elist, &elist->list[you]);
             }
             refresh();
-
-            printf("id: %i, x: %i, y: %i\n", id, x, y);
             break;
         }
         case UPDATE: {
@@ -138,8 +134,6 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
 
             draw_ent_scr(&elist->list[id], &elist->list[you]);
             refresh();
-
-            printf("id: %i, ch: %c, colour: %i\n", id, ch, colour);
             break;
         }
         case HEALTH: {
@@ -148,7 +142,6 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
 
             draw_health(health);
             refresh();
-            printf("health: %i\n", health);
             break;
         }
         default: {

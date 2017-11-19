@@ -151,7 +151,7 @@ void draw_ent_scr(struct entity *ent, struct entity *player) {
 	uint32_t y_high = y_low + CHUNK_HEIGHT;
 
 	if (ent->x >= x_low && ent->x < x_high && ent->y >= y_low && ent->y < y_high) {
-		draw_entity(struct entity *ent);
+		draw_entity(ent);
 	}
 }
 

@@ -63,11 +63,18 @@ func interactPlayer(world *World, p *player, dir byte) {
 		attackX--
 		break
 	}
-	for i := len(world.entities); i != 0; i-- {
+
+	for i := len(world.entities)-1; i != 0; i-- {
 		e := world.entities[i]
 		if e.x == attackX && e.y == attackY {
-			e.gameType.health -= p.entity.gameType.weapon.damage
-			if e.gameType.health < 0 {
+			isDead := false
+			if world.entities[i].gameType.health < p.entity.gameType.weapon.damage {
+				isDead = true
+			}
+			world.entities[i].gameType.health -= p.entity.gameType.weapon.damage
+			fmt.Println(e.gameType.health)
+
+			if isDead {
 				deleteEntity(world, e.id)
 				world.entities = append(world.entities[:i], world.entities[i+1:]...)
 			}

@@ -1,12 +1,12 @@
 package game
 
 import (
-	"net"
 	"fmt"
+	"net"
 )
 
 const (
-	SEND_NEW  byte = iota
+	SEND_NEW byte = iota
 	SEND_DELETE
 	SEND_TEXT
 	SEND_MOVE
@@ -27,7 +27,7 @@ func sendMap(conn net.TCPConn, worldMap WorldMap) {
 func sendNewEntity(conn net.TCPConn, id int32, character byte, colour byte) {
 	conn.Write([]byte{SEND_NEW})
 	conn.Write(int32ToBytes(id))
-	conn.Write([]byte{colour,character})
+	conn.Write([]byte{character, colour})
 
 }
 
@@ -44,7 +44,7 @@ func sendTextMessage(conn net.TCPConn, message string) {
 	conn.Write([]byte{SEND_TEXT})
 
 	size := len(message)
-	b := make([]byte, size + 1)
+	b := make([]byte, size+1)
 
 	conn.Write(int32ToBytes(int32(len(message))))
 	for i := 0; i < len(message); i++ {
@@ -65,11 +65,11 @@ func sendMoveEntity(conn net.TCPConn, id int32, x int32, y int32) {
 }
 
 // sendUpdateEntity sends the entity to update it's display
-func sendUpdateEntity(conn net.TCPConn, id int32, colour byte, character byte) {
+func sendUpdateEntity(conn net.TCPConn, id int32, character byte, colour byte) {
 	conn.Write([]byte{SEND_UPDATE})
 
 	conn.Write(int32ToBytes(id))
-	conn.Write([]byte{colour,character})
+	conn.Write([]byte{character, colour})
 }
 
 // sendPlayerHealth sends the player his current health
@@ -92,7 +92,6 @@ func readConnection(conn net.TCPConn) []byte {
 	conn.Read(data)
 	return data
 }
-
 
 func int32ToBytes(n int32) []byte {
 	bytes := make([]byte, 4)

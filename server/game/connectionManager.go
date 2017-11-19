@@ -1,8 +1,8 @@
 package game
 
 import (
-	"net"
 	"fmt"
+	"net"
 	"os"
 )
 
@@ -17,7 +17,6 @@ func CreateServer() net.TCPListener {
 	checkError(err)
 	listener, err := net.ListenTCP("tcp", tcpAddr)
 	checkError(err)
-
 
 	return *listener
 }
@@ -47,22 +46,32 @@ func addPlayer(conn net.TCPConn, connections []PlayerConnection) {
 	newConnection := PlayerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
 	sendMap(conn, GetMap())
-	sendPlayerHealth(conn,100)
-
+	sendPlayerHealth(conn, 100)
+	runTests(conn)
 }
 
-func ListenToPlayers(world World){
-	for _, p := range world.players{
+func runTests(conn net.TCPConn) {
+	sendNewEntity(conn, 0, 'C', COLOUR_RED)
+	sendTextMessage(conn, "Text message.")
+	sendMoveEntity(conn, 0, 10, 15)
+	sendUpdateEntity(conn, 0, 'D', COLOUR_BLU)
+	sendPlayerHealth(conn, 10)
+	sendActionLocation(conn, 10, 20)
+	sendDeleteEntity(conn, 0)
+}
+
+func ListenToPlayers(world World) {
+	for _, p := range world.players {
 		b := readConnection(p.playerCon.connection)[0]
 		switch b & 0xF0 {
 		case 0x00: // Nothing
 			break
 		case 0x10: // Move
-			movePlayer(p, b & 0x0F)
+			movePlayer(p, b&0x0F)
 			// send new player position to all people
 			break
 		case 0x20: // Interact
-			interactPlayer(p, b & 0x0F)
+			interactPlayer(p, b&0x0F)
 			break
 		case 0x30: // Switch Weapons
 			p.entity.gameType.weapon = getWeaponByID(b & 0x0F)

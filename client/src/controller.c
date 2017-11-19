@@ -31,16 +31,16 @@ void keyboard_controller(int sockfd) {
                 send_move(sockfd, EAST);
                 break;
 
-            case 'w':
+            case 'i':
                 send_action(sockfd, NORTH);
                 break;
-            case 'a':
+            case 'j':
                 send_action(sockfd, WEST);
                 break;
-            case 's':
+            case 'k':
                 send_action(sockfd, SOUTH);
                 break;
-            case 'd':
+            case 'l':
                 send_action(sockfd, EAST);
                 break;
         }

@@ -85,6 +85,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
         case DELETE: {
             uint32_t id;
             get_delete(sockfd, &id);
+            elist->list[id].ch = 0; 
             draw_mapch_scr(map, elist->list[id].x, elist->list[id].y, &elist->list[you]);
             refresh();
             printf("id: %i\n", id);

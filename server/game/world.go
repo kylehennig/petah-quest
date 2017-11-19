@@ -1,5 +1,7 @@
 package game
 
+import "time"
+
 type World struct {
 	worldMap WorldMap
 	entities []Entity
@@ -19,7 +21,6 @@ func CreateWorld() World {
 	return myWorld
 }
 
-func UpdateWorld(world World) {
-
+func UpdateWorld(world World, deltaNano time.Duration) {
 
 }

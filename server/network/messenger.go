@@ -18,8 +18,7 @@ const (
 
 // sendMap sends the map object to the client
 func sendMap(conn net.Conn, worldMap game.WorldMap) {
-	conn.Write(byteToBytes(SEND_MAP))
-
+	//conn.Write(byteToBytes(SEND_MAP))
 	conn.Write(worldMap.ToBytes())
 }
 

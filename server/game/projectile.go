@@ -34,8 +34,6 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 		tile := world.worldMap.tiles[p.x+p.y*world.worldMap.width]
 		isAboutToCrash := false
 		switch tile {
-		case 'W':
-			isAboutToCrash = true
 		case '#':
 			isAboutToCrash = true
 		case 't':

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <error.h>
+#include <poll.h>
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -32,8 +33,18 @@ int main(int argc, char *argv[]) {
 
     handshake(&map, ch, sock);
 
+    struct pollfd fds[2] = {
+        { .fd=STDIN_FILENO, .events=POLLIN | POLLPRI, .revents=0 },
+        { .fd=sock,         .events=POLLIN | POLLPRI, .revents=0 }
+    };
+
     while (1) {
-        server_controller(sock, &map, elist);
+        poll(fds, 2, -1);
+        if (fds[0].revents & (POLLIN|POLLPRI)) {
+            keyboard_controller(sock);
+        } else if (fds[1].revents & (POLLIN|POLLPRI)) {
+            server_controller(sock, &map, elist);
+        }
     }
 
     // initscr();

@@ -1,9 +1,9 @@
 package game
 
 import (
-	"bufio"
 	"net"
-
+	"fmt"
+	"time"
 )
 
 type PlayerConnection struct {
@@ -15,7 +15,8 @@ func CreateServer() net.Listener {
 
 	ln, err := net.Listen("tcp", ":8888")
 	if err != nil {
-		// handle error
+		fmt.Println("Error listening on port 8888.")
+		fmt.Println(err)
 	}
 
 	return ln
@@ -25,18 +26,22 @@ func CreateServer() net.Listener {
 func CheckForNewPlayers(ln net.Listener, connections []PlayerConnection) {
 	conn, err := ln.Accept()
 	if err != nil {
-		// handle error
+		fmt.Println("Failed to accept incoming connection.")
+		fmt.Println(err)
 	}
 	go addPlayer(conn, connections)
 }
 
 func addPlayer(conn net.Conn, connections []PlayerConnection) {
 	// add a new playerConnection to connection list
-	ch, _ := bufio.NewReader(conn).ReadByte()
-	newEntity := NewPlayer(ch)
+	b := make([]byte, 1)
+	conn.Read(b)
+	newEntity := NewPlayer(b[0])
 	newConnection := PlayerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
+	conn.SetReadDeadline(time.Now().Add(time.Second*5))
 	sendMap(conn, GetMap())
+	time.Sleep(time.Second)
 }
 
 func ListenToPlayers(world World){
@@ -58,20 +63,3 @@ func ListenToPlayers(world World){
 		}
 	}
 }
-
-/*
-
-action types
-0000 nothing
-0001 move
-0010 interact
-0011 switch weapons
-
-action data
-0000   north
-0001   east
-0010   south
-0011   west
-
-
-*/

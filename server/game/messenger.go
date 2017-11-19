@@ -86,9 +86,7 @@ func sendActionLocation(conn net.Conn, x int32, y int32) {
 
 // readConnection returns 0 if no message, else the message
 func readConnection(conn net.Conn) []byte {
-	conn.Write(byteToBytes(8))
-
-	var data []byte
+	var data = make([]byte, 1)
 	conn.Read(data)
 	return data
 }

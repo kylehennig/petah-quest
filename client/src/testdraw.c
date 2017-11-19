@@ -45,6 +45,12 @@ int main(int argc, char *argv[]) {
 	show_text("You shall fail. -Gerbo");
 	draw_weapon_sel(NSTAR);
 
+	struct entity e;
+	e.x = 126;
+	e.y = 80;
+	e.ch = 'Q';
+	e.colour = 2;
+
 
 
 	while(true){
@@ -53,19 +59,23 @@ int main(int argc, char *argv[]) {
 		if(cha == LEFT){
 			x--;
 			draw_map_at(&fakemap,x,y);
+			draw_entity(&e);
 		}
 		if(cha == UP){
 			y++;
 			draw_map_at(&fakemap,x,y);
+			draw_entity(&e);
 
 		}
 		if(cha == DOWN){
 			y--;
 			draw_map_at(&fakemap,x,y);
+			draw_entity(&e);
 		}
 		if(cha == RIGHT){
 			x++;
 			draw_map_at(&fakemap,x,y);
+			draw_entity(&e);
 		}
 		if(cha == ENTER_KEY){
 			break;

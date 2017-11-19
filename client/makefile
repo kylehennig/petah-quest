@@ -1,5 +1,5 @@
 
-pquest: bin/main.o bin/net.o bin/controller.o
+pquest: bin/main.o bin/net.o bin/controller.o bin/draw.o bin/hud.o
 	gcc $^ -o pquest -lncurses
 
 bin/%.o: src/%.c | bin

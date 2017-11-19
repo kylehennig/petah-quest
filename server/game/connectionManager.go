@@ -43,12 +43,17 @@ func addPlayer(conn net.TCPConn, connections []PlayerConnection, world World) {
 	// add a new playerConnection to connection list
 	b := make([]byte, 1)
 	conn.Read(b)
-	newEntity := NewPlayer(b[0])
+	newEntity := NewPlayer(b[0], world)
 	newConnection := PlayerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
 	sendMap(conn, world.worldMap)
+	conn.Write(Int32ToBytes(newEntity.id))
 	sendPlayerHealth(conn, 100)
-	runTests(conn)
+
+	for _,entity := range world.entities {
+		sendNewEntity(conn, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
+	}
+	//runTests(conn)
 }
 
 func runTests(conn net.TCPConn) {
@@ -68,7 +73,7 @@ func ListenToPlayers(world World) {
 		case 0x00: // Nothing
 			break
 		case 0x10: // Move
-			movePlayer(p, b&0x0F)
+			movePlayer(world, p, b&0x0F)
 			// send new player position to all people
 			break
 		case 0x20: // Interact

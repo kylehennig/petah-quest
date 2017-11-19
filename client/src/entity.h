@@ -17,6 +17,8 @@ struct map {
     char *map;
 };
 
+#define ELIST_FACTOR 2
+
 struct entity_list {
     struct entity *list;
     size_t size;

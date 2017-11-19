@@ -14,7 +14,7 @@ enum srv_cmd {
     FLASH = 6
 };
 
-int handshake(struct map *map, char ch, int sockfd);
+int handshake(struct map *map, char ch, uint32_t *id, int sockfd);
 
 enum srv_cmd read_cmd(int sockfd);
 
@@ -32,5 +32,7 @@ enum dir {NORTH, EAST, SOUTH, WEST};
 void send_move(int sockfd, enum dir dir);
 #define ACTION_MASK 0b00100000
 void send_action(int sockfd, enum dir dir);
+#define SWITCH_MASK 0b00110000
+void send_switch(int sockfd, uint8_t weapon);
 
 #endif

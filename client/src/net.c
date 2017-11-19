@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-int handshake(struct map *map, char ch, int sockfd) {
+int handshake(struct map *map, char ch, uint32_t *id,int sockfd) {
     write(sockfd, &ch, sizeof(char));
     if (read(sockfd, &map->width, sizeof(uint32_t)) == 0) {
         exit(1);
@@ -17,6 +17,7 @@ int handshake(struct map *map, char ch, int sockfd) {
         exit(1);
     }
 
+    read(sockfd, id, sizeof(uint32_t));
 }
 
 
@@ -79,5 +80,11 @@ void send_move(int sockfd, enum dir dir) {
 
 void send_action(int sockfd, enum dir dir) {
     uint8_t msg = ACTION_MASK | dir;
+    write(sockfd, &msg, sizeof(uint8_t));
+}
+
+
+void send_switch(int sockfd, uint8_t weapon) {
+    uint8_t msg = SWITCH_MASK | weapon;
     write(sockfd, &msg, sizeof(uint8_t));
 }

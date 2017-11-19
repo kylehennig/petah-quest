@@ -7,22 +7,48 @@
 
 #include "net.h"
 #include "draw.h"
+#include "hud.h"
 
 
 void keyboard_controller(int sockfd) {
-    char keypress = getch();
+    char keypress = getchar();
 
-    // switch (keypress) {
-    //     case 'w':
-    //         break;
-    //     case 'a':
-    //         break;
-    // }
-    printf("pressed %c\n", keypress);
+    if (keypress >= '1' && keypress <= '9') {
+        draw_weapon_sel(keypress - '1');
+        send_switch(sockfd, keypress - '1');
+    } else {
+        switch (keypress) {
+            case 'w':
+                send_move(sockfd, NORTH);
+                break;
+            case 'a':
+                send_move(sockfd, WEST);
+                break;
+            case 's':
+                send_move(sockfd, SOUTH);
+                break;
+            case 'd':
+                send_move(sockfd, EAST);
+                break;
+
+            case 'i':
+                send_action(sockfd, NORTH);
+                break;
+            case 'j':
+                send_action(sockfd, WEST);
+                break;
+            case 'k':
+                send_action(sockfd, SOUTH);
+                break;
+            case 'l':
+                send_action(sockfd, EAST);
+                break;
+        }
+    }
 }
 
 
-void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
+void server_controller(int sockfd, struct map *map, struct entity_list *elist, uint32_t you) {
     uint8_t cmd = read_cmd(sockfd);
 
     switch (cmd) {
@@ -39,7 +65,11 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
             char ch;
             uint8_t colour;
 
-            // dedraw_entity(&elist->list[id]);
+            if (id >= elist->size) {
+                size_t new_size = elist->size * ELIST_FACTOR;
+                elist->list = realloc(elist->list, new_size * sizeof(struct entity));
+                elist->size = new_size;
+            }
 
             get_new(sockfd, &id, &x, &y, &ch, &colour);
             elist->list[id].x = x;
@@ -47,14 +77,16 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
             elist->list[id].ch = ch;
             elist->list[id].colour = colour;
 
-            // draw_entity(&elist->list[id]);
-            // refresh();
+            draw_ent_scr(&elist->list[id], &elist->list[you]);
+            refresh();
             printf("id: %i, x: %i, y: %i, ch: %c, colour: %i\n", id, x, y, ch, colour);
             break;
         }
         case DELETE: {
             uint32_t id;
             get_delete(sockfd, &id);
+            draw_mapch_scr(map, elist->list[id].x, elist->list[id].y, &elist->list[you]);
+            refresh();
             printf("id: %i\n", id);
             break;
         }
@@ -69,6 +101,15 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
         case MOVE: {
             uint32_t id, x, y;
             get_move(sockfd, &id, &x, &y);
+
+            draw_mapch_scr(map, elist->list[id].x, elist->list[id].y, &elist->list[you]);
+
+            elist->list[id].x = x;
+            elist->list[id].y = y;
+
+            draw_ent_scr(&elist->list[id], &elist->list[you]);
+            refresh();
+
             printf("id: %i, x: %i, y: %i\n", id, x, y);
             break;
         }
@@ -77,12 +118,22 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
             char ch;
             uint8_t colour;
             get_update(sockfd, &id, &ch, &colour);
+
+            elist->list[id].ch = ch;
+            elist->list[id].colour = colour;
+
+            draw_ent_scr(&elist->list[id], &elist->list[you]);
+            refresh();
+
             printf("id: %i, ch: %c, colour: %i\n", id, ch, colour);
             break;
         }
         case HEALTH: {
             uint8_t health;
             get_health(sockfd, &health);
+
+            draw_health(health);
+            refresh();
             printf("health: %i\n", health);
             break;
         }

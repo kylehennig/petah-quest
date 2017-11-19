@@ -52,6 +52,7 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 	init_pair(3,COLOR_WHITE, COLOR_BLUE); //water
 	init_pair(4,COLOR_GREEN, COLOR_BLACK); //grass
 	init_pair(5,COLOR_BLACK, COLOR_YELLOW);
+	init_pair(20,COLOR_WHITE,COLOR_WHITE);//white
 	//wbkgd(WindowName, COLOR_PAIR(1))
 
 	/*how to do colors off of stack exchange
@@ -92,9 +93,9 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 		break;
 
 		case '#': //wall
-		attron(COLOR_PAIR(1));
-		mvprintw(screenDesty,screenDestx,"#");
-		attroff(COLOR_PAIR(1));
+		attron(COLOR_PAIR(20));
+		mvaddch(screenDesty,screenDestx,' ');
+		attroff(COLOR_PAIR(20));
 		refresh();
 		break;
 
@@ -123,20 +124,13 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 
 }
 
-//draws an entitie at a specified map location
-void draw_entities_screen(struct entity_list *list, uint32_t x, uint32_t y){
+//draw entity ONLY IF entity is on player screen
+void draw_entity(struct entity *ent){
 
-}
-
-
-void redraw_entity(struct entity_list *inlist, uint32_t id){
-	struct entity e;
-	e = inlist->list[id];
-
-	int32_t mapX = e.x;
-	int32_t mapY = e.y;
-	char c = e.ch;
-	uint8_t color = (uint8_t)(e.colour);
+	int32_t mapX = ent->x;
+	int32_t mapY = ent->y;
+	char c = ent->ch;
+	uint8_t color = ent->colour;
 
 	//DONT WANT TO PASS IN A SCREEN DEST
 	uint32_t mapTopLeftX = mapX-mapX%CHUNK_WIDTH; //top left of the map
@@ -144,11 +138,34 @@ void redraw_entity(struct entity_list *inlist, uint32_t id){
 	uint32_t screenDestx = mapX - mapTopLeftX;
 	uint32_t screenDesty = mapY - mapTopLeftY;
 
-	//how to do colors off of stack exchange
-	start_color();
-	init_pair(1, COLOR_WHITE, COLOR_BLACK); //COLOR WILL THROW ERROR
-	attron(COLOR_PAIR(1)); // use the above combination
-	mvaddch(screenDesty,screenDestx,c);
-	attroff(COLOR_PAIR(1)); // turn color off
 
+		start_color();
+		init_pair(18, color, COLOR_BLACK); //COLOR WILL THROW ERROR
+		attron(COLOR_PAIR(18)); // use the above combination
+		mvaddch(screenDesty,screenDestx,c);
+		attroff(COLOR_PAIR(18)); // turn color off
+}
+
+
+void draw_ent_scr(struct entity *ent, struct entity *player) {
+	uint32_t x_low = player->x - player->x % CHUNK_WIDTH;
+	uint32_t x_high = x_low + CHUNK_WIDTH;
+	uint32_t y_low = player->y - player->y % CHUNK_HEIGHT;
+	uint32_t y_high = y_low + CHUNK_HEIGHT;
+
+	if (ent->x >= x_low && ent->x < x_high && ent->y >= y_low && ent->y < y_high) {
+		draw_entity(ent);
+	}
+}
+
+
+void draw_mapch_scr(struct map *map, uint32_t mapX, uint32_t mapY, struct entity *player) {
+	uint32_t x_low = player->x - player->x % CHUNK_WIDTH;
+	uint32_t x_high = x_low + CHUNK_WIDTH;
+	uint32_t y_low = player->y - player->y % CHUNK_HEIGHT;
+	uint32_t y_high = y_low + CHUNK_HEIGHT;
+
+	if (mapX >= x_low && mapX < x_high && mapY >= y_low && mapY < y_high) {
+		draw_map_character(map, mapX, mapY);
+	}
 }

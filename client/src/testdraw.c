@@ -42,8 +42,8 @@ int main(int argc, char *argv[]) {
 	uint32_t x = 126;//sweet spot on spwn
 	uint32_t y = 84;
 	draw_health(4);
-
-		draw_weapon_sel(NSTAR);
+	show_text("You shall fail. -Gerbo");
+	draw_weapon_sel(NSTAR);
 
 
 

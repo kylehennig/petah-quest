@@ -25,9 +25,6 @@ void draw_weapon_sel(uint8_t weapon) {
     attron(COLOR_PAIR(11));
     mvaddch(CHUNK_HEIGHT,weapon+MAX_HEALTH,weapons[weapon]);
     attroff(COLOR_PAIR(10));
-
-
-
 }
 
 
@@ -57,7 +54,13 @@ void draw_health(uint8_t health){
   attroff(COLOR_PAIR(9));
 }
 
-void show_text(char *txt, size_t len){
+void show_text(char *txt){
+
+  start_color();
+	init_pair(14, COLOR_BLACK, COLOR_WHITE); // create foreground / background combination
+	attron(COLOR_PAIR(14)); // use the above combination
+  mvprintw(CHUNK_HEIGHT,NUM_WEAPONS+MAX_HEALTH,txt);
+  attroff(COLOR_PAIR(14));
 
 
 }

@@ -1,36 +1,55 @@
 {
     "npc": [{
         "name": "Francis Fiddlestick",
-        "x": 1,
-        "y": 2,
+        "x": 111,
+        "y": 64,
         "msg": "Welcome, traveler, to the town of Rho Gliec.
 				Would you by any chance have a pan cleaner? My food
-				has unfortunatley come out charcoal black as of late...
+				has unfortunately come out charcoal black as of late...
 				Oh! My name is Francis Fiddlestick.
-				Uh, watch out for the elves, they're nasty foes."
+				Uh, watch out for the elves, they're nasty foes.",
+				"symbol": "f",
+				"colour": 1
     }, {
         "name": "Phil von Phylum",
-        "x": 1,
-        "y": 2,
+        "x": 163,
+        "y": 79,
         "msg": "Weeeeeelcome! HAHAHA! My name is Phil,
 				Phil Phylum! I just looove salad. Have you heard
 				of the maneating plants around here? They're vicious,
 				but make a very tasty addition to a good salad if
-				dressed right..."
+				dressed right...",
+				"symbol": "v",
+				"colour": 2
     }, {
         "name": "Gerbo",
-        "x": 1,
-        "y": 2,
-        "msg": "[Blank Stare]"
+        "x": 89,
+        "y": 80,
+        "msg": "[Blank Stare]",
+				"symbol": "o",
+				"colour": 6
     }, {
         "name": "Rowena Mandelbrot",
-        "x": 1,
-        "y": 2,
+        "x": 154,
+        "y": 63,
         "msg": "Well aren't you a brave soul!
 				You must be brave to come here, what with all
 				the terrible beasts which roam around. If you're
 				feeling extra brave, go seek the King of the Goblins,
-				he has a mighty suit of armour with him."
+				he has a mighty suit of armour with him.",
+				"symbol": "r",
+				"colour": 5
+    },{
+        "name": "Xac Unix",
+        "x": 160,
+        "y": 14,
+        "msg": "Congratulations on making it this far. Although I doubt you'll
+				get much farther. [Laughs humourlessly] There's a cave up ahead,
+				one of those places where you never see those who go in come out.
+				Good luck, although you'll likely need a miracle. Or perhaps a set
+				of cyan armour...",
+				"symbol": "x",
+				"colour": 7
     }],
     "enemy": [{
         "enemy_type": "goblin",

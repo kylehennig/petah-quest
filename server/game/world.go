@@ -67,7 +67,7 @@ func CreateWorld() World {
 }
 
 func UpdateWorld(world *World, deltaNano uint64) {
-	for i := len(world.projectiles)-1; i >= 0 ; i--  {
+	for i := len(world.projectiles) - 1; i >= 0; i-- {
 		world.projectiles[i].update(deltaNano, world)
 
 		if world.projectiles[i].killMeNow {

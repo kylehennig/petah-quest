@@ -18,7 +18,7 @@ func main() {
 	startTime := int64(time.Now().Nanosecond())
 	for {
 		game.ListenToPlayers(&world)
-		game.UpdateWorld(&world, uint64(time.Now().Nanosecond()) - uint64(startTime))
+		game.UpdateWorld(&world, uint64(time.Now().Nanosecond())-uint64(startTime))
 		startTime = int64(time.Now().Nanosecond())
 
 	}

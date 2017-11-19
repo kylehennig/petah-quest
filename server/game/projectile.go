@@ -22,7 +22,7 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 	fmt.Println(p.timePassed)
 
 	if p.timePassed > 1000000000/p.speed {
-		p.timePassed %= 1000000000/p.speed
+		p.timePassed %= 1000000000 / p.speed
 		if p.drawChar == '<' {
 			p.x--
 		} else if p.drawChar == '>' {
@@ -43,31 +43,52 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 		case 't':
 			isAboutToCrash = true
 		}
-		if isAboutToCrash{
-			p.killMeNow = true
+
+		for i := len(world.entities) - 1; i != 0; i-- {
+			e := world.entities[i]
+			if e.x == p.x && e.y == p.y {
+				isDead := false
+				if world.entities[i].gameType.health < p.damage {
+					isDead = true
+				}
+				world.entities[i].gameType.health -= p.damage
+				fmt.Println(e.gameType.health)
+
+				if isDead {
+					deleteEntity(world, e.id)
+					world.entities = append(world.entities[:i], world.entities[i+1:]...)
+				}
+				isAboutToCrash = true
+			}
+
 		}
-		moveEntity(world, p.id, p.x, p.y)
+		if isAboutToCrash {
+			p.killMeNow = true
+		} else {
+			moveEntity(world, p.id, p.x, p.y)
+		}
+
 	}
 }
 
-func arrow(x int32, y int32, ch byte, world *World) Projectile {
-	return Projectile{x, y, ch, COLOUR_WHT, 5, 0, 5, GetAvailableID(world), false}
+func arrow(x int32, y int32, ch byte, world *World, damage int) Projectile {
+	return Projectile{x, y, ch, COLOUR_WHT, 5, 0, byte(damage), GetAvailableID(world), false}
 }
 
-func arrowLeft(x int32, y int32, world *World) Projectile {
-	return arrow(x, y, '<', world)
+func arrowLeft(x int32, y int32, world *World, damage int) Projectile {
+	return arrow(x, y, '<', world, damage)
 }
 
-func arrowRight(x int32, y int32, world *World) Projectile {
-	return arrow(x, y, '>', world)
+func arrowRight(x int32, y int32, world *World, damage int) Projectile {
+	return arrow(x, y, '>', world, damage)
 }
 
-func arrowUp(x int32, y int32, world *World) Projectile {
-	return arrow(x, y, '^', world)
+func arrowUp(x int32, y int32, world *World, damage int) Projectile {
+	return arrow(x, y, '^', world, damage)
 }
 
-func arrowDown(x int32, y int32, world *World) Projectile {
-	return arrow(x, y, 'v', world)
+func arrowDown(x int32, y int32, world *World, damage int) Projectile {
+	return arrow(x, y, 'v', world, damage)
 }
 
 func addArrow(world *World, arrow Projectile) {

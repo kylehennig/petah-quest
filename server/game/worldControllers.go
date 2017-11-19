@@ -53,16 +53,16 @@ func interactPlayer(world *World, p *player, dir byte) {
 	switch dir {
 	case 0: // 0000   north
 		attackY--
-		ar = arrowUp(p.entity.x, p.entity.y-1, world)
+		ar = arrowUp(p.entity.x, p.entity.y-1, world, int(p.entity.gameType.weapon.damage))
 	case 1: // 0001   east
 		attackX++
-		ar = arrowRight(p.entity.x+1, p.entity.y, world)
+		ar = arrowRight(p.entity.x+1, p.entity.y, world, int(p.entity.gameType.weapon.damage))
 	case 2: // 0010   south
 		attackY++
-		ar = arrowDown(p.entity.x, p.entity.y+1, world)
+		ar = arrowDown(p.entity.x, p.entity.y+1, world, int(p.entity.gameType.weapon.damage))
 	case 3: // 0011   west
 		attackX--
-		ar = arrowLeft(p.entity.x-1, p.entity.y, world)
+		ar = arrowLeft(p.entity.x-1, p.entity.y, world, int(p.entity.gameType.weapon.damage))
 	}
 
 	if p.entity.gameType.weapon.isRanged {

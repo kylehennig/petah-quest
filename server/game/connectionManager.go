@@ -3,36 +3,45 @@ package game
 import (
 	"net"
 	"fmt"
-	"time"
+	"os"
 )
 
 type PlayerConnection struct {
 	player     Entity
-	connection net.Conn
+	connection net.TCPConn
 }
 
-func CreateServer() net.Listener {
+func CreateServer() net.TCPListener {
+	service := ":8888"
+	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
+	checkError(err)
+	listener, err := net.ListenTCP("tcp", tcpAddr)
+	checkError(err)
 
-	ln, err := net.Listen("tcp", ":8888")
+
+	return *listener
+}
+func checkError(err error) {
 	if err != nil {
-		fmt.Println("Error listening on port 8888.")
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "Fatal error: %s", err.Error())
+		os.Exit(1)
 	}
-
-	return ln
 }
 
 // CheckForNewPlayers allows players to join
-func CheckForNewPlayers(ln net.Listener, connections []PlayerConnection) {
-	conn, err := ln.Accept()
+func CheckForNewPlayers(ln net.TCPListener, connections []PlayerConnection) {
+	conn, err := ln.AcceptTCP()
 	if err != nil {
 		fmt.Println("Failed to accept incoming connection.")
 		fmt.Println(err)
 	}
-	go addPlayer(conn, connections)
+	go addPlayer(*conn, connections)
 }
 
-func addPlayer(conn net.Conn, connections []PlayerConnection) {
+func addPlayer(conn net.TCPConn, connections []PlayerConnection) {
+
+	conn.SetNoDelay(true)
+	conn.SyscallConn()// XXX: I don't think this does anything, but it worked
 	// add a new playerConnection to connection list
 	b := make([]byte, 1)
 	conn.Read(b)
@@ -40,11 +49,10 @@ func addPlayer(conn net.Conn, connections []PlayerConnection) {
 	newConnection := PlayerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
 	sendMap(conn, GetMap())
-	conn.SetDeadline(time.Now().Add(time.Microsecond))
-	time.Sleep(time.Second)
+	//time.Sleep(time.Second)
+	sendPlayerHealth(conn,65)
 
-
-	conn.Close()
+	//conn.Close()
 }
 
 func ListenToPlayers(world World){

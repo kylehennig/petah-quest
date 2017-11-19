@@ -2,7 +2,6 @@ package game
 
 import (
 	"fmt"
-	"math"
 )
 
 //This is the file that will hold the entity controllers
@@ -43,6 +42,11 @@ func movePlayer(world *World, p *player, dir byte) {
 			p.entity.y = newY
 		}
 		moveEntity(world, p.entity.id, p.entity.x, p.entity.y)
+		if len(world.players) != 0 {
+			for i := 0; i < len(world.entities); i++ {
+				MoveToPlayer(&world.entities[i], world.players[0], world)
+			}
+		}
 	}
 
 }
@@ -67,8 +71,8 @@ func interactPlayer(world *World, p *player, dir byte) {
 	}
 
 	if p.entity.gameType.weapon.isRanged {
-		if p.entity.gameType.weapon.damage == ninjaStar().damage{
-			ar  = AddNinjaStars(attackX, attackY, ar.moveChar, world, int(p.entity.gameType.weapon.damage))
+		if p.entity.gameType.weapon.damage == ninjaStar().damage {
+			ar = AddNinjaStars(attackX, attackY, ar.moveChar, world, int(p.entity.gameType.weapon.damage))
 		}
 		addArrow(world, ar)
 		newEntity(world, ar.id, ar.drawChar, ar.colour, ar.x, ar.y)
@@ -106,21 +110,55 @@ func interactPlayer(world *World, p *player, dir byte) {
 
 }
 
-
-func MoveToPlayer(e *Entity, p player) {
+func MoveToPlayer(e *Entity, p player, world *World) {
 	dx := p.entity.x - e.x
 	dy := p.entity.y - e.y
-	if math.Abs(float64(dx)) > math.Abs(float64(dy)) {
-		if dx > 0 {
-			e.x += 1
+
+	adx := dx
+	ady := dy
+
+	if dx < 0 {
+		adx *= -1
+	}
+	if dy < 0 {
+		ady *= -1
+	}
+
+	newX := e.x
+	newY := e.y
+
+	if (adx + ady) < 7 {
+		if adx > ady {
+			if dx > 0 {
+				newX++
+			} else {
+				newX--
+			}
 		} else {
-			e.x -= 1
+			if dy > 0 {
+				newY++
+			} else {
+				newY--
+			}
 		}
-	} else {
-		if dy > 0 {
-			e.y += 1
-		} else {
-			e.y -= 1
+
+		tile := world.worldMap.tiles[newX+newY*world.worldMap.width]
+		isAboutToCrash := false
+		switch tile {
+		case 'W':
+			isAboutToCrash = true
+		case '#':
+			isAboutToCrash = true
+		case 't':
+			isAboutToCrash = true
+		}
+
+		if p.entity.x == newX && p.entity.y == newY {
+			isAboutToCrash = true
+		}
+
+		if !isAboutToCrash {
+			moveEntity(world, e.id, e.x, e.y)
 		}
 	}
 }

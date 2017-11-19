@@ -72,7 +72,10 @@ func UpdateWorld(world *World, deltaNano uint64) {
 			world.projectiles[i].update(deltaNano, world)
 		}
 	}
-	for _, entities := range world.projectiles {
-		entities.update(deltaNano, world)
+	if len(world.players) != 0{
+		for _, e := range world.entities {
+			MoveToPlayer(&e, world.players[0])
+		}
 	}
+
 }

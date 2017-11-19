@@ -1,7 +1,6 @@
-package network
+package game
 
 import (
-	"github.com/kylehennig/petah-quest/server/game"
 	"net"
 )
 
@@ -17,7 +16,7 @@ const (
 )
 
 // sendMap sends the map object to the client
-func sendMap(conn net.Conn, worldMap game.WorldMap) {
+func sendMap(conn net.Conn, worldMap WorldMap) {
 	//conn.Write(byteToBytes(SEND_MAP))
 	conn.Write(worldMap.ToBytes())
 }

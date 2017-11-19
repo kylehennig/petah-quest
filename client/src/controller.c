@@ -11,7 +11,7 @@
 
 
 void keyboard_controller(int sockfd) {
-    char keypress = getchar();
+    char keypress = getch();
 
     if (keypress >= '1' && keypress <= '9') {
         draw_weapon_sel(keypress - '1');

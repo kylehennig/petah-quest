@@ -1,0 +1,104 @@
+package game
+
+import (
+	"net"
+	"fmt"
+)
+
+const (
+	SEND_NEW  byte = iota
+	SEND_DELETE
+	SEND_TEXT
+	SEND_MOVE
+	SEND_UPDATE
+	SEND_HEALTH
+	SEND_ACTION
+)
+
+// sendMap sends the map object to the client
+func sendMap(conn net.Conn, worldMap WorldMap) {
+	//conn.Write(byteToBytes(SEND_MAP))
+	fmt.Println(worldMap.width)
+	fmt.Println(worldMap.height)
+	conn.Write(worldMap.ToBytes())
+}
+
+// sendNewEntity sends the new entity to all the clients for rendering
+func sendNewEntity(conn net.Conn, id int32, character byte, colour byte) {
+	conn.Write([]byte{SEND_NEW})
+	conn.Write(int32ToBytes(id))
+	conn.Write([]byte{colour,character})
+
+}
+
+// sendDeleteEntity sends the entity to be deleted from the client
+func sendDeleteEntity(conn net.Conn, id int32) {
+	conn.Write([]byte{SEND_DELETE})
+
+	conn.Write(int32ToBytes(id))
+
+}
+
+// sendTextMessage sends a 'toast' to the client
+func sendTextMessage(conn net.Conn, message string) {
+	conn.Write([]byte{SEND_TEXT})
+
+	size := len(message)
+	b := make([]byte, size + 1)
+
+	conn.Write(int32ToBytes(int32(len(message))))
+	for i := 0; i < len(message); i++ {
+		b[i] = message[i]
+	}
+	b[len(message)] = 0
+	conn.Write(b)
+
+}
+
+// sendMoveEntity sends an entity to be moved
+func sendMoveEntity(conn net.Conn, id int32, x int32, y int32) {
+	conn.Write([]byte{SEND_MOVE})
+
+	conn.Write(int32ToBytes(id))
+	conn.Write(int32ToBytes(x))
+	conn.Write(int32ToBytes(y))
+}
+
+// sendUpdateEntity sends the entity to update it's display
+func sendUpdateEntity(conn net.Conn, id int32, colour byte, character byte) {
+	conn.Write([]byte{SEND_UPDATE})
+
+	conn.Write(int32ToBytes(id))
+	conn.Write([]byte{colour,character})
+}
+
+// sendPlayerHealth sends the player his current health
+func sendPlayerHealth(conn net.Conn, health byte) {
+	conn.Write([]byte{SEND_HEALTH, health})
+}
+
+// sendActionLocation sends the client that an action has happened and it should
+func sendActionLocation(conn net.Conn, x int32, y int32) {
+	conn.Write([]byte{SEND_ACTION})
+
+	conn.Write(int32ToBytes(x))
+	conn.Write(int32ToBytes(y))
+
+}
+
+// readConnection returns 0 if no message, else the message
+func readConnection(conn net.Conn) []byte {
+	var data = make([]byte, 1)
+	conn.Read(data)
+	return data
+}
+
+
+func int32ToBytes(n int32) []byte {
+	bytes := make([]byte, 4)
+	bytes[3] = (byte)((n >> 24) & 0xFF)
+	bytes[2] = (byte)((n >> 16) & 0xFF)
+	bytes[1] = (byte)((n >> 8) & 0xFF)
+	bytes[0] = (byte)(n & 0xFF)
+	return bytes
+}

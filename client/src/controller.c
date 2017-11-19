@@ -9,6 +9,19 @@
 #include "draw.h"
 
 
+void keyboard_controller(int sockfd) {
+    char keypress = getch();
+
+    // switch (keypress) {
+    //     case 'w':
+    //         break;
+    //     case 'a':
+    //         break;
+    // }
+    printf("pressed %c\n", keypress);
+}
+
+
 void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
     enum srv_cmd cmd = read_cmd(sockfd);
 
@@ -69,9 +82,13 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
         }
         case HEALTH: {
             uint8_t health;
-            get_health(sockfd, health);
+            get_health(sockfd, &health);
             printf("health: %i\n", health);
             break;
+        }
+        default: {
+            fprintf(stderr, "invalid server command %i\n", cmd);
+            exit(1);
         }
     }
 }

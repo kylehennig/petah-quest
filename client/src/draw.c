@@ -169,3 +169,12 @@ void draw_mapch_scr(struct map *map, uint32_t mapX, uint32_t mapY, struct entity
 		draw_map_character(map, mapX, mapY);
 	}
 }
+
+
+void draw_entities_screen(struct entity_list *list, struct entity *player) {
+	for (size_t i = 0; i < list->size; ++i) {
+		if (list->list[i].ch != 0) {
+			draw_ent_scr(&list->list[i], player);
+		}
+	}
+}

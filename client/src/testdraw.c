@@ -43,6 +43,10 @@ int main(int argc, char *argv[]) {
 	uint32_t y = 84;
 	draw_health(4);
 
+		draw_weapon_sel(NSTAR);
+
+
+
 	while(true){
 		int cha = getch();
 		//printf("%d\n",cha);

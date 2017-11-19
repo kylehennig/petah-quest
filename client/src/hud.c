@@ -4,12 +4,28 @@
 
 
 #define MAX_HEALTH 10
+#define NUM_WEAPONS 8
 
 const char *weapons = ")}/-*!@O";
 
 void draw_weapon_sel(uint8_t weapon) {
-    init_pair(1, COLOR_WHITE, COLOR_BLACK);
-    init_pair(2, COLOR_BLACK, COLOR_WHITE);
+  start_color();
+    init_pair(10, COLOR_WHITE, COLOR_BLACK);
+    init_pair(11, COLOR_BLACK, COLOR_WHITE);
+
+    //load whole white bar
+    attron(COLOR_PAIR(10));
+    for(int i = 0; i < NUM_WEAPONS; i++){
+      mvaddch(CHUNK_HEIGHT,i+MAX_HEALTH,weapons[i]);
+
+    }
+    attroff(COLOR_PAIR(10));
+
+    //load highlighted
+    attron(COLOR_PAIR(11));
+    mvaddch(CHUNK_HEIGHT,weapon+MAX_HEALTH,weapons[weapon]);
+    attroff(COLOR_PAIR(10));
+
 
 
 }

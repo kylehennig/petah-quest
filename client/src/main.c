@@ -16,9 +16,10 @@
 
 int main(int argc, char *argv[]) {
     struct sockaddr_in server;
+
     inet_pton(AF_INET, argv[1], &(server.sin_addr));
     server.sin_family = AF_INET;
-    server.sin_port = htons(8888);
+    server.sin_port   = htons(8888);
 
     char ch = *argv[2];
 
@@ -29,9 +30,9 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    struct map map;
+    struct map         map;
     struct entity_list elist;
-    elist.list = malloc(256*sizeof(struct entity));
+    elist.list = malloc(256 * sizeof(struct entity));
     elist.size = 256;
 
     uint32_t you;
@@ -39,8 +40,8 @@ int main(int argc, char *argv[]) {
     handshake(&map, ch, &you, sock);
 
     struct pollfd fds[2] = {
-        { .fd=STDIN_FILENO, .events=POLLIN | POLLPRI, .revents=0 },
-        { .fd=sock,         .events=POLLIN | POLLPRI, .revents=0 }
+        { .fd = STDIN_FILENO, .events = POLLIN | POLLPRI, .revents = 0 },
+        { .fd = sock,         .events = POLLIN | POLLPRI, .revents = 0 }
     };
 
 
@@ -53,13 +54,14 @@ int main(int argc, char *argv[]) {
 
     while (1) {
         poll(fds, 2, -1);
-        if (fds[0].revents & (POLLIN|POLLPRI)) {
+        if (fds[0].revents & (POLLIN | POLLPRI)) {
             keyboard_controller(sock);
-        } else if (fds[1].revents & (POLLIN|POLLPRI)) {
+        }
+        else if (fds[1].revents & (POLLIN | POLLPRI)) {
             server_controller(sock, &map, &elist, you);
         }
     }
 
     endwin();
-    return 0;
+    return(0);
 }

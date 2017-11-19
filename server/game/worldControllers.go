@@ -15,23 +15,26 @@ func movePlayer(world *World, p *player, dir byte) {
 	case 3: // 0011   west
 		newX--
 	}
-	tile := world.worldMap.tiles[newX+newY*world.worldMap.width]
-	isAboutToCrash := false
-	switch tile {
-	case 'W':
-		isAboutToCrash = true
-	case '#':
-		isAboutToCrash = true
-	case 't':
-		isAboutToCrash = true
+	if newX < world.worldMap.width && newX >= 0 && newY < world.worldMap.height && newY >= 0{
+		tile := world.worldMap.tiles[newX+newY*world.worldMap.width]
+		isAboutToCrash := false
+		switch tile {
+		case 'W':
+			isAboutToCrash = true
+		case '#':
+			isAboutToCrash = true
+		case 't':
+			isAboutToCrash = true
+		}
+
+		if !isAboutToCrash {
+			// move
+			p.entity.x = newX
+			p.entity.y = newY
+		}
+		moveEntity(world, p.entity.id, p.entity.x, p.entity.y)
 	}
 
-	if !isAboutToCrash {
-		// move
-		p.entity.x = newX
-		p.entity.y = newY
-	}
-	moveEntity(world, p.entity.id, p.entity.x, p.entity.y)
 }
 func interactPlayer(world *World, p *player, dir byte) {
 	// TODO: add attacking and basically everything

@@ -3,12 +3,14 @@
 ###########################
 Plain txt format
 
-g    goblins, melee attacks                      Green on Black           10 health
-p    piranha plant, can't move, range of one.    Red on Black             50 health
-e    elves ranged weapons                        Blue on Black            120 health
-n    ninjas, can't see them until attack.        Black on Black           100
-w    wolves, fast, no drop                       White on Black           50
-
+[Cap]player, variable attacks,                   Armour on Black        /       Armour Stat    Weapon Stat   speed 5
+g    goblins, melee attacks                      Green on Black     aggro 5     10 health      damage 10     speed 5
+h    goblin boss, melee attacks                  Green on Black     aggro 5     100 health     damage 50     speed 3     
+p    piranha plant, can't move                   Red on Black       aggro 1     50 health      damage 50     speed 0
+e    elves, ranged weapons                       Blue on Black      aggro 20    120 health     damage 25     speed 5
+n    ninjas, can't see them until attack.        Black on Black     aggro 10    100            damage 75     speed 6
+w    wolves, fast, no drop                       White on Black     aggro 20    50             damage 10     speed 7
+b    final boss, melee and ranged                Yellow on Black    aggro 10    500 health     damage 125    speed 6
 
 
 ###### Map ######
@@ -41,12 +43,24 @@ All White
 *    ninja star      ∞
 !    club            2
 @    whip            20
-╱    long sword      50
+╱       long sword      50
 ┤    shield          0
      fist            1
+     
+# Spawn Symbols #
 
+P       player spawn
+g       goblin spawn
+w       wolf spawn
+a       armour spawn
+d       weapon spawn
+h       goblin boss spawn
+p       piranha plant spawn
+n       ninja spawn
+b       boss spawn
 
-######## Colours ##########
+######## Colours ###
+#######
 White is base        100% to be hit
 Yellow is better     80%
 Red is ++            60%

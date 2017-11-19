@@ -14,21 +14,28 @@ void draw_map_at(struct map *map,uint32_t x, uint32_t y){
 	//draws a chunk given the top left co-ordinates
 	for(uint32_t i = mapTopLeftX; i< mapTopLeftX+CHUNK_WIDTH; i++){
 		for(uint32_t j = mapTopLeftY; j < mapTopLeftY+CHUNK_HEIGHT; j++){
-			draw_map_character(map, i-mapTopLeftX,j-mapTopLeftY,i,j);
+			draw_map_character(map,i,j);
 		}
 
 	}
-
-
 }
 
 //draws a single character to the screen
 //takes in coords from global map as well as where to draw the character to the screen
-void draw_map_character(struct map *map, uint32_t screenDestx, uint32_t screenDesty, uint32_t mapX, uint32_t mapY){
+void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screenDesty, */uint32_t mapX, uint32_t mapY){
 	//get character from map
 	//map.map is a 1D string
 	uint32_t dest = mapX + (map->width)*mapY;
 	char toBeLoaded = map->map[dest];
+
+	//DONT WANT TO PASS IN A SCREEN DEST
+	uint32_t mapTopLeftX = mapX-mapX%CHUNK_WIDTH; //top left of the map
+	uint32_t mapTopLeftY = mapY-mapY%CHUNK_HEIGHT; //top right of the map
+	uint32_t screenDestx = mapX - mapTopLeftX;
+	uint32_t screenDesty = mapY - mapTopLeftY;
+
+
+
 	//switch on character
 	start_color();
 
@@ -71,9 +78,9 @@ void draw_map_character(struct map *map, uint32_t screenDestx, uint32_t screenDe
 		refresh();
 		break;
 
-		case 'T'://lava
+		case 't'://lava
 		attron(COLOR_PAIR(4));
-		mvprintw(screenDesty,screenDestx,"#");
+		mvprintw(screenDesty,screenDestx,"%%");
 		attroff(COLOR_PAIR(4));
 		refresh();
 		break;
@@ -87,7 +94,7 @@ void draw_map_character(struct map *map, uint32_t screenDestx, uint32_t screenDe
 
 		case '#': //wall
 		attron(COLOR_PAIR(1));
-		mvprintw(screenDesty,screenDestx," ");
+		mvprintw(screenDesty,screenDestx,"#");
 		attroff(COLOR_PAIR(1));
 		refresh();
 		break;

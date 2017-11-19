@@ -35,5 +35,7 @@ func loadMap() WorldMap {
 		}
 	}
 
+	fmt.Println(width)
+	fmt.Println(height)
 	return WorldMap{width, height, cleanTiles}
 }

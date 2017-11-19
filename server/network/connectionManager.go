@@ -2,6 +2,7 @@ package network
 
 import (
 	"bufio"
+	"fmt"
 	"net"
 
 	"github.com/kylehennig/petah-quest/server/game"
@@ -16,7 +17,8 @@ func CreateServer() net.Listener {
 
 	ln, err := net.Listen("tcp", ":8888")
 	if err != nil {
-		// handle error
+		fmt.Println("Error listening on port 8888.")
+		fmt.Println(err)
 	}
 
 	return ln
@@ -26,7 +28,8 @@ func CreateServer() net.Listener {
 func CheckForNewPlayers(ln net.Listener, connections []PlayerConnection) {
 	conn, err := ln.Accept()
 	if err != nil {
-		// handle error
+		fmt.Println("Failed to accept incoming connection.")
+		fmt.Println(err)
 	}
 	go addPlayer(conn, connections)
 }

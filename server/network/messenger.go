@@ -1,8 +1,9 @@
 package network
 
 import (
-	"github.com/kylehennig/petah-quest/server/game"
 	"net"
+
+	"github.com/kylehennig/petah-quest/server/game"
 )
 
 const (

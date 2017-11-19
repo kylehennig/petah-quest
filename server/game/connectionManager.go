@@ -6,10 +6,6 @@ import (
 	"os"
 )
 
-type PlayerConnection struct {
-	player     Entity
-	connection net.TCPConn
-}
 
 func CreateServer() net.TCPListener {
 	service := ":8888"
@@ -28,24 +24,25 @@ func checkError(err error) {
 }
 
 // CheckForNewPlayers allows players to join
-func CheckForNewPlayers(ln net.TCPListener, connections []PlayerConnection, world World) {
+func CheckForNewPlayers(ln net.TCPListener, world *World) {
 	conn, err := ln.AcceptTCP()
 	if err != nil {
 		fmt.Println("Failed to accept incoming connection.")
 		fmt.Println(err)
 	}
-	go addPlayer(*conn, connections, world)
-	CheckForNewPlayers(ln, connections, world)
+	go addPlayer(*conn,  world)
+	CheckForNewPlayers(ln, world)
 }
 
-func addPlayer(conn net.TCPConn, connections []PlayerConnection, world World) {
+func addPlayer(conn net.TCPConn, world *World) {
 
 	// add a new playerConnection to connection list
 	b := make([]byte, 1)
 	conn.Read(b)
 	newEntity := NewPlayer(b[0], world)
-	newConnection := PlayerConnection{newEntity, conn}
-	connections = append(connections, newConnection)
+	newConnection := player{newEntity, conn}
+
+	world.players = append(world.players, newConnection)
 	sendMap(conn, world.worldMap)
 	conn.Write(Int32ToBytes(newEntity.id))
 	sendNewEntity(conn, newEntity.id, newEntity.gameType.drawChar, newEntity.gameType.colour, newEntity.x, newEntity.y)
@@ -66,23 +63,19 @@ func runTests(conn net.TCPConn) {
 	sendActionLocation(conn, 10, 20)
 	sendDeleteEntity(conn, 0)
 }
-
-func ListenToPlayers(world World) {
+func ListenToPlayers(world *World) {
 	for _, p := range world.players {
-		b := readConnection(p.playerCon.connection)[0]
+		b := readConnection(p.playerCon)[0]
 		switch b & 0xF0 {
 		case 0x00: // Nothing
-			break
 		case 0x10: // Move
 			movePlayer(world, p, b&0x0F)
 			// send new player position to all people
-			break
 		case 0x20: // Interact
 			interactPlayer(world, p, b&0x0F)
-			break
 		case 0x30: // Switch Weapons
 			p.entity.gameType.weapon = getWeaponByID(b & 0x0F)
-			break
 		}
 	}
+
 }

@@ -1,7 +1,10 @@
 package game
 
+import "fmt"
+
 //This is the file that will hold the entity controllers
-func movePlayer(world World, p player, dir byte) {
+func movePlayer(world *World, p player, dir byte) {
+	fmt.Println("Moving")
 	newX := p.entity.x
 	newY := p.entity.y
 
@@ -37,7 +40,7 @@ func movePlayer(world World, p player, dir byte) {
 	}
 	moveEntity(world, p.entity.id, p.entity.x, p.entity.y)
 }
-func interactPlayer(world World, p player, dir byte) {
+func interactPlayer(world *World, p player, dir byte) {
 	// TODO: add attacking and basically everything
 	attackX := p.entity.x
 	attackY := p.entity.y

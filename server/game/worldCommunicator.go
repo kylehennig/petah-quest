@@ -1,35 +1,35 @@
 package game
 
-func moveEntity(world World, id int32, x int32, y int32) {
+func moveEntity(world *World, id int32, x int32, y int32) {
 	for _, p := range world.players {
-		sendMoveEntity(p.playerCon.connection, id, x, y)
+		sendMoveEntity(p.playerCon, id, x, y)
 	}
 }
-func deleteEntity(world World, id int32) {
+func deleteEntity(world *World, id int32) {
 	for _, p := range world.players {
-		sendDeleteEntity(p.playerCon.connection, id)
+		sendDeleteEntity(p.playerCon, id)
 	}
 }
-func newEntity(world World, id int32, character byte, colour byte, x int32, y int32) {
+func newEntity(world *World, id int32, character byte, colour byte, x int32, y int32) {
 	for _, p := range world.players {
-		sendNewEntity(p.playerCon.connection, id, character, colour, x, y)
+		sendNewEntity(p.playerCon, id, character, colour, x, y)
 	}
 }
-func updateEntity(world World, id int32, character byte, colour byte) {
+func updateEntity(world *World, id int32, character byte, colour byte) {
 	for _, p := range world.players {
-		sendUpdateEntity(p.playerCon.connection, id, character, colour)
+		sendUpdateEntity(p.playerCon, id, character, colour)
 	}
 }
-func flashAtPoint(world World, x int32, y int32) {
+func flashAtPoint(world *World, x int32, y int32) {
 	for _, p := range world.players {
-		sendActionLocation(p.playerCon.connection, x, y)
+		sendActionLocation(p.playerCon, x, y)
 	}
 }
 
 func updateHealth(p player) {
-	sendPlayerHealth(p.playerCon.connection, p.entity.gameType.health)
+	sendPlayerHealth(p.playerCon, p.entity.gameType.health)
 }
 
 func sendToastToPlayer(p player, msg string) {
-	sendTextMessage(p.playerCon.connection, msg)
+	sendTextMessage(p.playerCon, msg)
 }

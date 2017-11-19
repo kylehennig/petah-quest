@@ -88,7 +88,7 @@ func getTypeByID(id byte) Type {
 	}
 }
 
-func NewPlayer(ch byte, world World) Entity {
+func NewPlayer(ch byte, world *World) Entity {
 	playerType := Type{ch, COLOUR_WHT, 100, 5, 255, fist()}
 	return Entity{GetAvailableID(world), 126, 84, playerType}
 }

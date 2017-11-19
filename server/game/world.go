@@ -1,6 +1,9 @@
 package game
 
-import "time"
+import (
+	"time"
+	"net"
+)
 
 type World struct {
 	worldMap    WorldMap
@@ -11,10 +14,10 @@ type World struct {
 }
 type player struct {
 	entity    Entity
-	playerCon PlayerConnection
+	playerCon net.TCPConn
 }
 
-func GetAvailableID(world World) int32 {
+func GetAvailableID(world *World) int32 {
 	for i, b := range world.availableID{
 		if b{
 			return int32(i)
@@ -37,7 +40,7 @@ func CreateWorld() World {
 			var entity Entity
 			entity.x = x
 			entity.y = y
-			entity.id = GetAvailableID(myWorld)
+			entity.id = GetAvailableID(&myWorld)
 			switch myWorld.worldMap.tiles[x+y*myWorld.worldMap.width] {
 			case 'g':
 				entity.gameType = getTypeByID(GOBLIN)
@@ -54,13 +57,13 @@ func CreateWorld() World {
 			case 'b':
 				entity.gameType = getTypeByID(FINALBOSS)
 			}
-			newEntity(myWorld, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
+			newEntity(&myWorld, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
 		}
 	}
 	return myWorld
 }
 
-func UpdateWorld(world World, deltaNano time.Duration) {
+func UpdateWorld(world *World, deltaNano time.Duration) {
 	for _, projectile := range world.projectiles {
 		projectile.update(deltaNano)
 	}

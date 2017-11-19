@@ -3,7 +3,10 @@ package game
 import (
 	"net"
 	"time"
+	"fmt"
 )
+
+const idLength int = 100000
 
 type World struct {
 	worldMap    WorldMap
@@ -17,9 +20,13 @@ type player struct {
 	playerCon net.TCPConn
 }
 
-func GetAvailableID(world *World) int32 {
-	for i, b := range world.availableID {
+func GetAvailableID(world *World) int32 {// TODO: recycle ID's
+	for i := 0; i < idLength; i++ {
+		b := world.availableID[i]
 		if b {
+			world.availableID[i] = false
+			fmt.Print("Allocating ID: ")
+			fmt.Println(i)
 			return int32(i)
 		}
 	}
@@ -29,8 +36,8 @@ func GetAvailableID(world *World) int32 {
 func CreateWorld() World {
 	var myWorld World
 
-	myWorld.availableID = make([]bool, 10000)
-	for i := 0; i < 10000; i++ {
+	myWorld.availableID = make([]bool, idLength)
+	for i := 0; i < idLength; i++ {
 		myWorld.availableID[i] = true
 	}
 

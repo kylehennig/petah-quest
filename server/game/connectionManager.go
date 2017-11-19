@@ -39,9 +39,12 @@ func addPlayer(conn net.Conn, connections []PlayerConnection) {
 	newEntity := NewPlayer(b[0])
 	newConnection := PlayerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
-	conn.SetReadDeadline(time.Now().Add(time.Second*5))
 	sendMap(conn, GetMap())
+	conn.SetDeadline(time.Now().Add(time.Microsecond))
 	time.Sleep(time.Second)
+
+
+	conn.Close()
 }
 
 func ListenToPlayers(world World){

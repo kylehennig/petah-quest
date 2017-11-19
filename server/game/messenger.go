@@ -25,15 +25,15 @@ func sendMap(conn net.Conn, worldMap WorldMap) {
 
 // sendNewEntity sends the new entity to all the clients for rendering
 func sendNewEntity(conn net.Conn, id int32, character byte, colour byte) {
-	conn.Write(byteToBytes(SEND_NEW))
+	conn.Write([]byte{SEND_NEW})
 	conn.Write(int32ToBytes(id))
-	conn.Write(byteToBytes(colour))
-	conn.Write(byteToBytes(character))
+	conn.Write([]byte{colour,character})
+
 }
 
 // sendDeleteEntity sends the entity to be deleted from the client
 func sendDeleteEntity(conn net.Conn, id int32) {
-	conn.Write(byteToBytes(SEND_DELETE))
+	conn.Write([]byte{SEND_DELETE})
 
 	conn.Write(int32ToBytes(id))
 
@@ -41,18 +41,23 @@ func sendDeleteEntity(conn net.Conn, id int32) {
 
 // sendTextMessage sends a 'toast' to the client
 func sendTextMessage(conn net.Conn, message string) {
-	conn.Write(byteToBytes(SEND_TEXT))
+	conn.Write([]byte{SEND_TEXT})
+
+	size := len(message)
+	b := make([]byte, size + 1)
 
 	conn.Write(int32ToBytes(int32(len(message))))
 	for i := 0; i < len(message); i++ {
-		conn.Write(byteToBytes(message[i]))
+		b[i] = message[i]
 	}
-	conn.Write(byteToBytes(0))
+	b[len(message)] = 0
+	conn.Write(b)
+
 }
 
 // sendMoveEntity sends an entity to be moved
 func sendMoveEntity(conn net.Conn, id int32, x int32, y int32) {
-	conn.Write(byteToBytes(SEND_MOVE))
+	conn.Write([]byte{SEND_MOVE})
 
 	conn.Write(int32ToBytes(id))
 	conn.Write(int32ToBytes(x))
@@ -61,23 +66,20 @@ func sendMoveEntity(conn net.Conn, id int32, x int32, y int32) {
 
 // sendUpdateEntity sends the entity to update it's display
 func sendUpdateEntity(conn net.Conn, id int32, colour byte, character byte) {
-	conn.Write(byteToBytes(SEND_UPDATE))
+	conn.Write([]byte{SEND_UPDATE})
 
 	conn.Write(int32ToBytes(id))
-	conn.Write(byteToBytes(colour))
-	conn.Write(byteToBytes(character))
+	conn.Write([]byte{colour,character})
 }
 
 // sendPlayerHealth sends the player his current health
 func sendPlayerHealth(conn net.Conn, health byte) {
-	conn.Write(byteToBytes(SEND_HEALTH))
-
-	conn.Write(byteToBytes(health))
+	conn.Write([]byte{SEND_HEALTH, health})
 }
 
 // sendActionLocation sends the client that an action has happened and it should
 func sendActionLocation(conn net.Conn, x int32, y int32) {
-	conn.Write(byteToBytes(SEND_ACTION))
+	conn.Write([]byte{SEND_ACTION})
 
 	conn.Write(int32ToBytes(x))
 	conn.Write(int32ToBytes(y))
@@ -91,11 +93,6 @@ func readConnection(conn net.Conn) []byte {
 	return data
 }
 
-func byteToBytes(b byte) []byte {
-	bytes := make([]byte, 1)
-	bytes[0] = b
-	return bytes
-}
 
 func int32ToBytes(n int32) []byte {
 	bytes := make([]byte, 4)

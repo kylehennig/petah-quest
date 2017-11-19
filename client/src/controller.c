@@ -56,8 +56,8 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
         case FLASH: {
             uint32_t x, y;
             get_flash(sockfd, &x, &y);
-            // do_flash();
-            // refresh();
+            do_flash(x, y, &elist->list[you]);
+            refresh();
             printf("x: %i, y: %i\n", x, y);
             break;
         }

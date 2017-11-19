@@ -175,3 +175,23 @@ void draw_entities_screen(struct entity_list *list, struct entity *player) {
 		}
 	}
 }
+
+
+void do_flash(uint32_t x, uint32_t y, struct entity *player) {
+	uint32_t x_low = player->x - player->x % CHUNK_WIDTH;
+	uint32_t x_high = x_low + CHUNK_WIDTH;
+	uint32_t y_low = player->y - player->y % CHUNK_HEIGHT;
+	uint32_t y_high = y_low + CHUNK_HEIGHT;
+
+	if (x >= x_low && x < x_high && y >= y_low && y < y_high) {
+		curs_set(1);
+		move(y % CHUNK_HEIGHT, x % CHUNK_WIDTH);
+		refresh();
+		for (int i = 0; i < 10000; ++i) {
+			// im so sorry
+			volatile int a = i*i;
+		}
+		curs_set(0);
+		refresh();
+	}
+}

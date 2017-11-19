@@ -127,14 +127,13 @@ void draw_entities_screen(struct entity_list *list, uint32_t x, uint32_t y){
 }
 
 
-void redraw_entity(struct entity_list *inlist, uint32_t id){
-	struct entity e;
-	e = inlist->list[id];
+void draw_entity(struct entity *ent){
 
-	int32_t mapX = e.x;
-	int32_t mapY = e.y;
-	char c = e.ch;
-	uint8_t color = (uint8_t)(e.colour);
+
+	int32_t mapX = ent->x;
+	int32_t mapY = ent->y;
+	char c = ent->ch;
+	uint8_t color = ent->colour;
 
 	//DONT WANT TO PASS IN A SCREEN DEST
 	uint32_t mapTopLeftX = mapX-mapX%CHUNK_WIDTH; //top left of the map
@@ -144,9 +143,9 @@ void redraw_entity(struct entity_list *inlist, uint32_t id){
 
 	//how to do colors off of stack exchange
 	start_color();
-	init_pair(1, COLOR_WHITE, COLOR_BLACK); //COLOR WILL THROW ERROR
-	attron(COLOR_PAIR(1)); // use the above combination
+	init_pair(16, color, COLOR_BLACK); //COLOR WILL THROW ERROR
+	attron(COLOR_PAIR(16)); // use the above combination
 	mvaddch(screenDesty,screenDestx,c);
-	attroff(COLOR_PAIR(1)); // turn color off
+	attroff(COLOR_PAIR(16)); // turn color off
 
 }

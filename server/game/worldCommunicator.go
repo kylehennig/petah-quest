@@ -26,8 +26,8 @@ func flashAtPoint(world World, x int32, y int32) {
 	}
 }
 
-func setHealth(p player, health byte) {
-	sendPlayerHealth(p.playerCon.connection, health)
+func updateHealth(p player) {
+	sendPlayerHealth(p.playerCon.connection, p.entity.gameType.health)
 }
 
 func sendToastToPlayer(p player, msg string) {

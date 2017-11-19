@@ -28,17 +28,17 @@ func checkError(err error) {
 }
 
 // CheckForNewPlayers allows players to join
-func CheckForNewPlayers(ln net.TCPListener, connections []PlayerConnection) {
+func CheckForNewPlayers(ln net.TCPListener, connections []PlayerConnection, world World) {
 	conn, err := ln.AcceptTCP()
 	if err != nil {
 		fmt.Println("Failed to accept incoming connection.")
 		fmt.Println(err)
 	}
-	go addPlayer(*conn, connections)
-	CheckForNewPlayers(ln, connections)
+	go addPlayer(*conn, connections, world)
+	CheckForNewPlayers(ln, connections, world)
 }
 
-func addPlayer(conn net.TCPConn, connections []PlayerConnection) {
+func addPlayer(conn net.TCPConn, connections []PlayerConnection, world World) {
 
 	// add a new playerConnection to connection list
 	b := make([]byte, 1)
@@ -46,13 +46,13 @@ func addPlayer(conn net.TCPConn, connections []PlayerConnection) {
 	newEntity := NewPlayer(b[0])
 	newConnection := PlayerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
-	sendMap(conn, GetMap())
+	sendMap(conn, world.worldMap)
 	sendPlayerHealth(conn, 100)
 	// runTests(conn)
 }
 
 func runTests(conn net.TCPConn) {
-	sendNewEntity(conn, 0, 'C', COLOUR_RED,1,1)
+	sendNewEntity(conn, 0, 'C', COLOUR_RED, 1, 1)
 	sendTextMessage(conn, "Text message.")
 	sendMoveEntity(conn, 0, 10, 15)
 	sendUpdateEntity(conn, 0, 'D', COLOUR_BLU)

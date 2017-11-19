@@ -1,5 +1,6 @@
 package game
 
+
 const (
 	COLOUR_BLK byte = iota
 	COLOUR_RED

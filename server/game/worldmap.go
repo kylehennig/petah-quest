@@ -19,7 +19,3 @@ func (wMap WorldMap) ToBytes() []byte {
 
 	return bytes
 }
-
-func GetMap() WorldMap {
-	return loadMap()
-}

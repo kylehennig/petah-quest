@@ -6,7 +6,6 @@ import (
 	"os"
 )
 
-
 func CreateServer() net.TCPListener {
 	service := ":8888"
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
@@ -30,7 +29,7 @@ func CheckForNewPlayers(ln net.TCPListener, world *World) {
 		fmt.Println("Failed to accept incoming connection.")
 		fmt.Println(err)
 	}
-	go addPlayer(*conn,  world)
+	go addPlayer(*conn, world)
 	CheckForNewPlayers(ln, world)
 }
 
@@ -48,7 +47,7 @@ func addPlayer(conn net.TCPConn, world *World) {
 	sendNewEntity(conn, newEntity.id, newEntity.gameType.drawChar, newEntity.gameType.colour, newEntity.x, newEntity.y)
 	sendPlayerHealth(conn, 100)
 
-	for _,entity := range world.entities {
+	for _, entity := range world.entities {
 		sendNewEntity(conn, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
 	}
 	//runTests(conn)
@@ -69,10 +68,10 @@ func ListenToPlayers(world *World) {
 		switch b & 0xF0 {
 		case 0x00: // Nothing
 		case 0x10: // Move
-			movePlayer(world, p, b&0x0F)
+			movePlayer(world, &p, b&0x0F)
 			// send new player position to all people
 		case 0x20: // Interact
-			interactPlayer(world, p, b&0x0F)
+			interactPlayer(world, &p, b&0x0F)
 		case 0x30: // Switch Weapons
 			p.entity.gameType.weapon = getWeaponByID(b & 0x0F)
 		}

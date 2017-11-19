@@ -1,8 +1,8 @@
 package game
 
 import (
-	"time"
 	"net"
+	"time"
 )
 
 type World struct {
@@ -18,19 +18,19 @@ type player struct {
 }
 
 func GetAvailableID(world *World) int32 {
-	for i, b := range world.availableID{
-		if b{
+	for i, b := range world.availableID {
+		if b {
 			return int32(i)
 		}
 	}
-	return -1// TODO: don't limit entity size
+	return -1 // TODO: don't limit entity size
 }
 
 func CreateWorld() World {
 	var myWorld World
 
 	myWorld.availableID = make([]bool, 10000)
-	for i := 0; i < 10000; i++{
+	for i := 0; i < 10000; i++ {
 		myWorld.availableID[i] = true
 	}
 

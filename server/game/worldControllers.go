@@ -1,7 +1,7 @@
 package game
 
 //This is the file that will hold the entity controllers
-func movePlayer(p player, dir byte){
+func movePlayer(p player, dir byte) {
 	switch dir {
 	case 0: // 0000   north
 		p.entity.y--
@@ -17,7 +17,7 @@ func movePlayer(p player, dir byte){
 		break
 	}
 }
-func interactPlayer(p player, dir byte){
+func interactPlayer(p player, dir byte) {
 	// TODO: add attacking and basically everything
 	switch dir {
 	case 0: // 0000   north

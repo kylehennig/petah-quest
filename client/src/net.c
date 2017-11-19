@@ -67,3 +67,9 @@ void get_update(int sockfd, uint32_t *id, char *ch, uint8_t *colour){
 void get_health(int sockfd, uint8_t *health){
 	read(sockfd, health, sizeof(uint8_t));
 }
+
+
+void send_move(int sockfd, enum dir dir) {
+    uint8_t msg = MOVE | dir;
+    write(sockfd, &msg, sizeof(uint8_t));
+}

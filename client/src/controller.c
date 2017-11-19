@@ -55,7 +55,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
         case DELETE: {
             uint32_t id;
             get_delete(sockfd, &id);
-            printf("id: %i", id);
+            printf("id: %i\n", id);
             break;
         }
         case TEXT: {

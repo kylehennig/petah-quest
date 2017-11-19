@@ -3,10 +3,11 @@ package game
 import "fmt"
 
 func moveEntity(world *World, id int32, x int32, y int32) {
-	fmt.Print("Moving entity: ")
-	fmt.Println(id)
+
 	for _, p := range world.players {
 		sendMoveEntity(p.playerCon, id, x, y)
+		fmt.Print("Moving entity: ")
+		fmt.Println(p.entity.id)
 	}
 }
 func deleteEntity(world *World, id int32) {

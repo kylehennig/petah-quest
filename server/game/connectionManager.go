@@ -69,6 +69,8 @@ func ListenToPlayers(world *World) {
 		switch b & 0xF0 {
 		case 0x00: // Nothing
 		case 0x10: // Move
+			fmt.Print("About to move at")
+			fmt.Println(world.players[i].entity.id)
 			movePlayer(world, &world.players[i], b&0x0F)
 		case 0x20: // Interact
 			interactPlayer(world, &world.players[i], b&0x0F)

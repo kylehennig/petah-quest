@@ -146,6 +146,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             break;
         }
         default: {
+            endwin();
             fprintf(stderr, "invalid server command %i\n", cmd);
             exit(1);
         }

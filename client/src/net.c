@@ -17,8 +17,6 @@ int handshake(struct map *map, char ch, int sockfd) {
         exit(1);
     }
 
-    char ack = 'a';
-    write(sockfd, &ack, sizeof(char));
 }
 
 

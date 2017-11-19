@@ -9,10 +9,13 @@ import (
 
 func main() {
 	fmt.Println("hello world")
+	connections := make([]network.PlayerConnection, 0)
+
 	ln := network.CreateServer()
 	world := game.CreateWorld()
+
 	for {
-		network.CheckForNewPlayers(ln)
+		network.CheckForNewPlayers(ln, connections)
 		game.UpdateWorld(world)
 	}
 }

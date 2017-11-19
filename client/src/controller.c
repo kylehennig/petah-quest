@@ -85,7 +85,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
         case DELETE: {
             uint32_t id;
             get_delete(sockfd, &id);
-            elist->list[id].ch = 0; 
+            elist->list[id].ch = 0;
             draw_mapch_scr(map, elist->list[id].x, elist->list[id].y, &elist->list[you]);
             refresh();
             printf("id: %i\n", id);
@@ -105,10 +105,17 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
 
             draw_mapch_scr(map, elist->list[id].x, elist->list[id].y, &elist->list[you]);
 
+            uint32_t oldx = elist->list[id].x;
+            uint32_t oldy = elist->list[id].y;
             elist->list[id].x = x;
             elist->list[id].y = y;
 
             draw_ent_scr(&elist->list[id], &elist->list[you]);
+
+            if (id == you && (x/10 != oldx/10 || y/10 != oldy/10)) {
+                draw_map_at(map, elist->list[you].x, elist->list[you].y);
+                draw_entities_screen(elist, &elist->list[you]);
+            }
             refresh();
 
             printf("id: %i, x: %i, y: %i\n", id, x, y);

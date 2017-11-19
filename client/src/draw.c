@@ -137,10 +137,10 @@ void draw_entity(struct entity *ent){
 
 
 		start_color();
-		init_pair(18, color, COLOR_BLACK); //COLOR WILL THROW ERROR
-		attron(COLOR_PAIR(18)); // use the above combination
+		init_pair(30+color, color, COLOR_BLACK); //COLOR WILL THROW ERROR
+		attron(COLOR_PAIR(30+color)); // use the above combination
 		mvaddch(screenDesty,screenDestx,c);
-		attroff(COLOR_PAIR(18)); // turn color off
+		attroff(COLOR_PAIR(30+color)); // turn color off
 }
 
 

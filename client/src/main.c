@@ -27,8 +27,6 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    write(sock, "hello\n", 6);
-
     struct map map;
     struct entity_list *elist = malloc(256*sizeof(struct entity_list));
 

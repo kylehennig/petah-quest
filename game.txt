@@ -67,3 +67,19 @@ White is base        100% to be hit
 Yellow is better     80%
 Red is ++            60%
 Cyan is best         33% ***also reduces lava damage by 80
+
+Weapon Spawns:
+! Club 123,76
+/ Sword 1,75; 49,20
+d Dagger 112,29; 41,11
+} RBow  130,29; 53,12
+@ Whip  123,2
+) Bow   75,21
+l LSword 39,7
+* Shuriken 215,12
+
+
+
+
+
+

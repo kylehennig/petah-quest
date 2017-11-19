@@ -154,3 +154,15 @@ void draw_ent_scr(struct entity *ent, struct entity *player) {
 		draw_entity(struct entity *ent);
 	}
 }
+
+
+void draw_mapch_scr(struct map *map, uint32_t mapX, uint32_t mapY, struct entity *player) {
+	uint32_t x_low = player->x - player->x % CHUNK_WIDTH;
+	uint32_t x_high = x_low + CHUNK_WIDTH;
+	uint32_t y_low = player->y - player->y % CHUNK_HEIGHT;
+	uint32_t y_high = y_low + CHUNK_HEIGHT;
+
+	if (mapX >= x_low && mapX < x_high && mapY >= y_low && mapY < y_high) {
+		draw_map_character(map, mapX, mapY);
+	}
+}

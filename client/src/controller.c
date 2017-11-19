@@ -85,6 +85,8 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
         case DELETE: {
             uint32_t id;
             get_delete(sockfd, &id);
+            draw_mapch_scr(map, elist->list[id].x, elist->list[id].y, &elist->list[you]);
+            refresh();
             printf("id: %i\n", id);
             break;
         }
@@ -99,6 +101,15 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
         case MOVE: {
             uint32_t id, x, y;
             get_move(sockfd, &id, &x, &y);
+
+            draw_mapch_scr(map, elist->list[id].x, elist->list[id].y, &elist->list[you]);
+
+            elist->list[id].x = x;
+            elist->list[id].y = y;
+
+            draw_ent_scr(&elist->list[id], &elist->list[you]);
+            refresh();
+
             printf("id: %i, x: %i, y: %i\n", id, x, y);
             break;
         }
@@ -107,12 +118,22 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             char ch;
             uint8_t colour;
             get_update(sockfd, &id, &ch, &colour);
+
+            elist->list[id].ch = ch;
+            elist->list[id].colour = colour;
+
+            draw_ent_scr(&elist->list[id], &elist->list[you]);
+            refresh();
+
             printf("id: %i, ch: %c, colour: %i\n", id, ch, colour);
             break;
         }
         case HEALTH: {
             uint8_t health;
             get_health(sockfd, &health);
+
+            draw_health(health);
+            refresh();
             printf("health: %i\n", health);
             break;
         }

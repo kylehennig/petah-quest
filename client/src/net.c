@@ -21,7 +21,9 @@ int handshake(struct map *map, char ch, int sockfd) {
 
 enum srv_cmd read_cmd(int sockfd) {
     uint8_t val;
-    read(sockfd, &val, sizeof(uint8_t));
+    if(read(sockfd, &val, sizeof(uint8_t)) == 0) {
+        exit(0);
+    }
     return val;
 }
 

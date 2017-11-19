@@ -13,9 +13,8 @@ void draw_map_at(struct map *map,uint32_t x, uint32_t y){
 	//draws a chunk given the top left co-ordinates
 	for(uint32_t i = mapTopLeftX; i< mapTopLeftX+CHUNK_WIDTH; i++){
 		for(uint32_t j = mapTopLeftY; j < mapTopLeftY+CHUNK_HEIGHT; j++){
-			draw_map_character(map,i,j);
+				draw_map_character(map,i,j);
 		}
-
 	}
 }
 
@@ -24,6 +23,9 @@ void draw_map_at(struct map *map,uint32_t x, uint32_t y){
 void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screenDesty, */uint32_t mapX, uint32_t mapY){
 	//get character from map
 	//map.map is a 1D string
+	if (mapX < 0 || mapX > 260 || mapY < 0 || mapY > 95) {
+		return;
+	}
 	uint32_t dest = mapX + (map->width)*mapY;
 	char toBeLoaded = map->map[dest];
 

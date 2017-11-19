@@ -29,7 +29,9 @@ int main(int argc, char *argv[]) {
     }
 
     struct map map;
-    struct entity_list *elist = malloc(256*sizeof(struct entity_list));
+    struct entity_list elist;
+    elist.list = malloc(256*sizeof(struct entity));
+    elist.size = 256;
 
     handshake(&map, ch, sock);
 
@@ -43,7 +45,7 @@ int main(int argc, char *argv[]) {
         if (fds[0].revents & (POLLIN|POLLPRI)) {
             keyboard_controller(sock);
         } else if (fds[1].revents & (POLLIN|POLLPRI)) {
-            server_controller(sock, &map, elist);
+            server_controller(sock, &map, &elist);
         }
     }
 

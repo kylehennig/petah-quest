@@ -20,7 +20,6 @@ struct map {
 struct entity_list {
     struct entity *list;
     size_t size;
-    size_t alloc_size;
 };
 
 #endif

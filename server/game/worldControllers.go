@@ -6,8 +6,6 @@ import "fmt"
 func movePlayer(world *World, p *player, dir byte) {
 	newX := p.entity.x
 	newY := p.entity.y
-	fmt.Print("Moving: ")
-	fmt.Println(p.entity.id)
 
 	switch dir {
 	case 0: // 0000   north

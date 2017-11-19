@@ -1,6 +1,5 @@
 package game
 
-
 func moveEntity(world *World, id int32, x int32, y int32) {
 
 	for _, p := range world.players {

@@ -15,11 +15,11 @@ func main() {
 
 	go game.CheckForNewPlayers(ln, &world)
 
-	currentTime := time.Now()
+	startTime := int64(time.Now().Nanosecond())
 	for {
 		game.ListenToPlayers(&world)
-		game.UpdateWorld(&world, time.Now().Sub(currentTime))
-		currentTime = time.Now()
+		game.UpdateWorld(&world, uint64(time.Now().Nanosecond()) - uint64(startTime))
+		startTime = int64(time.Now().Nanosecond())
 
 	}
 }

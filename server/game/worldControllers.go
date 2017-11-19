@@ -32,7 +32,7 @@ func movePlayer(world *World, p *player, dir byte) {
 		}
 
 		for _, e := range world.entities {
-			if e.x == newX && e.y == newY{
+			if e.x == newX && e.y == newY {
 				isAboutToCrash = true
 			}
 		}
@@ -49,48 +49,55 @@ func interactPlayer(world *World, p *player, dir byte) {
 	// TODO: add attacking and basically everything
 	attackX := p.entity.x
 	attackY := p.entity.y
+	var ar Projectile
 	switch dir {
 	case 0: // 0000   north
 		attackY--
-		break
+		ar = arrowUp(p.entity.x, p.entity.y-1, world)
 	case 1: // 0001   east
 		attackX++
-		break
+		ar = arrowRight(p.entity.x+1, p.entity.y, world)
 	case 2: // 0010   south
 		attackY++
-		break
+		ar = arrowDown(p.entity.x, p.entity.y+1, world)
 	case 3: // 0011   west
 		attackX--
-		break
+		ar = arrowLeft(p.entity.x-1, p.entity.y, world)
 	}
 
-	for i := len(world.entities)-1; i != 0; i-- {
-		e := world.entities[i]
-		if e.x == attackX && e.y == attackY {
-			isDead := false
-			if world.entities[i].gameType.health < p.entity.gameType.weapon.damage {
-				isDead = true
-			}
-			world.entities[i].gameType.health -= p.entity.gameType.weapon.damage
-			fmt.Println(e.gameType.health)
+	if p.entity.gameType.weapon.isRanged {
+		addArrow(world, ar)
+		newEntity(world, ar.id, ar.drawChar, ar.colour, ar.x, ar.y)
+	} else {
+		for i := len(world.entities) - 1; i != 0; i-- {
+			e := world.entities[i]
+			if e.x == attackX && e.y == attackY {
+				isDead := false
+				if world.entities[i].gameType.health < p.entity.gameType.weapon.damage {
+					isDead = true
+				}
+				world.entities[i].gameType.health -= p.entity.gameType.weapon.damage
+				fmt.Println(e.gameType.health)
 
-			if isDead {
-				deleteEntity(world, e.id)
-				world.entities = append(world.entities[:i], world.entities[i+1:]...)
+				if isDead {
+					deleteEntity(world, e.id)
+					world.entities = append(world.entities[:i], world.entities[i+1:]...)
+				}
+			}
+		}
+		for _, e := range world.players {
+			if e.entity.x == attackX && e.entity.y == attackY {
+				isDead := false
+				if e.entity.gameType.health < p.entity.gameType.weapon.damage {
+					isDead = true
+				}
+				e.entity.gameType.health -= p.entity.gameType.weapon.damage
+				updateHealth(e)
+				if isDead {
+					// TODO: disconnect player and remove
+				}
 			}
 		}
 	}
-	for _, e := range world.players {
-		if e.entity.x == attackX && e.entity.y == attackY {
-			isDead := false
-			if e.entity.gameType.health < p.entity.gameType.weapon.damage {
-				isDead = true
-			}
-			e.entity.gameType.health -= p.entity.gameType.weapon.damage
-			updateHealth(e)
-			if isDead {
-				// TODO: disconnect player and remove
-			}
-		}
-	}
+
 }

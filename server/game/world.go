@@ -3,7 +3,6 @@ package game
 import (
 	"fmt"
 	"net"
-	"time"
 )
 
 const idLength int = 100000
@@ -67,11 +66,16 @@ func CreateWorld() World {
 	return myWorld
 }
 
-func UpdateWorld(world *World, deltaNano time.Duration) {
-	for _, projectile := range world.projectiles {
-		projectile.update(deltaNano)
+func UpdateWorld(world *World, deltaNano uint64) {
+	for i := len(world.projectiles)-1; i >= 0 ; i--  {
+		world.projectiles[i].update(deltaNano, world)
+
+		if world.projectiles[i].killMeNow {
+			deleteEntity(world, world.projectiles[i].id)
+			world.projectiles = append(world.projectiles[:i], world.projectiles[i+1:]...)
+		}
 	}
 	for _, entities := range world.projectiles {
-		entities.update(deltaNano)
+		entities.update(deltaNano, world)
 	}
 }

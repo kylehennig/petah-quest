@@ -94,6 +94,6 @@ func NewPlayer(ch byte, world *World) Entity {
 	//return Entity{GetAvailableID(world), 0, 0, playerType}
 }
 
-func createEntityToken(world *World, gt Type, x int32, y int32) Entity{
+func createEntityToken(world *World, gt Type, x int32, y int32) Entity {
 	return Entity{GetAvailableID(world), x, y, gt}
 }

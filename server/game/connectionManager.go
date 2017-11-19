@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"time"
 )
 
 func CreateServer() net.TCPListener {
@@ -63,7 +64,9 @@ func runTests(conn net.TCPConn) {
 	sendDeleteEntity(conn, 0)
 }
 func ListenToPlayers(world *World) {
-	for i := 0; i < len(world.players); i++  {
+	for i := 0; i < len(world.players); i++ {
+
+		world.players[i].playerCon.SetReadDeadline(time.Now().Add(time.Millisecond))
 
 		b := readConnection(world.players[i].playerCon)[0]
 		switch b & 0xF0 {

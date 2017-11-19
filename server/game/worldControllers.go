@@ -67,6 +67,9 @@ func interactPlayer(world *World, p *player, dir byte) {
 	}
 
 	if p.entity.gameType.weapon.isRanged {
+		if p.entity.gameType.weapon.damage == ninjaStar().damage{
+			ar  = AddNinjaStars(attackX, attackY, ar.moveChar, world, int(p.entity.gameType.weapon.damage))
+		}
 		addArrow(world, ar)
 		newEntity(world, ar.id, ar.drawChar, ar.colour, ar.x, ar.y)
 	} else {

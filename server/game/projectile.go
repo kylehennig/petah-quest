@@ -6,6 +6,7 @@ type Projectile struct {
 	x          int32
 	y          int32
 	drawChar   byte
+	moveChar   byte
 	colour     byte
 	speed      uint64
 	timePassed uint64
@@ -21,13 +22,13 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 
 	if p.timePassed > 1000000000/p.speed {
 		p.timePassed %= 1000000000 / p.speed
-		if p.drawChar == '<' {
+		if p.moveChar == '<' {
 			p.x--
-		} else if p.drawChar == '>' {
+		} else if p.moveChar == '>' {
 			p.x++
-		} else if p.drawChar == '^' {
+		} else if p.moveChar == '^' {
 			p.y--
-		} else if p.drawChar == 'v' {
+		} else if p.moveChar == 'v' {
 			p.y++
 		}
 
@@ -73,7 +74,10 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 }
 
 func arrow(x int32, y int32, ch byte, world *World, damage int) Projectile {
-	return Projectile{x, y, ch, COLOUR_WHT, 5, 0, byte(damage), GetAvailableID(world), false}
+	return Projectile{x, y, ch, ch,COLOUR_WHT, 5, 0, byte(damage), GetAvailableID(world), false}
+}
+func AddNinjaStars(x int32, y int32, move byte, world *World, damage int) Projectile {
+	return Projectile{x, y, '*', move,COLOUR_WHT, 10, 0, byte(255), GetAvailableID(world), false}
 }
 
 func arrowLeft(x int32, y int32, world *World, damage int) Projectile {

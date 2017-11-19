@@ -52,7 +52,7 @@ func addPlayer(conn net.TCPConn, connections []PlayerConnection) {
 }
 
 func runTests(conn net.TCPConn) {
-	sendNewEntity(conn, 0, 'C', COLOUR_RED)
+	sendNewEntity(conn, 0, 'C', COLOUR_RED,1,1)
 	sendTextMessage(conn, "Text message.")
 	sendMoveEntity(conn, 0, 10, 15)
 	sendUpdateEntity(conn, 0, 'D', COLOUR_BLU)

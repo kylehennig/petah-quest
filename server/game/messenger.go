@@ -24,9 +24,11 @@ func sendMap(conn net.TCPConn, worldMap WorldMap) {
 }
 
 // sendNewEntity sends the new entity to all the clients for rendering
-func sendNewEntity(conn net.TCPConn, id int32, character byte, colour byte) {
+func sendNewEntity(conn net.TCPConn, id int32, character byte, colour byte, x int32, y int32) {
 	conn.Write([]byte{SEND_NEW})
 	conn.Write(int32ToBytes(id))
+	conn.Write(int32ToBytes(x))
+	conn.Write(int32ToBytes(y))
 	conn.Write([]byte{character, colour})
 
 }

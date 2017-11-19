@@ -48,7 +48,7 @@ func sendTextMessage(conn net.TCPConn, message string) {
 	size := len(message)
 	b := make([]byte, size+1)
 
-	conn.Write(Int32ToBytes(int32(len(message))+1))
+	conn.Write(Int32ToBytes(int32(len(message)) + 1))
 	for i := 0; i < len(message); i++ {
 		b[i] = message[i]
 	}

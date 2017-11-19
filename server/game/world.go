@@ -19,11 +19,15 @@ func GetAvailableID() int {
 
 func CreateWorld() World {
 	var myWorld World
+	myWorld.worldMap = loadMap()
 	return myWorld
 }
 
 func UpdateWorld(world World, deltaNano time.Duration) {
 	for _, projectile := range world.projectiles {
 		projectile.update(deltaNano)
+	}
+	for _, entities := range world.projectiles {
+		entities.update(deltaNano)
 	}
 }

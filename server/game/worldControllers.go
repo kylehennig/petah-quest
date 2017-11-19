@@ -2,19 +2,38 @@ package game
 
 //This is the file that will hold the entity controllers
 func movePlayer(world World, p player, dir byte) {
+	newX := p.entity.x
+	newY := p.entity.y
+
 	switch dir {
 	case 0: // 0000   north
-		p.entity.y--
+		newY--
 		break
 	case 1: // 0001   east
-		p.entity.x++
+		newX++
 		break
 	case 2: // 0010   south
-		p.entity.y++
+		newY++
 		break
 	case 3: // 0011   west
-		p.entity.x--
+		newX--
 		break
+	}
+	tile := world.worldMap.tiles[newX + newY * world.worldMap.width]
+	isAboutToCrash := false
+	switch tile {
+	case 'W':
+		isAboutToCrash = true
+	case '#':
+		isAboutToCrash = true
+	case 't':
+		isAboutToCrash = true
+	}
+
+	if !isAboutToCrash{
+		// move
+		p.entity.x = newX
+		p.entity.y = newY
 	}
 	moveEntity(world, p.entity.id, p.entity.x, p.entity.y)
 }

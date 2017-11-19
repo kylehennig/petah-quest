@@ -7,18 +7,43 @@
 
 #include "net.h"
 #include "draw.h"
+#include "hud.h"
 
 
 void keyboard_controller(int sockfd) {
     char keypress = getchar();
 
-    // switch (keypress) {
-    //     case 'w':
-    //         break;
-    //     case 'a':
-    //         break;
-    // }
-    printf("pressed %c\n", keypress);
+    if (keypress >= '1' && keypress <= '9') {
+        draw_weapon_sel(keypress - '1');
+    } else {
+        switch (keypress) {
+            case 'w':
+                send_move(sockfd, NORTH);
+                break;
+            case 'a':
+                send_move(sockfd, WEST);
+                break;
+            case 's':
+                send_move(sockfd, SOUTH);
+                break;
+            case 'd':
+                send_move(sockfd, EAST);
+                break;
+
+            case 'w':
+                send_action(sockfd, NORTH);
+                break;
+            case 'a':
+                send_action(sockfd, WEST);
+                break;
+            case 's':
+                send_action(sockfd, SOUTH);
+                break;
+            case 'd':
+                send_action(sockfd, EAST);
+                break;
+        }
+    }
 }
 
 

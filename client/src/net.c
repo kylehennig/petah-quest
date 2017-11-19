@@ -73,3 +73,9 @@ void send_move(int sockfd, enum dir dir) {
     uint8_t msg = MOVE | dir;
     write(sockfd, &msg, sizeof(uint8_t));
 }
+
+
+void send_action(int sockfd, enum dir dir) {
+    uint8_t msg = ACTION | dir;
+    write(sockfd, &msg, sizeof(uint8_t));
+}

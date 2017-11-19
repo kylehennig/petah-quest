@@ -47,9 +47,9 @@ func addPlayer(conn net.TCPConn, world *World) {
 	sendNewEntity(conn, newEntity.id, newEntity.gameType.drawChar, newEntity.gameType.colour, newEntity.x, newEntity.y)
 	sendPlayerHealth(conn, 100)
 
-	for _, entity := range world.entities {
-		sendNewEntity(conn, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
-	}
+	//for _, entity := range world.entities {
+	//	sendNewEntity(conn, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
+	//}
 	//runTests(conn)
 }
 

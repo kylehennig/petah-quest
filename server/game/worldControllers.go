@@ -37,7 +37,7 @@ func movePlayer(world World, p player, dir byte) {
 	}
 	moveEntity(world, p.entity.id, p.entity.x, p.entity.y)
 }
-func interactPlayer(p player, dir byte) {
+func interactPlayer(world World, p player, dir byte) {
 	// TODO: add attacking and basically everything
 	switch dir {
 	case 0: // 0000   north

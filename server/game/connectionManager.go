@@ -77,7 +77,7 @@ func ListenToPlayers(world World) {
 			// send new player position to all people
 			break
 		case 0x20: // Interact
-			interactPlayer(p, b&0x0F)
+			interactPlayer(world, p, b&0x0F)
 			break
 		case 0x30: // Switch Weapons
 			p.entity.gameType.weapon = getWeaponByID(b & 0x0F)

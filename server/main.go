@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/kylehennig/petah-quest/server/network"
 	"github.com/kylehennig/petah-quest/server/game"
+	"github.com/kylehennig/petah-quest/server/network"
 )
 
 func main() {

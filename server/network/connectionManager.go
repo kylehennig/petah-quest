@@ -7,7 +7,6 @@ import (
 	"github.com/kylehennig/petah-quest/server/game"
 )
 
-
 type PlayerConnection struct {
 	player     game.Entity
 	connection net.Conn
@@ -24,7 +23,7 @@ func CreateServer() net.Listener {
 }
 
 // CheckForNewPlayers allows players to join
-func CheckForNewPlayers(ln net.Listener, connections []PlayerConnection){
+func CheckForNewPlayers(ln net.Listener, connections []PlayerConnection) {
 	conn, err := ln.Accept()
 	if err != nil {
 		// handle error

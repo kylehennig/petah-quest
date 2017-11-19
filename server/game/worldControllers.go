@@ -8,16 +8,12 @@ func movePlayer(world *World, p *player, dir byte) {
 	switch dir {
 	case 0: // 0000   north
 		newY--
-		break
 	case 1: // 0001   east
 		newX++
-		break
 	case 2: // 0010   south
 		newY++
-		break
 	case 3: // 0011   west
 		newX--
-		break
 	}
 	tile := world.worldMap.tiles[newX+newY*world.worldMap.width]
 	isAboutToCrash := false

@@ -63,17 +63,17 @@ func runTests(conn net.TCPConn) {
 	sendDeleteEntity(conn, 0)
 }
 func ListenToPlayers(world *World) {
-	for _, p := range world.players {
-		b := readConnection(p.playerCon)[0]
+	for i := 0; i < len(world.players); i++  {
+
+		b := readConnection(world.players[i].playerCon)[0]
 		switch b & 0xF0 {
 		case 0x00: // Nothing
 		case 0x10: // Move
-			movePlayer(world, &p, b&0x0F)
-			// send new player position to all people
+			movePlayer(world, &world.players[i], b&0x0F)
 		case 0x20: // Interact
-			interactPlayer(world, &p, b&0x0F)
+			interactPlayer(world, &world.players[i], b&0x0F)
 		case 0x30: // Switch Weapons
-			p.entity.gameType.weapon = getWeaponByID(b & 0x0F)
+			world.players[i].entity.gameType.weapon = getWeaponByID(b & 0x0F)
 		}
 	}
 

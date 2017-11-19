@@ -1,15 +1,13 @@
-package network
+package game
 
 import (
-	"fmt"
 	"net"
-
-	"github.com/kylehennig/petah-quest/server/game"
+	"fmt"
 	"time"
 )
 
 type PlayerConnection struct {
-	player     game.Entity
+	player     Entity
 	connection net.Conn
 }
 
@@ -38,11 +36,30 @@ func addPlayer(conn net.Conn, connections []PlayerConnection) {
 	// add a new playerConnection to connection list
 	b := make([]byte, 1)
 	conn.Read(b)
-	newEntity := game.NewPlayer(b[0])
+	newEntity := NewPlayer(b[0])
 	newConnection := PlayerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
-	sendMap(conn, game.GetMap())
 	conn.SetReadDeadline(time.Now().Add(time.Second*5))
-	fmt.Println(readConnection(conn))
-	sendPlayerHealth(conn, 65)
+	sendMap(conn, GetMap())
+	time.Sleep(time.Second)
+}
+
+func ListenToPlayers(world World){
+	for _, p := range world.players{
+		b := readConnection(p.playerCon.connection)[0]
+		switch b & 0xF0 {
+		case 0x00: // Nothing
+			break
+		case 0x10: // Move
+			movePlayer(p, b & 0x0F)
+			// send new player position to all people
+			break
+		case 0x20: // Interact
+			interactPlayer(p, b & 0x0F)
+			break
+		case 0x30: // Switch Weapons
+			p.entity.gameType.weapon = getWeaponByID(b & 0x0F)
+			break
+		}
+	}
 }

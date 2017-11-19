@@ -4,18 +4,18 @@ import (
 	"fmt"
 
 	"github.com/kylehennig/petah-quest/server/game"
-	"github.com/kylehennig/petah-quest/server/network"
 )
 
 func main() {
 	fmt.Println("hello world")
-	connections := make([]network.PlayerConnection, 0)
+	connections := make([]game.PlayerConnection, 0)
 
-	ln := network.CreateServer()
+	ln := game.CreateServer()
 	world := game.CreateWorld()
 
 	for {
-		network.CheckForNewPlayers(ln, connections)
+		game.CheckForNewPlayers(ln, connections)
+		game.ListenToPlayers(world)
 		game.UpdateWorld(world)
 	}
 }

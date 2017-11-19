@@ -3,7 +3,11 @@ package game
 type World struct {
 	worldMap WorldMap
 	entities []Entity
-	players  []Entity
+	players  []player
+}
+type player struct {
+	entity Entity
+	playerCon PlayerConnection
 }
 
 func GetAvailableID() int {
@@ -16,5 +20,6 @@ func CreateWorld() World {
 }
 
 func UpdateWorld(world World) {
+
 
 }

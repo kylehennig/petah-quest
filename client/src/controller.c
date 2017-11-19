@@ -23,7 +23,7 @@ void keyboard_controller(int sockfd) {
 
 
 void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
-    enum srv_cmd cmd = read_cmd(sockfd);
+    uint8_t cmd = read_cmd(sockfd);
 
     switch (cmd) {
         case FLASH: {

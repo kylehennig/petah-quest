@@ -5,7 +5,13 @@
 #include <stdint.h>
 
 enum srv_cmd {
-    NEW, DELETE, TEXT, MOVE, UPDATE, HEALTH, FLASH
+    NEW = 0,
+    DELETE = 1,
+    TEXT = 2,
+    MOVE = 3,
+    UPDATE = 4,
+    HEALTH = 5,
+    FLASH = 6
 };
 
 int handshake(struct map *map, char ch, int sockfd);
@@ -22,9 +28,9 @@ void get_health(int sockfd, uint8_t *health);
 
 enum dir {NORTH, EAST, SOUTH, WEST};
 
-#define MOVE 0b00010000
+#define MOVE_MASK 0b00010000
 void send_move(int sockfd, enum dir dir);
-#define ACTION 0b00100000
+#define ACTION_MASK 0b00100000
 void send_action(int sockfd, enum dir dir);
 
 #endif

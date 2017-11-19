@@ -73,12 +73,12 @@ void get_health(int sockfd, uint8_t *health){
 
 
 void send_move(int sockfd, enum dir dir) {
-    uint8_t msg = MOVE | dir;
+    uint8_t msg = MOVE_MASK | dir;
     write(sockfd, &msg, sizeof(uint8_t));
 }
 
 
 void send_action(int sockfd, enum dir dir) {
-    uint8_t msg = ACTION | dir;
+    uint8_t msg = ACTION_MASK | dir;
     write(sockfd, &msg, sizeof(uint8_t));
 }

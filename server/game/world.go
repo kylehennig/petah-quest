@@ -1,9 +1,16 @@
 package game
 
+import "time"
+
 type World struct {
-	worldMap WorldMap
-	entities []Entity
-	players  []Entity
+	worldMap    WorldMap
+	players     []player
+	entities    []Entity
+	projectiles []Projectile
+}
+type player struct {
+	entity    Entity
+	playerCon PlayerConnection
 }
 
 func GetAvailableID() int {
@@ -15,6 +22,8 @@ func CreateWorld() World {
 	return myWorld
 }
 
-func UpdateWorld(world World) {
-
+func UpdateWorld(world World, deltaNano time.Duration) {
+	for _, projectile := range world.projectiles {
+		projectile.update(deltaNano)
+	}
 }

@@ -16,12 +16,15 @@ int handshake(struct map *map, char ch, int sockfd) {
     if (read(sockfd, map->map, map->height*map->width) == 0) {
         exit(1);
     }
+
 }
 
 
 enum srv_cmd read_cmd(int sockfd) {
     uint8_t val;
-    read(sockfd, &val, sizeof(uint8_t));
+    if(read(sockfd, &val, sizeof(uint8_t)) == 0) {
+        exit(0);
+    }
     return val;
 }
 
@@ -44,11 +47,10 @@ void get_delete(int sockfd, uint32_t *id){
 	read(sockfd, id, sizeof(uint32_t));
 }
 
-void get_text(int sockfd, size_t *len, char **str){
-	read(sockfd, len, sizeof(size_t));
+void get_text(int sockfd, uint32_t *len, char **str){
+	read(sockfd, len, sizeof(uint32_t));
 	*str = malloc(*len);
 	read(sockfd, *str, *len);
-
 }
 
 void get_move(int sockfd, uint32_t *id, uint32_t *x, uint32_t *y){
@@ -66,4 +68,16 @@ void get_update(int sockfd, uint32_t *id, char *ch, uint8_t *colour){
 
 void get_health(int sockfd, uint8_t *health){
 	read(sockfd, health, sizeof(uint8_t));
+}
+
+
+void send_move(int sockfd, enum dir dir) {
+    uint8_t msg = MOVE_MASK | dir;
+    write(sockfd, &msg, sizeof(uint8_t));
+}
+
+
+void send_action(int sockfd, enum dir dir) {
+    uint8_t msg = ACTION_MASK | dir;
+    write(sockfd, &msg, sizeof(uint8_t));
 }

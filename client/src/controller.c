@@ -9,8 +9,21 @@
 #include "draw.h"
 
 
+void keyboard_controller(int sockfd) {
+    char keypress = getch();
+
+    // switch (keypress) {
+    //     case 'w':
+    //         break;
+    //     case 'a':
+    //         break;
+    // }
+    printf("pressed %c\n", keypress);
+}
+
+
 void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
-    enum srv_cmd cmd = read_cmd(sockfd);
+    uint8_t cmd = read_cmd(sockfd);
 
     switch (cmd) {
         case FLASH: {
@@ -42,14 +55,14 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
         case DELETE: {
             uint32_t id;
             get_delete(sockfd, &id);
-            printf("id: %i", id);
+            printf("id: %i\n", id);
             break;
         }
         case TEXT: {
-            size_t len;
+            uint32_t len;
             char *str;
             get_text(sockfd, &len, &str);
-            write(STDOUT_FILENO, str, len);
+            printf("%s\n", str);
             free(str);
             break;
         }
@@ -72,6 +85,10 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
             get_health(sockfd, &health);
             printf("health: %i\n", health);
             break;
+        }
+        default: {
+            fprintf(stderr, "invalid server command %i\n", cmd);
+            exit(1);
         }
     }
 }

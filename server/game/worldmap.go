@@ -1,8 +1,8 @@
 package game
 
 type WorldMap struct {
-	width  int
-	height int
+	width  int32
+	height int32
 	tiles  []byte
 }
 
@@ -10,10 +10,10 @@ func (wMap WorldMap) ToBytes() []byte {
 	bytes := make([]byte, 0)
 
 	// add width to stream
-	bytes = append(bytes, intToBytes(wMap.width)...)
+	bytes = append(bytes, Int32ToBytes(wMap.width)...)
 
 	// add height to stream
-	bytes = append(bytes, intToBytes(wMap.height)...)
+	bytes = append(bytes, Int32ToBytes(wMap.height)...)
 
 	bytes = append(bytes, wMap.tiles...)
 
@@ -22,12 +22,4 @@ func (wMap WorldMap) ToBytes() []byte {
 
 func GetMap() WorldMap {
 	return loadMap()
-}
-func intToBytes(n int) []byte {
-	bytes := make([]byte, 4)
-	bytes[3] = (byte)((n >> 24) & 0xFF)
-	bytes[2] = (byte)((n >> 16) & 0xFF)
-	bytes[1] = (byte)((n >> 8) & 0xFF)
-	bytes[0] = (byte)(n & 0xFF)
-	return bytes
 }

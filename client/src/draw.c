@@ -50,6 +50,7 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 	init_pair(3,COLOR_WHITE, COLOR_BLUE); //water
 	init_pair(4,COLOR_GREEN, COLOR_BLACK); //grass
 	init_pair(5,COLOR_BLACK, COLOR_YELLOW);
+	init_pair(20,COLOR_WHITE,COLOR_WHITE);//white
 	//wbkgd(WindowName, COLOR_PAIR(1))
 
 	/*how to do colors off of stack exchange
@@ -90,9 +91,9 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 		break;
 
 		case '#': //wall
-		attron(COLOR_PAIR(1));
-		mvprintw(screenDesty,screenDestx,"#");
-		attroff(COLOR_PAIR(1));
+		attron(COLOR_PAIR(20));
+		mvaddch(screenDesty,screenDestx,' ');
+		attroff(COLOR_PAIR(20));
 		refresh();
 		break;
 

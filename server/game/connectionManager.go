@@ -48,6 +48,7 @@ func addPlayer(conn net.TCPConn, connections []PlayerConnection, world World) {
 	connections = append(connections, newConnection)
 	sendMap(conn, world.worldMap)
 	conn.Write(Int32ToBytes(newEntity.id))
+	sendNewEntity(conn, newEntity.id, newEntity.gameType.drawChar, newEntity.gameType.colour, newEntity.x, newEntity.y)
 	sendPlayerHealth(conn, 100)
 
 	for _,entity := range world.entities {

@@ -158,6 +158,8 @@ func MoveToPlayer(e *Entity, p player, world *World) {
 		}
 
 		if !isAboutToCrash {
+			e.x = newX
+			e.y = newY
 			moveEntity(world, e.id, e.x, e.y)
 		}
 	}

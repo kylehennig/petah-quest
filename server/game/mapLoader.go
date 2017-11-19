@@ -7,7 +7,7 @@ import (
 
 func loadMap() WorldMap {
 	// Load the map as is from the file.
-	dirtyTiles, err := ioutil.ReadFile("../map.txt")
+	dirtyTiles, err := ioutil.ReadFile("../testMap.txt")
 	if err != nil {
 		fmt.Println("Error: Could not read the map from disk.")
 		panic(err)

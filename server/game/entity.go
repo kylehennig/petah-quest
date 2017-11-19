@@ -20,6 +20,8 @@ type Entity struct {
 	gameType Type
 }
 
+
+
 type Type struct{
 	colour byte
 	drawChar byte

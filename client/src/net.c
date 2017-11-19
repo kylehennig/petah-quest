@@ -47,11 +47,10 @@ void get_delete(int sockfd, uint32_t *id){
 	read(sockfd, id, sizeof(uint32_t));
 }
 
-void get_text(int sockfd, size_t *len, char **str){
-	read(sockfd, len, sizeof(size_t));
+void get_text(int sockfd, uint32_t *len, char **str){
+	read(sockfd, len, sizeof(uint32_t));
 	*str = malloc(*len);
 	read(sockfd, *str, *len);
-
 }
 
 void get_move(int sockfd, uint32_t *id, uint32_t *x, uint32_t *y){

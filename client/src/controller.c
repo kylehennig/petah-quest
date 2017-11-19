@@ -25,6 +25,7 @@ void keyboard_controller(int sockfd) {
 void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
     uint8_t cmd = read_cmd(sockfd);
 
+    printf("cmd: %i, TEXT: %i\n", cmd, TEXT);
     switch (cmd) {
         case FLASH: {
             uint32_t x, y;
@@ -59,10 +60,10 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
             break;
         }
         case TEXT: {
-            size_t len;
+            uint32_t len;
             char *str;
             get_text(sockfd, &len, &str);
-            write(STDOUT_FILENO, str, len);
+            printf("%s\n", str);
             free(str);
             break;
         }

@@ -11,6 +11,7 @@
 
 #include "net.h"
 #include "controller.h"
+#include "hud.h"
 
 
 int main(int argc, char *argv[]) {
@@ -47,6 +48,8 @@ int main(int argc, char *argv[]) {
     //raw();
     curs_set(0);
     noecho();
+
+    draw_weapon_sel(0);
 
     while (1) {
         poll(fds, 2, -1);

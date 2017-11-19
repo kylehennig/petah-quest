@@ -74,10 +74,10 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 }
 
 func arrow(x int32, y int32, ch byte, world *World, damage int) Projectile {
-	return Projectile{x, y, ch, ch,COLOUR_WHT, 5, 0, byte(damage), GetAvailableID(world), false}
+	return Projectile{x, y, ch, ch,COLOUR_WHT, 10, 0, byte(damage), GetAvailableID(world), false}
 }
 func AddNinjaStars(x int32, y int32, move byte, world *World, damage int) Projectile {
-	return Projectile{x, y, '*', move,COLOUR_WHT, 10, 0, byte(255), GetAvailableID(world), false}
+	return Projectile{x, y, '*', move,COLOUR_WHT, 15, 0, byte(255), GetAvailableID(world), false}
 }
 
 func arrowLeft(x int32, y int32, world *World, damage int) Projectile {

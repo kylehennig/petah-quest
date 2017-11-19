@@ -40,8 +40,6 @@ func CheckForNewPlayers(ln net.TCPListener, connections []PlayerConnection) {
 
 func addPlayer(conn net.TCPConn, connections []PlayerConnection) {
 
-	conn.SetNoDelay(true)
-	conn.SyscallConn()// XXX: I don't think this does anything, but it worked
 	// add a new playerConnection to connection list
 	b := make([]byte, 1)
 	conn.Read(b)
@@ -49,10 +47,8 @@ func addPlayer(conn net.TCPConn, connections []PlayerConnection) {
 	newConnection := PlayerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
 	sendMap(conn, GetMap())
-	//time.Sleep(time.Second)
-	sendPlayerHealth(conn,65)
+	sendPlayerHealth(conn,100)
 
-	//conn.Close()
 }
 
 func ListenToPlayers(world World){

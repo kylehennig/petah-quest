@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-int handshake(struct map *map, char ch, int sockfd) {
+int handshake(struct map *map, char ch, uint32_t *id,int sockfd) {
     write(sockfd, &ch, sizeof(char));
     if (read(sockfd, &map->width, sizeof(uint32_t)) == 0) {
         exit(1);
@@ -17,6 +17,7 @@ int handshake(struct map *map, char ch, int sockfd) {
         exit(1);
     }
 
+    read(sockfd, id, sizeof(uint32_t));
 }
 
 

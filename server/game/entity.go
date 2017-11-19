@@ -1,6 +1,5 @@
 package game
 
-
 const (
 	COLOUR_BLK byte = iota
 	COLOUR_RED
@@ -12,11 +11,20 @@ const (
 	COLOUR_WHT
 )
 
+const (
+	GOBLIN byte = iota
+	WOLF
+	GOBLINBOSS
+	PIRANHAPLANT
+	ELF
+	NINJA
+	FINALBOSS
+)
+
 type Entity struct {
-	id     int
-	x      int
-	y      int
-	health int
+	id int32
+	x  int32
+	y  int32
 
 	gameType Type
 }
@@ -61,26 +69,26 @@ func finalBoss() Type {
 
 func getTypeByID(id byte) Type {
 	switch id {
-	case 0:
+	case GOBLIN:
 		return goblin()
-	case 1:
+	case WOLF:
 		return wolf()
-	case 2:
+	case GOBLINBOSS:
 		return goblinBoss()
-	case 3:
+	case PIRANHAPLANT:
 		return piranhaPlant()
-	case 4:
+	case ELF:
 		return elf()
-	case 5:
+	case NINJA:
 		return ninja()
-	case 6:
+	case FINALBOSS:
 		return finalBoss()
 	default:
 		panic("Invalid type id.")
 	}
 }
 
-func NewPlayer(ch byte) Entity {
+func NewPlayer(ch byte, world World) Entity {
 	playerType := Type{ch, COLOUR_WHT, 100, 5, 255, fist()}
-	return Entity{GetAvailableID(), 0, 0, 100, playerType}
+	return Entity{GetAvailableID(world), 126, 84, playerType}
 }

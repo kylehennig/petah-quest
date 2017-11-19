@@ -121,14 +121,8 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 
 }
 
-//draws an entitie at a specified map location
-void draw_entities_screen(struct entity_list *list, uint32_t x, uint32_t y){
-
-}
-
-
+//draw entity ONLY IF entity is on player screen
 void draw_entity(struct entity *ent){
-
 
 	int32_t mapX = ent->x;
 	int32_t mapY = ent->y;
@@ -141,11 +135,10 @@ void draw_entity(struct entity *ent){
 	uint32_t screenDestx = mapX - mapTopLeftX;
 	uint32_t screenDesty = mapY - mapTopLeftY;
 
-	//how to do colors off of stack exchange
-	start_color();
-	init_pair(16, color, COLOR_BLACK); //COLOR WILL THROW ERROR
-	attron(COLOR_PAIR(16)); // use the above combination
-	mvaddch(screenDesty,screenDestx,c);
-	attroff(COLOR_PAIR(16)); // turn color off
 
+		start_color();
+		init_pair(18, color, COLOR_BLACK); //COLOR WILL THROW ERROR
+		attron(COLOR_PAIR(18)); // use the above combination
+		mvaddch(screenDesty,screenDestx,c);
+		attroff(COLOR_PAIR(18)); // turn color off
 }

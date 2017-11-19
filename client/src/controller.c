@@ -48,7 +48,7 @@ void keyboard_controller(int sockfd) {
 }
 
 
-void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
+void server_controller(int sockfd, struct map *map, struct entity_list *elist, uint32_t id) {
     uint8_t cmd = read_cmd(sockfd);
 
     switch (cmd) {

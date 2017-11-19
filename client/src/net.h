@@ -14,7 +14,7 @@ enum srv_cmd {
     FLASH = 6
 };
 
-int handshake(struct map *map, char ch, int sockfd);
+int handshake(struct map *map, char ch, uint32_t *id, int sockfd);
 
 enum srv_cmd read_cmd(int sockfd);
 

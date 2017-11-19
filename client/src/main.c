@@ -42,6 +42,11 @@ int main(int argc, char *argv[]) {
         { .fd=sock,         .events=POLLIN | POLLPRI, .revents=0 }
     };
 
+
+    initscr();
+    raw();
+    noecho();
+
     while (1) {
         poll(fds, 2, -1);
         if (fds[0].revents & (POLLIN|POLLPRI)) {
@@ -51,11 +56,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // initscr();
-    // raw();
-    // noecho();
-    //
-    //
-    // endwin();
+    endwin();
     return 0;
 }

@@ -16,6 +16,9 @@ int handshake(struct map *map, char ch, int sockfd) {
     if (read(sockfd, map->map, map->height*map->width) == 0) {
         exit(1);
     }
+
+    char ack = 'a';
+    write(sockfd, &ack, sizeof(char));
 }
 
 

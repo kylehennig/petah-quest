@@ -24,7 +24,7 @@ void draw_weapon_sel(uint8_t weapon) {
 
     //load highlighted
     attron(COLOR_PAIR(11));
-    mvaddch(CHUNK_HEIGHT,weapon+MAX_HEALTH,weapons[weapon]);
+    mvaddch(CHUNK_HEIGHT,weapon+MAX_HEALTH+1,weapons[weapon]);
     attroff(COLOR_PAIR(10));
 }
 

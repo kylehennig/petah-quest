@@ -45,6 +45,7 @@ int main(int argc, char *argv[]) {
 
     initscr();
     //raw();
+    curs_set(0);
     noecho();
 
     while (1) {

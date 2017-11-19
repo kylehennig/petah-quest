@@ -13,8 +13,9 @@
 void keyboard_controller(int sockfd) {
     char keypress = getch();
 
-    if (keypress >= '1' && keypress <= '9') {
+    if (keypress >= '1' && keypress <= '8') {
         draw_weapon_sel(keypress - '1');
+        refresh();
         send_switch(sockfd, keypress - '1');
     } else {
         switch (keypress) {

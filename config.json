@@ -1,23 +1,93 @@
 {
+    "npc": [{
+        "name": "Francis Fiddlestick",
+        "x": 1,
+        "y": 2,
+        "msg": "Welcome, traveler, to the town of Rho Gliec.
+				Would you by any chance have a pan cleaner? My food
+				has unfortunatley come out charcoal black as of late...
+				Oh! My name is Francis Fiddlestick.
+				Uh, watch out for the elves, they're nasty foes."
+    }, {
+        "name": "Phil von Phylum",
+        "x": 1,
+        "y": 2,
+        "msg": "Weeeeeelcome! HAHAHA! My name is Phil,
+				Phil Phylum! I just looove salad. Have you heard
+				of the maneating plants around here? They're vicious,
+				but make a very tasty addition to a good salad if
+				dressed right..."
+    }, {
+        "name": "Gerbo",
+        "x": 1,
+        "y": 2,
+        "msg": "[Blank Stare]"
+    }, {
+        "name": "Rowena Mandelbrot",
+        "x": 1,
+        "y": 2,
+        "msg": "Well aren't you a brave soul!
+				You must be brave to come here, what with all
+				the terrible beasts which roam around. If you're
+				feeling extra brave, go seek the King of the Goblins,
+				he has a mighty suit of armour with him."
+    }],
+    "enemy": [{
+        "enemy_type": "goblin",
+        "health": 10,
+        "speed": 5,
+        "aggro": 5,
+        "damage": 10,
+        "symbol": "g",
+        "colour": 2
 
-	"tiles": [{
-		"map_token": ",",
-		"foreground_colour": 2,
-		"background_colour": 0,
-		"render_token": ",",
-		"passable": true
-	}],
-	"npc": [{
-		"x": 1,
-		"y": 2,
-		"msg": "MESSAGE"
-	}, {
-		"x": 1,
-		"y": 2,
-		"msg": "MESSAGE"
-	}, {
-		"x": 1,
-		"y": 2,
-		"msg": "MESSAGE"
-	}]
+    }, {
+        "enemy_type": "wolf",
+        "health": 10,
+        "speed": 7,
+        "aggro": 20,
+        "damage": 10,
+        "symbol": "w",
+        "colour": "white"
+    }, {
+        "enemy_type": "goblin boss",
+        "health": 100,
+        "speed": 3,
+        "aggro": 5,
+        "damage": 50,
+        "symbol": "h",
+        "colour": 3
+    }, {
+        "enemy_type": "piranha plant",
+        "health": 50,
+        "speed": 0,
+        "aggro": 1,
+        "damage": 50,
+        "symbol": "p",
+        "colour": 1
+    }, {
+        "enemy_type": "wood elf",
+        "health": 120,
+        "speed": 5,
+        "aggro": 20,
+        "damage": 50,
+        "symbol": "e",
+        "colour": 4
+    }, {
+        "enemy_type": "ninja",
+        "health": 100,
+        "speed": 6,
+        "aggro": 10,
+        "damage": 75,
+        "symbol": "n",
+        "colour": 0
+    }, {
+        "enemy_type": "final boss",
+        "health": 500,
+        "speed": 6,
+        "aggro": 10,
+        "damage": 125,
+        "symbol": "b",
+        "colour": 3
+    }]
 }

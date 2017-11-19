@@ -86,5 +86,9 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
             printf("health: %i\n", health);
             break;
         }
+        default: {
+            fprintf(stderr, "invalid server command %i\n", cmd);
+            exit(1);
+        }
     }
 }

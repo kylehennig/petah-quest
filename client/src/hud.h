@@ -2,6 +2,7 @@
 #define HUD_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 enum weapon { BOW, RCBOW, SWORD, DAGGAR, NSTAR, CLUB, WHIP, FIST };
 

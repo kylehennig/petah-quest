@@ -12,6 +12,7 @@
 #include "controller.h"
 #include "draw.h"
 #include "entity.h"
+#include "hud.h"
 
 //key definitions
 #define LEFT               68
@@ -40,7 +41,7 @@ int main(int argc, char *argv[]) {
 	//draw_map_at(&fakemap,50,50);//player co-ords, map auto drawn
 	uint32_t x = 126;//sweet spot on spwn
 	uint32_t y = 84;
-
+	draw_health(4);
 
 	while(true){
 		int cha = getch();

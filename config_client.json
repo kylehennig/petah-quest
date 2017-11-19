@@ -1,0 +1,45 @@
+{
+	"tiles": [{
+		"tile_type": "grass",
+		"map_token": ",",
+		"foreground_colour": 2,
+		"background_colour": 0,
+		"render_token": ",",
+		"passable": true
+	},{
+		"tile_type": "wall",
+		"map_token": "#",
+		"foreground_colour": 7,
+		"background_colour": 0,
+		"render_token": " ",
+		"passable": false
+	},{
+		"tile_type": "spike",
+		"map_token": "M",
+		"foreground_colour": 2,
+		"background_colour": 0,
+		"render_token": "M",
+		"passable": true
+	},{
+		"tile_type": "water",
+		"map_token": "W",
+		"foreground_colour": 7,
+		"background_colour": 4,
+		"render_token": "~",
+		"passable": false,
+	},{
+		"tile_type": "lava",
+		"map_token": "~",
+		"foreground_colour": 1,
+		"background_colour": 0,
+		"render_token": "~",
+		"passable": true
+	},{
+		"tile_type": "tree",
+		"map_token": "t",
+		"foreground_colour": 2,
+		"background_colour": 0,
+		"render_token": "%",
+		"passable": false
+	}]
+}

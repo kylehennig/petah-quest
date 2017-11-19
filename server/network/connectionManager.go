@@ -1,11 +1,11 @@
 package network
 
 import (
-	"bufio"
 	"fmt"
 	"net"
 
 	"github.com/kylehennig/petah-quest/server/game"
+	"time"
 )
 
 type PlayerConnection struct {
@@ -36,9 +36,13 @@ func CheckForNewPlayers(ln net.Listener, connections []PlayerConnection) {
 
 func addPlayer(conn net.Conn, connections []PlayerConnection) {
 	// add a new playerConnection to connection list
-	ch, _ := bufio.NewReader(conn).ReadByte()
-	newEntity := game.NewPlayer(ch)
+	b := make([]byte, 1)
+	conn.Read(b)
+	newEntity := game.NewPlayer(b[0])
 	newConnection := PlayerConnection{newEntity, conn}
 	connections = append(connections, newConnection)
 	sendMap(conn, game.GetMap())
+	conn.SetReadDeadline(time.Now().Add(time.Second*5))
+	fmt.Println(readConnection(conn))
+	sendPlayerHealth(conn, 65)
 }

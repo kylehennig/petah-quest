@@ -1,7 +1,6 @@
 package game
 
 import (
-	"fmt"
 	"net"
 )
 
@@ -24,8 +23,6 @@ func GetAvailableID(world *World) int32 { // TODO: recycle ID's
 		b := world.availableID[i]
 		if b {
 			world.availableID[i] = false
-			fmt.Print("Allocating ID: ")
-			fmt.Println(i)
 			return int32(i)
 		}
 	}
@@ -68,11 +65,11 @@ func CreateWorld() World {
 
 func UpdateWorld(world *World, deltaNano uint64) {
 	for i := len(world.projectiles) - 1; i >= 0; i-- {
-		world.projectiles[i].update(deltaNano, world)
-
 		if world.projectiles[i].killMeNow {
 			deleteEntity(world, world.projectiles[i].id)
 			world.projectiles = append(world.projectiles[:i], world.projectiles[i+1:]...)
+		}else{
+			world.projectiles[i].update(deltaNano, world)
 		}
 	}
 	for _, entities := range world.projectiles {

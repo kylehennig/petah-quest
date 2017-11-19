@@ -19,8 +19,6 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 	p.timePassed += deltaNano
 	// Move the projectile one tile in the direction it's facing every 1/speed seconds.
 
-	fmt.Println(p.timePassed)
-
 	if p.timePassed > 1000000000/p.speed {
 		p.timePassed %= 1000000000 / p.speed
 		if p.drawChar == '<' {
@@ -36,28 +34,30 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 		tile := world.worldMap.tiles[p.x+p.y*world.worldMap.width]
 		isAboutToCrash := false
 		switch tile {
-		case 'W':
-			isAboutToCrash = true
 		case '#':
 			isAboutToCrash = true
 		case 't':
 			isAboutToCrash = true
 		}
 
+
 		for i := len(world.entities) - 1; i != 0; i-- {
-			e := world.entities[i]
-			if e.x == p.x && e.y == p.y {
+			if world.entities[i].x == p.x && world.entities[i].y == p.y {
+				isAboutToCrash = true
 				isDead := false
 				if world.entities[i].gameType.health < p.damage {
 					isDead = true
+					isAboutToCrash = true
 				}
 				world.entities[i].gameType.health -= p.damage
-				fmt.Println(e.gameType.health)
+				fmt.Println(world.entities[i].gameType.health)
 
 				if isDead {
-					deleteEntity(world, e.id)
+					deleteEntity(world, world.entities[i].id)
 					world.entities = append(world.entities[:i], world.entities[i+1:]...)
+					isAboutToCrash = true
 				}
+				isAboutToCrash = true
 				isAboutToCrash = true
 			}
 
@@ -69,6 +69,7 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 		}
 
 	}
+
 }
 
 func arrow(x int32, y int32, ch byte, world *World, damage int) Projectile {

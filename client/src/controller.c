@@ -67,7 +67,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
 
             if (id >= elist->size) {
                 size_t new_size = elist->size * ELIST_FACTOR;
-                elist->list = realloc(new_size * sizeof(struct entity));
+                elist->list = realloc(elist->list, new_size * sizeof(struct entity));
                 elist->size = new_size;
             }
 

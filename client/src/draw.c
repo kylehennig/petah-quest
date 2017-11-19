@@ -2,15 +2,29 @@
 #include <stdint.h>
 #include "draw.h"
 
-//chunks
-void draw_map_at(struct entity_list *list, uint32_t x, uint32_t y){
+
+
+//renders a chunk
+void draw_map_at(struct map *map,uint32_t x, uint32_t y){
+
+	//find the coords of the map based off player coords
+	uint32_t mapTopLeftX = x-x%CHUNK_WIDTH;
+	uint32_t mapTopLeftY = y-y%CHUNK_HEIGHT;
+
+	//draws a chunk given the top left co-ordinates
+	for(uint32_t i = mapTopLeftX; i< mapTopLeftX+CHUNK_WIDTH; i++){
+		for(uint32_t j = mapTopLeftY; j < mapTopLeftY+CHUNK_HEIGHT; j++){
+			draw_map_character(map, i-mapTopLeftX,j-mapTopLeftY,i,j);
+		}
+
+	}
 
 
 }
 
 //draws a single character to the screen
 //takes in coords from global map as well as where to draw the character to the screen
-void draw_character(struct map *map, uint32_t screenDestx, uint32_t screenDesty, uint32_t mapX, uint32_t mapY){
+void draw_map_character(struct map *map, uint32_t screenDestx, uint32_t screenDesty, uint32_t mapX, uint32_t mapY){
 	//get character from map
 	//map.map is a 1D string
 	uint32_t dest = mapX + (map->width)*mapY;
@@ -31,6 +45,7 @@ void draw_character(struct map *map, uint32_t screenDestx, uint32_t screenDesty,
 	init_pair(2,COLOR_BLACK, COLOR_RED); //lava
 	init_pair(3,COLOR_WHITE, COLOR_BLUE); //water
 	init_pair(4,COLOR_GREEN, COLOR_BLACK); //grass
+	init_pair(5,COLOR_BLACK, COLOR_YELLOW);
 	//wbkgd(WindowName, COLOR_PAIR(1))
 
 	/*how to do colors off of stack exchange
@@ -53,6 +68,13 @@ void draw_character(struct map *map, uint32_t screenDestx, uint32_t screenDesty,
 		attron(COLOR_PAIR(2));
 		mvprintw(screenDesty,screenDestx,"~");
 		attroff(COLOR_PAIR(2));
+		refresh();
+		break;
+
+		case 'T'://lava
+		attron(COLOR_PAIR(4));
+		mvprintw(screenDesty,screenDestx,"#");
+		attroff(COLOR_PAIR(4));
 		refresh();
 		break;
 
@@ -85,9 +107,9 @@ void draw_character(struct map *map, uint32_t screenDestx, uint32_t screenDesty,
 		break;
 
 		default:
-		attron(COLOR_PAIR(1));
+		attron(COLOR_PAIR(5));
 		mvprintw(screenDesty,screenDestx,"?");
-		attroff(COLOR_PAIR(1));
+		attroff(COLOR_PAIR(5));
 		refresh();
 
 		break;

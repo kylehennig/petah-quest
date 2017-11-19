@@ -65,7 +65,11 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist) {
             char ch;
             uint8_t colour;
 
-            // dedraw_entity(&elist->list[id]);
+            if (id >= elist->size) {
+                size_t new_size = elist->size * ELIST_FACTOR;
+                elist->list = realloc(new_size * sizeof(struct entity));
+                elist->size = new_size;
+            }
 
             get_new(sockfd, &id, &x, &y, &ch, &colour);
             elist->list[id].x = x;

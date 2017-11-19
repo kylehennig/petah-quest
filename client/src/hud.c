@@ -2,9 +2,9 @@
 #include <ncurses.h>
 #include "draw.h"
 
-
 #define MAX_HEALTH 10
 #define NUM_WEAPONS 8
+#define padded 2
 
 const char *weapons = ")}/-*!@O";
 
@@ -15,10 +15,11 @@ void draw_weapon_sel(uint8_t weapon) {
 
     //load whole white bar
     attron(COLOR_PAIR(10));
+    mvaddch(CHUNK_HEIGHT,MAX_HEALTH,' ');
     for(int i = 0; i < NUM_WEAPONS; i++){
-      mvaddch(CHUNK_HEIGHT,i+MAX_HEALTH,weapons[i]);
-
+      mvaddch(CHUNK_HEIGHT,i+MAX_HEALTH+1,weapons[i]);
     }
+    mvaddch(CHUNK_HEIGHT,MAX_HEALTH+1+NUM_WEAPONS,' ');
     attroff(COLOR_PAIR(10));
 
     //load highlighted
@@ -32,10 +33,6 @@ void draw_weapon_sel(uint8_t weapon) {
 void draw_health(uint8_t health){
   //how to do colors off of stack exchange
   start_color();
-   // create foreground / background combination
-
-   // turn color off
-  //
   init_pair(8, COLOR_WHITE, COLOR_GREEN);
   init_pair(9, COLOR_WHITE, COLOR_RED);
   //draw health bars
@@ -55,12 +52,9 @@ void draw_health(uint8_t health){
 }
 
 void show_text(char *txt){
-
   start_color();
 	init_pair(14, COLOR_BLACK, COLOR_WHITE); // create foreground / background combination
 	attron(COLOR_PAIR(14)); // use the above combination
-  mvprintw(CHUNK_HEIGHT,NUM_WEAPONS+MAX_HEALTH,txt);
+  mvprintw(CHUNK_HEIGHT,NUM_WEAPONS+MAX_HEALTH+padded,txt);
   attroff(COLOR_PAIR(14));
-
-
 }

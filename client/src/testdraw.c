@@ -53,31 +53,22 @@ int main(int argc, char *argv[]) {
 		if(cha == LEFT){
 			x--;
 			draw_map_at(&fakemap,x,y);
-
-
-
 		}
 		if(cha == UP){
 			y++;
 			draw_map_at(&fakemap,x,y);
 
-
 		}
 		if(cha == DOWN){
 			y--;
 			draw_map_at(&fakemap,x,y);
-
-
 		}
 		if(cha == RIGHT){
 			x++;
 			draw_map_at(&fakemap,x,y);
-
-
 		}
 		if(cha == ENTER_KEY){
 			break;
-
 		}
 
 		//draw char
@@ -87,7 +78,6 @@ int main(int argc, char *argv[]) {
 		mvprintw(y % CHUNK_HEIGHT,x % CHUNK_WIDTH,"A");
 		attroff(COLOR_PAIR(6)); // turn color off
 		refresh();
-
 	}
 
 	//map loaded
@@ -102,11 +92,6 @@ int main(int argc, char *argv[]) {
 
 	}
 	*/
-
-
-
-
-
 
 	refresh();
 	while(true){}

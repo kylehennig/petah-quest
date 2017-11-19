@@ -92,3 +92,7 @@ func NewPlayer(ch byte, world *World) Entity {
 	playerType := Type{ch, COLOUR_WHT, 100, 5, 255, fist()}
 	return Entity{GetAvailableID(world), 126, 84, playerType}
 }
+
+func createEntityToken(world *World, gt Type, x int32, y int32) Entity{
+	return Entity{GetAvailableID(world), x, y, gt}
+}

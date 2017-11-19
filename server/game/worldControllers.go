@@ -15,7 +15,7 @@ func movePlayer(world *World, p *player, dir byte) {
 	case 3: // 0011   west
 		newX--
 	}
-	if newX < world.worldMap.width && newX >= 0 && newY < world.worldMap.height && newY >= 0{
+	if newX < world.worldMap.width && newX >= 0 && newY < world.worldMap.height && newY >= 0 {
 		tile := world.worldMap.tiles[newX+newY*world.worldMap.width]
 		isAboutToCrash := false
 		switch tile {
@@ -27,6 +27,11 @@ func movePlayer(world *World, p *player, dir byte) {
 			isAboutToCrash = true
 		}
 
+		for _, e := range world.entities {
+			if e.x == newX && e.y == newY{
+				isAboutToCrash = true
+			}
+		}
 		if !isAboutToCrash {
 			// move
 			p.entity.x = newX

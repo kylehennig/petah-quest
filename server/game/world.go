@@ -44,32 +44,24 @@ func CreateWorld() World {
 	myWorld.worldMap = loadMap()
 	for x := int32(0); x < myWorld.worldMap.width; x++ {
 		for y := int32(0); y < myWorld.worldMap.height; y++ {
-			var entity Entity
-			shouldInit := true
 			switch myWorld.worldMap.tiles[x+y*myWorld.worldMap.width] {
 			case 'g':
-				entity.gameType = getTypeByID(GOBLIN)
+				myWorld.entities = append(myWorld.entities, createEntityToken(&myWorld, goblin(), x, y))
 			case 'w':
-				entity.gameType = getTypeByID(WOLF)
+				myWorld.entities = append(myWorld.entities, createEntityToken(&myWorld, wolf(), x, y))
 			case 'h':
-				entity.gameType = getTypeByID(GOBLINBOSS)
+				myWorld.entities = append(myWorld.entities, createEntityToken(&myWorld, goblinBoss(), x, y))
 			case 'p':
-				entity.gameType = getTypeByID(PIRANHAPLANT)
+				myWorld.entities = append(myWorld.entities, createEntityToken(&myWorld, piranhaPlant(), x, y))
 			case 'e':
-				entity.gameType = getTypeByID(ELF)
+				myWorld.entities = append(myWorld.entities, createEntityToken(&myWorld, elf(), x, y))
 			case 'n':
-				entity.gameType = getTypeByID(NINJA)
+				myWorld.entities = append(myWorld.entities, createEntityToken(&myWorld, ninja(), x, y))
 			case 'b':
-				entity.gameType = getTypeByID(FINALBOSS)
-			default:
-				shouldInit = false
+				myWorld.entities = append(myWorld.entities, createEntityToken(&myWorld, finalBoss(), x, y))
+
 			}
-			if shouldInit {
-				entity.x = x
-				entity.y = y
-				entity.id = GetAvailableID(&myWorld)
-				newEntity(&myWorld, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
-			}
+
 		}
 	}
 	return myWorld

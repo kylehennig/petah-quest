@@ -1,5 +1,5 @@
-testfile: testdraw.c draw.c
-	gcc testdraw.c draw.c -l ncurses -o testfile -Wall
+testfile: testdraw.c draw.c hud.c
+	gcc testdraw.c draw.c hud.c -l ncurses -o testfile -Wall
 
 run: testfile
 	./testfile

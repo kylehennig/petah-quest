@@ -3,8 +3,6 @@
 #include "draw.h"
 #include "entity.h"
 
-
-
 //renders a chunk
 void draw_map_at(struct map *map,uint32_t x, uint32_t y){
 
@@ -34,8 +32,6 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 	uint32_t mapTopLeftY = mapY-mapY%CHUNK_HEIGHT; //top right of the map
 	uint32_t screenDestx = mapX - mapTopLeftX;
 	uint32_t screenDesty = mapY - mapTopLeftY;
-
-
 
 	//switch on character
 	start_color();
@@ -128,13 +124,10 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 //draws an entitie at a specified map location
 void draw_entities_screen(struct entity_list *list, uint32_t x, uint32_t y){
 
-
-
 }
 
 
 void redraw_entity(struct entity_list *inlist, uint32_t id){
-
 	struct entity e;
 	e = inlist->list[id];
 
@@ -142,7 +135,6 @@ void redraw_entity(struct entity_list *inlist, uint32_t id){
 	int32_t mapY = e.y;
 	char c = e.ch;
 	uint8_t color = (uint8_t)(e.colour);
-
 
 	//DONT WANT TO PASS IN A SCREEN DEST
 	uint32_t mapTopLeftX = mapX-mapX%CHUNK_WIDTH; //top left of the map
@@ -156,8 +148,5 @@ void redraw_entity(struct entity_list *inlist, uint32_t id){
 	attron(COLOR_PAIR(1)); // use the above combination
 	mvaddch(screenDesty,screenDestx,c);
 	attroff(COLOR_PAIR(1)); // turn color off
-
-
-
 
 }

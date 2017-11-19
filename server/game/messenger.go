@@ -26,9 +26,9 @@ func sendMap(conn net.TCPConn, worldMap WorldMap) {
 // sendNewEntity sends the new entity to all the clients for rendering
 func sendNewEntity(conn net.TCPConn, id int32, character byte, colour byte, x int32, y int32) {
 	conn.Write([]byte{SEND_NEW})
-	conn.Write(int32ToBytes(id))
-	conn.Write(int32ToBytes(x))
-	conn.Write(int32ToBytes(y))
+	conn.Write(Int32ToBytes(id))
+	conn.Write(Int32ToBytes(x))
+	conn.Write(Int32ToBytes(y))
 	conn.Write([]byte{character, colour})
 
 }
@@ -37,7 +37,7 @@ func sendNewEntity(conn net.TCPConn, id int32, character byte, colour byte, x in
 func sendDeleteEntity(conn net.TCPConn, id int32) {
 	conn.Write([]byte{SEND_DELETE})
 
-	conn.Write(int32ToBytes(id))
+	conn.Write(Int32ToBytes(id))
 
 }
 
@@ -48,7 +48,7 @@ func sendTextMessage(conn net.TCPConn, message string) {
 	size := len(message)
 	b := make([]byte, size+1)
 
-	conn.Write(int32ToBytes(int32(len(message))))
+	conn.Write(Int32ToBytes(int32(len(message))))
 	for i := 0; i < len(message); i++ {
 		b[i] = message[i]
 	}
@@ -61,16 +61,16 @@ func sendTextMessage(conn net.TCPConn, message string) {
 func sendMoveEntity(conn net.TCPConn, id int32, x int32, y int32) {
 	conn.Write([]byte{SEND_MOVE})
 
-	conn.Write(int32ToBytes(id))
-	conn.Write(int32ToBytes(x))
-	conn.Write(int32ToBytes(y))
+	conn.Write(Int32ToBytes(id))
+	conn.Write(Int32ToBytes(x))
+	conn.Write(Int32ToBytes(y))
 }
 
 // sendUpdateEntity sends the entity to update it's display
 func sendUpdateEntity(conn net.TCPConn, id int32, character byte, colour byte) {
 	conn.Write([]byte{SEND_UPDATE})
 
-	conn.Write(int32ToBytes(id))
+	conn.Write(Int32ToBytes(id))
 	conn.Write([]byte{character, colour})
 }
 
@@ -83,8 +83,8 @@ func sendPlayerHealth(conn net.TCPConn, health byte) {
 func sendActionLocation(conn net.TCPConn, x int32, y int32) {
 	conn.Write([]byte{SEND_ACTION})
 
-	conn.Write(int32ToBytes(x))
-	conn.Write(int32ToBytes(y))
+	conn.Write(Int32ToBytes(x))
+	conn.Write(Int32ToBytes(y))
 
 }
 
@@ -95,7 +95,7 @@ func readConnection(conn net.TCPConn) []byte {
 	return data
 }
 
-func int32ToBytes(n int32) []byte {
+func Int32ToBytes(n int32) []byte {
 	bytes := make([]byte, 4)
 	bytes[3] = (byte)((n >> 24) & 0xFF)
 	bytes[2] = (byte)((n >> 16) & 0xFF)

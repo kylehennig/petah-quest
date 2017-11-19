@@ -81,3 +81,9 @@ void send_action(int sockfd, enum dir dir) {
     uint8_t msg = ACTION_MASK | dir;
     write(sockfd, &msg, sizeof(uint8_t));
 }
+
+
+void send_switch(int sockfd, uint8_t weapon) {
+    uint8_t msg = SWITCH_MASK | weapon;
+    write(sockfd, &msg, sizeof(uint8_t));
+}

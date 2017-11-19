@@ -15,6 +15,7 @@ void keyboard_controller(int sockfd) {
 
     if (keypress >= '1' && keypress <= '9') {
         draw_weapon_sel(keypress - '1');
+        send_switch(sockfd, keypress - '1');
     } else {
         switch (keypress) {
             case 'w':

@@ -2,7 +2,7 @@
 #include <ncurses.h>
 #include "draw.h"
 
-#define MAX_HEALTH 10
+#define MAX_HEALTH 20
 #define NUM_WEAPONS 8
 #define padded 2
 
@@ -37,7 +37,7 @@ void draw_health(uint8_t health){
   init_pair(9, COLOR_WHITE, COLOR_RED);
   //draw health bars
   attron(COLOR_PAIR(8));
-  for(uint8_t i = 0; i < health; i++){
+  for(uint8_t i = 0; i < health/5; i++){
    // use the above combination
    mvprintw(CHUNK_HEIGHT,i,"-");
   }
@@ -45,7 +45,7 @@ void draw_health(uint8_t health){
 
   //draw empty health bars
   attron(COLOR_PAIR(9));
-  for(uint8_t i = health; i < MAX_HEALTH; i++){
+  for(uint8_t i = health/5; i < MAX_HEALTH; i++){
     mvprintw(CHUNK_HEIGHT,i,"-");
   }
   attroff(COLOR_PAIR(9));

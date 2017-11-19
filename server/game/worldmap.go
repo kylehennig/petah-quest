@@ -27,9 +27,9 @@ func GetMap() WorldMap{
 }
 func intToBytes(n int) []byte {
 	bytes := make([]byte, 4)
-	bytes[0] = (byte) ((n >> 24) & 0xFF)
-	bytes[1] = (byte) ((n >> 16) & 0xFF)
-	bytes[2] = (byte) ((n >> 8) & 0xFF)
-	bytes[3] = (byte) (n & 0xFF)
+	bytes[3] = (byte) ((n >> 24) & 0xFF)
+	bytes[2] = (byte) ((n >> 16) & 0xFF)
+	bytes[1] = (byte) ((n >> 8) & 0xFF)
+	bytes[0] = (byte) (n & 0xFF)
 	return bytes
 }

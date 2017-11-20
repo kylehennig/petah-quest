@@ -1,7 +1,5 @@
 package game
 
-import "fmt"
-
 type Projectile struct {
 	x          int32
 	y          int32
@@ -16,10 +14,8 @@ type Projectile struct {
 }
 
 func (p *Projectile) update(deltaNano uint64, world *World) {
-
 	p.timePassed += deltaNano
-	// Move the projectile one tile in the direction it's facing every 1/speed seconds.
-
+	// Move the projectile one tile in the direction it's facing if enough time has lapsed.
 	if p.timePassed > 1000000000/p.speed {
 		p.timePassed %= 1000000000 / p.speed
 		if p.moveChar == '<' {
@@ -32,6 +28,12 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 			p.y++
 		}
 
+		// Check if the projectile has exited the world.
+		if p.x < 0 || p.x >= world.worldMap.width || p.y < 0 || p.y >= world.worldMap.height {
+			p.killMeNow = true
+			return
+		}
+		// Check if the projectile is about to crash into a solid tile.
 		tile := world.worldMap.tiles[p.x+p.y*world.worldMap.width]
 		isAboutToCrash := false
 		switch tile {
@@ -40,44 +42,35 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 		case 't':
 			isAboutToCrash = true
 		}
-
-
-		for i := len(world.entities) - 1; i != 0; i-- {
-			if world.entities[i].x == p.x && world.entities[i].y == p.y {
+		// Check if the projectile is about to crash into an entity.
+		for i := 0; i < len(world.entities); i++ {
+			entity := world.entities[i]
+			if p.x == entity.x && p.y == entity.y {
 				isAboutToCrash = true
-				isDead := false
-				if world.entities[i].gameType.health < p.damage {
-					isDead = true
-					isAboutToCrash = true
-				}
-				world.entities[i].gameType.health -= p.damage
-				fmt.Println(world.entities[i].gameType.health)
-
-				if isDead {
-					deleteEntity(world, world.entities[i].id)
+				// Damage the entity.
+				if entity.gameType.health <= p.damage {
+					deleteEntity(world, entity.id)
 					world.entities = append(world.entities[:i], world.entities[i+1:]...)
-					isAboutToCrash = true
+				} else {
+					entity.gameType.health -= p.damage
 				}
-				isAboutToCrash = true
-				isAboutToCrash = true
 			}
-
 		}
+
 		if isAboutToCrash {
 			p.killMeNow = true
 		} else {
 			moveEntity(world, p.id, p.x, p.y)
 		}
-
 	}
 
 }
 
 func arrow(x int32, y int32, ch byte, world *World, damage int) Projectile {
-	return Projectile{x, y, ch, ch,COLOUR_WHT, 10, 0, byte(damage), GetAvailableID(world), false}
+	return Projectile{x, y, ch, ch, COLOUR_WHT, 10, 0, byte(damage), GetAvailableID(world), false}
 }
 func AddNinjaStars(x int32, y int32, move byte, world *World, damage int) Projectile {
-	return Projectile{x, y, '*', move,COLOUR_WHT, 15, 0, byte(255), GetAvailableID(world), false}
+	return Projectile{x, y, '*', move, COLOUR_WHT, 15, 0, byte(255), GetAvailableID(world), false}
 }
 
 func arrowLeft(x int32, y int32, world *World, damage int) Projectile {

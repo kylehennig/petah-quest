@@ -15,10 +15,10 @@ int handshake(struct map *map, char ch, uint32_t *id,int sockfd) {
     size_t map_len = map->height*map->width;
     size_t progress = 0;
     map->map = malloc(map_len);
-
     while(progress < map_len) {
-        progress += read(sockfd, map->map+progress, map_len);
+        progress += read(sockfd, map->map+progress, map_len-progress);
     }
+    
     read(sockfd, id, sizeof(uint32_t));
 }
 

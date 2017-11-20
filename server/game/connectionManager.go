@@ -7,9 +7,8 @@ import (
 	"time"
 )
 
-func CreateServer() net.TCPListener {
-	service := ":8888"
-	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
+func CreateServer(port string) net.TCPListener {
+	tcpAddr, err := net.ResolveTCPAddr("tcp4", port)
 	checkError(err)
 	listener, err := net.ListenTCP("tcp", tcpAddr)
 	checkError(err)

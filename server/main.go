@@ -2,15 +2,21 @@ package main
 
 import (
 	"fmt"
+	"os"
+
+	"time"
 
 	"github.com/kylehennig/petah-quest/server/game"
-	"time"
 )
 
 func main() {
-	fmt.Println("hello world")
+	if len(os.Args) < 2 {
+		fmt.Println("Please specify a port.")
+		os.Exit(1)
+	}
 
-	ln := game.CreateServer()
+	fmt.Println("Starting server...")
+	ln := game.CreateServer(":" + os.Args[1])
 	world := game.CreateWorld()
 
 	go game.CheckForNewPlayers(ln, &world)

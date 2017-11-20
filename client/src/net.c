@@ -12,11 +12,13 @@ int handshake(struct map *map, char ch, uint32_t *id,int sockfd) {
         exit(1);
     }
 
-    map->map = malloc(map->height*map->width);
-    if (read(sockfd, map->map, map->height*map->width) == 0) {
-        exit(1);
+    uint32_t to_read = map->height*map->width;
+    map->map = malloc(to_read);
+    for (int i = 0; i < to_read; i++) {
+        if (read(sockfd, &map->map[i], sizeof(uint8_t)) == 0) {
+            exit(1);
+        }
     }
-
     read(sockfd, id, sizeof(uint32_t));
 }
 

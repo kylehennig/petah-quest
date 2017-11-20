@@ -5,7 +5,7 @@
 go get github.com/kylehennig/petah-quest/server
 cd ~/go/src/github.com/kylehennig/petah-quest/server
 go build
-./server
+./server <port>
 ```
 
 ## Running the client

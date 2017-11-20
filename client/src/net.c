@@ -12,12 +12,12 @@ int handshake(struct map *map, char ch, uint32_t *id,int sockfd) {
         exit(1);
     }
 
-    uint32_t to_read = map->height*map->width;
-    map->map = malloc(to_read);
-    for (int i = 0; i < to_read; i++) {
-        if (read(sockfd, &map->map[i], sizeof(uint8_t)) == 0) {
-            exit(1);
-        }
+    size_t map_len = map->height*map->width;
+    size_t progress = 0;
+    map->map = malloc(map_len);
+
+    while(progress < map_len) {
+        progress += read(sockfd, map->map+progress, map_len);
     }
     read(sockfd, id, sizeof(uint32_t));
 }

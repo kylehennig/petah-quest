@@ -39,16 +39,20 @@ func addPlayer(conn net.TCPConn, world *World) {
 	// add a new playerConnection to connection list
 	b := make([]byte, 1)
 	conn.Read(b)
-	newEntity := NewPlayer(b[0], world)
-	newConnection := player{newEntity, conn}
+	newPlayer := NewPlayer(b[0], world)
+	newConnection := player{newPlayer, conn}
 
 	world.players = append(world.players, newConnection)
 	sendMap(conn, world.worldMap)
-	conn.Write(Int32ToBytes(newEntity.id))
-	sendNewEntity(conn, newEntity.id, newEntity.gameType.drawChar, newEntity.gameType.colour, newEntity.x, newEntity.y)
+	conn.Write(Int32ToBytes(newPlayer.id))
+	newEntity(world, newPlayer.id, newPlayer.gameType.drawChar, newPlayer.gameType.colour, newPlayer.x, newPlayer.y)
 	sendPlayerHealth(conn, 100)
 
 	for _, entity := range world.entities {
+		sendNewEntity(conn, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
+	}
+	for _, player := range world.players {
+		entity := player.entity
 		sendNewEntity(conn, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
 	}
 	//runTests(conn)
@@ -63,6 +67,7 @@ func runTests(conn net.TCPConn) {
 	sendActionLocation(conn, 10, 20)
 	sendDeleteEntity(conn, 0)
 }
+
 func ListenToPlayers(world *World) {
 	for i := 0; i < len(world.players); i++ {
 
@@ -77,6 +82,8 @@ func ListenToPlayers(world *World) {
 			interactPlayer(world, &world.players[i], b&0x0F)
 		case 0x30: // Switch Weapons
 			world.players[i].entity.gameType.weapon = getWeaponByID(b & 0x0F)
+		default:
+			fmt.Println("Received bad data from a client.")
 		}
 	}
 

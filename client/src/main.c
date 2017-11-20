@@ -19,9 +19,10 @@ int main(int argc, char *argv[]) {
 
     inet_pton(AF_INET, argv[1], &(server.sin_addr));
     server.sin_family = AF_INET;
-    server.sin_port   = htons(8888);
+    int port = atoi(argv[2]);
+    server.sin_port   = htons(port);
 
-    char ch = *argv[2];
+    char ch = *argv[3];
 
     int sock = socket(AF_INET, SOCK_STREAM, 0);
 

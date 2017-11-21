@@ -37,6 +37,11 @@ func movePlayer(world *World, p *player, dir byte) {
 				isAboutToCrash = true
 			}
 		}
+		for _, e := range world.players {
+			if e.entity.x == newX && e.entity.y == newY {
+				isAboutToCrash = true
+			}
+		}
 		if !isAboutToCrash {
 			// move
 			p.entity.x = newX

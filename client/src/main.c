@@ -17,6 +17,11 @@
 int main(int argc, char *argv[]) {
     struct sockaddr_in server;
 
+    if (argc < 4) {
+        fputs("useage: ./pquest <ip> <port> <character>\n", stderr);
+        exit(1);
+    }
+
     inet_pton(AF_INET, argv[1], &(server.sin_addr));
     server.sin_family = AF_INET;
     int port = atoi(argv[2]);

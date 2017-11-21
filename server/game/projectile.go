@@ -57,6 +57,18 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 				}
 			}
 		}
+		for i,pl := range world.players{
+			if p.x == pl.entity.x && p.y == pl.entity.y {
+				isAboutToCrash = true
+				// Damage the entity.
+				if world.players[i].entity.gameType.health <= int(p.damage) {
+					world.players[i].entity.isDead = true
+				} else {
+					world.players[i].entity.gameType.health -= int(p.damage)
+				}
+				updateHealth(world.players[i])
+			}
+		}
 
 		if isAboutToCrash {
 			p.killMeNow = true

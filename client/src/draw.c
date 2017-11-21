@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <stdint.h>
+#include <unistd.h>
 #include "draw.h"
 #include "entity.h"
 
@@ -187,10 +188,7 @@ void do_flash(uint32_t x, uint32_t y, struct entity *player) {
 		curs_set(1);
 		move(y % CHUNK_HEIGHT, x % CHUNK_WIDTH);
 		refresh();
-		for (int i = 0; i < 10000; ++i) {
-			// im so sorry
-			volatile int a = i*i;
-		}
+		usleep(100*1000);
 		curs_set(0);
 		refresh();
 	}

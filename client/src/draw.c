@@ -9,12 +9,12 @@
 void draw_map_at(struct map *map,uint32_t x, uint32_t y){
 
 	//find the coords of the map based off player coords
-	uint32_t mapTopLeftX = x-x%CHUNK_WIDTH;
-	uint32_t mapTopLeftY = y-y%CHUNK_HEIGHT;
+	uint32_t mapTopLeftX = x-x%COLS;
+	uint32_t mapTopLeftY = y-y%(LINES-1);
 
 	//draws a chunk given the top left co-ordinates
-	for(uint32_t i = mapTopLeftX; i< mapTopLeftX+CHUNK_WIDTH; i++){
-		for(uint32_t j = mapTopLeftY; j < mapTopLeftY+CHUNK_HEIGHT; j++){
+	for(uint32_t i = mapTopLeftX; i< mapTopLeftX+COLS; i++){
+		for(uint32_t j = mapTopLeftY; j < mapTopLeftY+(LINES-1); j++){
 				draw_map_character(map,i,j);
 		}
 	}
@@ -29,8 +29,8 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 	char toBeLoaded = map->map[dest];
 
 	//DONT WANT TO PASS IN A SCREEN DEST
-	uint32_t mapTopLeftX = mapX-mapX%CHUNK_WIDTH; //top left of the map
-	uint32_t mapTopLeftY = mapY-mapY%CHUNK_HEIGHT; //top right of the map
+	uint32_t mapTopLeftX = mapX-mapX%COLS; //top left of the map
+	uint32_t mapTopLeftY = mapY-mapY%(LINES-1); //top right of the map
 	uint32_t screenDestx = mapX - mapTopLeftX;
 	uint32_t screenDesty = mapY - mapTopLeftY;
 
@@ -131,8 +131,8 @@ void draw_entity(struct entity *ent){
 	uint8_t color = ent->colour;
 
 	//DONT WANT TO PASS IN A SCREEN DEST
-	uint32_t mapTopLeftX = mapX-mapX%CHUNK_WIDTH; //top left of the map
-	uint32_t mapTopLeftY = mapY-mapY%CHUNK_HEIGHT; //top right of the map
+	uint32_t mapTopLeftX = mapX-mapX%COLS; //top left of the map
+	uint32_t mapTopLeftY = mapY-mapY%(LINES-1); //top right of the map
 	uint32_t screenDestx = mapX - mapTopLeftX;
 	uint32_t screenDesty = mapY - mapTopLeftY;
 
@@ -146,10 +146,10 @@ void draw_entity(struct entity *ent){
 
 
 void draw_ent_scr(struct entity *ent, struct entity *player) {
-	uint32_t x_low = player->x - player->x % CHUNK_WIDTH;
-	uint32_t x_high = x_low + CHUNK_WIDTH;
-	uint32_t y_low = player->y - player->y % CHUNK_HEIGHT;
-	uint32_t y_high = y_low + CHUNK_HEIGHT;
+	uint32_t x_low = player->x - player->x % COLS;
+	uint32_t x_high = x_low + COLS;
+	uint32_t y_low = player->y - player->y % (LINES-1);
+	uint32_t y_high = y_low + (LINES-1);
 
 	if (ent->x >= x_low && ent->x < x_high && ent->y >= y_low && ent->y < y_high) {
 		draw_entity(ent);
@@ -158,10 +158,10 @@ void draw_ent_scr(struct entity *ent, struct entity *player) {
 
 
 void draw_mapch_scr(struct map *map, uint32_t mapX, uint32_t mapY, struct entity *player) {
-	uint32_t x_low = player->x - player->x % CHUNK_WIDTH;
-	uint32_t x_high = x_low + CHUNK_WIDTH;
-	uint32_t y_low = player->y - player->y % CHUNK_HEIGHT;
-	uint32_t y_high = y_low + CHUNK_HEIGHT;
+	uint32_t x_low = player->x - player->x % COLS;
+	uint32_t x_high = x_low + COLS;
+	uint32_t y_low = player->y - player->y % (LINES-1);
+	uint32_t y_high = y_low + (LINES-1);
 
 	if (mapX >= x_low && mapX < x_high && mapY >= y_low && mapY < y_high) {
 		draw_map_character(map, mapX, mapY);
@@ -179,14 +179,14 @@ void draw_entities_screen(struct entity_list *list, struct entity *player) {
 
 
 void do_flash(uint32_t x, uint32_t y, struct entity *player) {
-	uint32_t x_low = player->x - player->x % CHUNK_WIDTH;
-	uint32_t x_high = x_low + CHUNK_WIDTH;
-	uint32_t y_low = player->y - player->y % CHUNK_HEIGHT;
-	uint32_t y_high = y_low + CHUNK_HEIGHT;
+	uint32_t x_low = player->x - player->x % COLS;
+	uint32_t x_high = x_low + COLS;
+	uint32_t y_low = player->y - player->y % (LINES-1);
+	uint32_t y_high = y_low + (LINES-1);
 
 	if (x >= x_low && x < x_high && y >= y_low && y < y_high) {
 		curs_set(1);
-		move(y % CHUNK_HEIGHT, x % CHUNK_WIDTH);
+		move(y % (LINES-1), x % COLS);
 		refresh();
 		usleep(100*1000);
 		curs_set(0);

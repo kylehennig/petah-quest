@@ -126,7 +126,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
 
             draw_ent_scr(&elist->list[id], &elist->list[you]);
 
-            if (id == you && (x / CHUNK_WIDTH != oldx / CHUNK_WIDTH || y / CHUNK_HEIGHT != oldy / CHUNK_HEIGHT)) {
+            if (id == you && (x / COLS != oldx / COLS || y / (LINES-1) != oldy / (LINES-1))) {
                 draw_map_at(map, elist->list[you].x, elist->list[you].y);
                 draw_entities_screen(elist, &elist->list[you]);
             }

@@ -62,7 +62,7 @@ void draw_map_character(struct map *map, /*uint32_t screenDestx, uint32_t screen
 	attroff(COLOR_PAIR(1)); // turn color off
 	*/
 
-	if (mapX > map->width || mapX < 0 || mapY > map->height || mapY < 0) {
+	if (mapX >= map->width || mapX < 0 || mapY >= map->height || mapY < 0) {
 		init_pair(1,COLOR_WHITE, COLOR_BLACK);
 		mvaddch(screenDesty, screenDestx ,' ');
 

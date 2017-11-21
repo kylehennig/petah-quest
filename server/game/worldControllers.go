@@ -166,6 +166,11 @@ func MoveToPlayer(e *Entity, p []player, world *World) {
 		case 't':
 			isAboutToCrash = true
 		}
+		for _,e := range world.entities{
+			if e.x == newX && e.y == newY{
+				isAboutToCrash = true
+			}
+		}
 
 		if p[closest].entity.x == newX && p[closest].entity.y == newY {
 			isAboutToCrash = true

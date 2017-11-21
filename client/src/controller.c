@@ -17,8 +17,7 @@ void keyboard_controller(int sockfd) {
         draw_weapon_sel(keypress - '1');
         refresh();
         send_switch(sockfd, keypress - '1');
-    }
-    else {
+    } else {
         switch (keypress) {
             case 'w':
                 send_move(sockfd, NORTH);

@@ -68,11 +68,17 @@ func runTests(conn net.TCPConn) {
 }
 
 func ListenToPlayers(world *World) {
-	for i := 0; i < len(world.players); i++ {
+	for i := len(world.players)-1; i != -1 ; i-- {
 
 		world.players[i].playerCon.SetReadDeadline(time.Now().Add(time.Millisecond))
 
-		b := readConnection(world.players[i].playerCon)[0]
+		b := readConnection(world.players[i])[0]
+
+		if world.players[i].entity.isDead{
+			world.players[i].playerCon.Close()
+			world.players = append(world.players[:i], world.players[i+1:]...)
+		}
+
 		switch b & 0xF0 {
 		case 0x00: // Nothing
 		case 0x10: // Move

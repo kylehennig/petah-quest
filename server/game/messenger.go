@@ -3,6 +3,7 @@ package game
 import (
 	"fmt"
 	"net"
+	"io"
 )
 
 const (
@@ -89,9 +90,15 @@ func sendActionLocation(conn net.TCPConn, x int32, y int32) {
 }
 
 // readConnection returns 0 if no message, else the message
-func readConnection(conn net.TCPConn) []byte {
+func readConnection(p player) []byte {
 	var data = make([]byte, 1)
-	conn.Read(data)
+	_, err := p.playerCon.Read(data)
+	if err != nil{
+		if err!=io.EOF{
+			p.entity.isDead = true
+		}
+
+	}
 	return data
 }
 

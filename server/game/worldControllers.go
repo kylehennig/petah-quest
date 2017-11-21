@@ -52,7 +52,6 @@ func movePlayer(world *World, p *player, dir byte) {
 
 }
 func interactPlayer(world *World, p *player, dir byte) {
-	// TODO: add attacking and basically everything
 	attackX := p.entity.x
 	attackY := p.entity.y
 	var ar Projectile
@@ -85,6 +84,7 @@ func interactPlayer(world *World, p *player, dir byte) {
 				isDead := false
 				if world.entities[i].gameType.health < p.entity.gameType.weapon.damage {
 					isDead = true
+					e.isDead = true
 				}
 				world.entities[i].gameType.health -= p.entity.gameType.weapon.damage
 				fmt.Println(e.gameType.health)
@@ -104,7 +104,7 @@ func interactPlayer(world *World, p *player, dir byte) {
 				e.entity.gameType.health -= p.entity.gameType.weapon.damage
 				updateHealth(e)
 				if isDead {
-					// TODO: disconnect player and remove
+					e.entity.isDead = true
 				}
 			}
 		}

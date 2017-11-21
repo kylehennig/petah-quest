@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"math"
 )
 
 //This is the file that will hold the entity controllers
@@ -44,7 +45,7 @@ func movePlayer(world *World, p *player, dir byte) {
 		moveEntity(world, p.entity.id, p.entity.x, p.entity.y)
 		if len(world.players) != 0 {
 			for i := 0; i < len(world.entities); i++ {
-				MoveToPlayer(&world.entities[i], world.players[0], world)
+				MoveToPlayer(&world.entities[i], world.players, world)
 			}
 		}
 	}
@@ -111,9 +112,21 @@ func interactPlayer(world *World, p *player, dir byte) {
 
 }
 
-func MoveToPlayer(e *Entity, p player, world *World) {
-	dx := p.entity.x - e.x
-	dy := p.entity.y - e.y
+func MoveToPlayer(e *Entity, p []player, world *World) {
+	var closest int
+	closest = 0
+	manDis := 99999.0 // good enough for now
+	for i,pl := range p{
+
+		dis := math.Abs(float64(pl.entity.x) - float64(e.x)) + math.Abs(float64(pl.entity.y) - float64(e.y))
+		if dis < float64(manDis){
+			closest = i
+			manDis = dis
+		}
+
+	}
+	dx := p[closest].entity.x - e.x
+	dy := p[closest].entity.y - e.y
 
 	adx := dx
 	ady := dy
@@ -154,7 +167,7 @@ func MoveToPlayer(e *Entity, p player, world *World) {
 			isAboutToCrash = true
 		}
 
-		if p.entity.x == newX && p.entity.y == newY {
+		if p[closest].entity.x == newX && p[closest].entity.y == newY {
 			isAboutToCrash = true
 		}
 

@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     curs_set(0);
     noecho();
 
-    draw_weapon_sel(0);
+    draw_weapon_sel(7);
 
     while (1) {
         poll(fds, 2, -1);

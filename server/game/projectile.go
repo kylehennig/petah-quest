@@ -1,5 +1,6 @@
 package game
 
+
 type Projectile struct {
 	x          int32
 	y          int32
@@ -48,11 +49,11 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 			if p.x == entity.x && p.y == entity.y {
 				isAboutToCrash = true
 				// Damage the entity.
-				if entity.gameType.health <= p.damage {
+				if entity.gameType.health <= int(p.damage) {
 					deleteEntity(world, entity.id)
 					world.entities = append(world.entities[:i], world.entities[i+1:]...)
 				} else {
-					entity.gameType.health -= p.damage
+					entity.gameType.health -= int(p.damage)
 				}
 			}
 		}

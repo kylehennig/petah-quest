@@ -33,7 +33,7 @@ type Entity struct {
 type Type struct {
 	drawChar byte
 	colour   byte
-	health   byte
+	health   int
 	speed    byte
 	fov      byte
 	weapon   Weapon

@@ -82,11 +82,12 @@ func interactPlayer(world *World, p *player, dir byte) {
 			if e.x == attackX && e.y == attackY {
 				flashAtPoint(world, e.x, e.y)
 				isDead := false
-				if world.entities[i].gameType.health < p.entity.gameType.weapon.damage {
+				if world.entities[i].gameType.health < int(p.entity.gameType.weapon.damage) {
 					isDead = true
 					e.isDead = true
 				}
-				world.entities[i].gameType.health -= p.entity.gameType.weapon.damage
+				world.entities[i].gameType.health -= int(p.entity.gameType.weapon.damage)
+				fmt.Print("Enemy: ")
 				fmt.Println(e.gameType.health)
 
 				if isDead {
@@ -95,17 +96,22 @@ func interactPlayer(world *World, p *player, dir byte) {
 				}
 			}
 		}
-		for _, e := range world.players {
+		for i, e := range world.players {
 			if e.entity.x == attackX && e.entity.y == attackY {
 				isDead := false
-				if e.entity.gameType.health < p.entity.gameType.weapon.damage {
+				if e.entity.gameType.health < int(p.entity.gameType.weapon.damage) {
 					isDead = true
 				}
-				e.entity.gameType.health -= p.entity.gameType.weapon.damage
-				updateHealth(e)
+				world.players[i].entity.gameType.health -= int(p.entity.gameType.weapon.damage)
+
+				fmt.Print("Player: ")
+				fmt.Println(e.entity.gameType.health)
 				if isDead {
 					e.entity.isDead = true
+					world.players[i].entity.gameType.health = 0
 				}
+
+				updateHealth(e)
 			}
 		}
 	}

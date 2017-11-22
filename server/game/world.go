@@ -7,15 +7,17 @@ import (
 const idLength int = 100000
 
 type World struct {
-	worldMap    WorldMap
-	players     []player
-	entities    []Entity
-	projectiles []Projectile
-	availableID []bool
+	worldMap     WorldMap
+	players      []player
+	entities     []Entity
+	itemSpawners []weaponDrop
+	projectiles  []Projectile
+	availableID  []bool
 }
 type player struct {
-	entity    Entity
-	playerCon net.TCPConn
+	entity           Entity
+	playerCon        net.TCPConn
+	isWeaponUnlocked [8]bool
 }
 
 func GetAvailableID(world *World) int32 { // TODO: recycle ID's
@@ -55,7 +57,20 @@ func CreateWorld() World {
 				myWorld.entities = append(myWorld.entities, createEntityToken(&myWorld, ninja(), x, y))
 			case 'b':
 				myWorld.entities = append(myWorld.entities, createEntityToken(&myWorld, finalBoss(), x, y))
-
+			case ')':
+				myWorld.itemSpawners = append(myWorld.itemSpawners, weaponDrop{getDropDefault(')', x, y, &myWorld), bow()})
+			case '}':
+				myWorld.itemSpawners = append(myWorld.itemSpawners, weaponDrop{getDropDefault('}', x, y, &myWorld), recurveBow()})
+			case '/':
+				myWorld.itemSpawners = append(myWorld.itemSpawners, weaponDrop{getDropDefault('/', x, y, &myWorld), sword()})
+			case '-':
+				myWorld.itemSpawners = append(myWorld.itemSpawners, weaponDrop{getDropDefault('-', x, y, &myWorld), dagger()})
+			case '*':
+				myWorld.itemSpawners = append(myWorld.itemSpawners, weaponDrop{getDropDefault('*', x, y, &myWorld), ninjaStar()})
+			case '@':
+				myWorld.itemSpawners = append(myWorld.itemSpawners, weaponDrop{getDropDefault('@', x, y, &myWorld), whip()})
+			case '!':
+				myWorld.itemSpawners = append(myWorld.itemSpawners, weaponDrop{getDropDefault('!', x, y, &myWorld), club()})
 			}
 
 		}
@@ -68,8 +83,13 @@ func UpdateWorld(world *World, deltaNano uint64) {
 		if world.projectiles[i].killMeNow {
 			deleteEntity(world, world.projectiles[i].id)
 			world.projectiles = append(world.projectiles[:i], world.projectiles[i+1:]...)
-		}else{
+		} else {
 			world.projectiles[i].update(deltaNano, world)
+		}
+	}
+	for i, s := range world.itemSpawners {
+		if world.itemSpawners[i].spawn() {
+			newEntity(world, s.d.id, s.d.drawChar, COLOUR_YLW, s.d.x, s.d.y)
 		}
 	}
 

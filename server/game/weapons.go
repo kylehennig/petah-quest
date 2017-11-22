@@ -60,3 +60,24 @@ func getWeaponByID(id byte) Weapon {
 		panic("Invalid weapon id.")
 	}
 }
+func getWeaponId(weapon Weapon) int {
+	i := 7
+	if weapon == fist() {
+		i = 7
+	} else if weapon == club() {
+		i = 5
+	} else if weapon == dagger() {
+		i = 3
+	} else if weapon == sword() {
+		i = 2
+	} else if weapon == whip() {
+		i = 6
+	} else if weapon == bow() {
+		i = 0
+	} else if weapon == recurveBow() {
+		i = 1
+	} else if weapon == ninjaStar() {
+		i = 4
+	}
+	return i
+}

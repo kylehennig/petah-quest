@@ -1,6 +1,5 @@
 package game
 
-
 type Projectile struct {
 	x          int32
 	y          int32
@@ -57,7 +56,7 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 				}
 			}
 		}
-		for i,pl := range world.players{
+		for i, pl := range world.players {
 			if p.x == pl.entity.x && p.y == pl.entity.y {
 				isAboutToCrash = true
 				// Damage the entity.

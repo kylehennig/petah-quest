@@ -2,8 +2,8 @@ package game
 
 import (
 	"fmt"
-	"net"
 	"io"
+	"net"
 )
 
 const (
@@ -93,8 +93,8 @@ func sendActionLocation(conn net.TCPConn, x int32, y int32) {
 func readConnection(p player) []byte {
 	var data = make([]byte, 1)
 	_, err := p.playerCon.Read(data)
-	if err != nil{
-		if err!=io.EOF{
+	if err != nil {
+		if err != io.EOF {
 			p.entity.isDead = true
 		}
 

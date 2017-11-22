@@ -35,11 +35,21 @@ func movePlayer(world *World, p *player, dir byte) {
 		for _, e := range world.entities {
 			if e.x == newX && e.y == newY {
 				isAboutToCrash = true
+				break
+			}
+		}
+		for i, e := range world.itemSpawners {
+			if e.d.x == newX && e.d.y == newY {
+				world.itemSpawners[i].d.isSpawned = false
+				p.isWeaponUnlocked[getWeaponId(e.dropItem)] = true
+				deleteEntity(world, e.d.id)
+				break
 			}
 		}
 		for _, e := range world.players {
 			if e.entity.x == newX && e.entity.y == newY {
 				isAboutToCrash = true
+				break
 			}
 		}
 		if !isAboutToCrash {
@@ -56,6 +66,7 @@ func movePlayer(world *World, p *player, dir byte) {
 	}
 
 }
+
 func interactPlayer(world *World, p *player, dir byte) {
 	attackX := p.entity.x
 	attackY := p.entity.y
@@ -75,49 +86,52 @@ func interactPlayer(world *World, p *player, dir byte) {
 		ar = arrowLeft(p.entity.x-1, p.entity.y, world, int(p.entity.gameType.weapon.damage))
 	}
 
-	if p.entity.gameType.weapon.isRanged {
-		if p.entity.gameType.weapon.damage == ninjaStar().damage {
-			ar = AddNinjaStars(attackX, attackY, ar.moveChar, world, int(p.entity.gameType.weapon.damage))
-		}
-		addArrow(world, ar)
-		newEntity(world, ar.id, ar.drawChar, ar.colour, ar.x, ar.y)
-	} else {
-		for i := len(world.entities) - 1; i != 0; i-- {
-			e := world.entities[i]
-			if e.x == attackX && e.y == attackY {
-				flashAtPoint(world, e.x, e.y)
-				isDead := false
-				if world.entities[i].gameType.health < int(p.entity.gameType.weapon.damage) {
-					isDead = true
-					e.isDead = true
-				}
-				world.entities[i].gameType.health -= int(p.entity.gameType.weapon.damage)
-				fmt.Print("Enemy: ")
-				fmt.Println(e.gameType.health)
+	if p.isWeaponUnlocked[getWeaponId(p.entity.gameType.weapon)] {
 
-				if isDead {
-					deleteEntity(world, e.id)
-					world.entities = append(world.entities[:i], world.entities[i+1:]...)
+		if p.entity.gameType.weapon.isRanged {
+			if p.entity.gameType.weapon.damage == ninjaStar().damage {
+				ar = AddNinjaStars(attackX, attackY, ar.moveChar, world, int(p.entity.gameType.weapon.damage))
+			}
+			addArrow(world, ar)
+			newEntity(world, ar.id, ar.drawChar, ar.colour, ar.x, ar.y)
+		} else {
+			for i := len(world.entities) - 1; i != 0; i-- {
+				e := world.entities[i]
+				if e.x == attackX && e.y == attackY {
+					flashAtPoint(world, e.x, e.y)
+					isDead := false
+					if world.entities[i].gameType.health < int(p.entity.gameType.weapon.damage) {
+						isDead = true
+						e.isDead = true
+					}
+					world.entities[i].gameType.health -= int(p.entity.gameType.weapon.damage)
+					fmt.Print("Enemy: ")
+					fmt.Println(e.gameType.health)
+
+					if isDead {
+						deleteEntity(world, e.id)
+						world.entities = append(world.entities[:i], world.entities[i+1:]...)
+					}
 				}
 			}
-		}
-		for i, e := range world.players {
-			if e.entity.x == attackX && e.entity.y == attackY {
-				isDead := false
-				if e.entity.gameType.health < int(p.entity.gameType.weapon.damage) {
-					isDead = true
-				}
-				world.players[i].entity.gameType.health -= int(p.entity.gameType.weapon.damage)
-				flashAtPoint(world, e.entity.x, e.entity.y)
+			for i, e := range world.players {
+				if e.entity.x == attackX && e.entity.y == attackY {
+					isDead := false
+					if e.entity.gameType.health < int(p.entity.gameType.weapon.damage) {
+						isDead = true
+					}
+					world.players[i].entity.gameType.health -= int(p.entity.gameType.weapon.damage)
+					flashAtPoint(world, e.entity.x, e.entity.y)
 
-				fmt.Print("Player: ")
-				fmt.Println(e.entity.gameType.health)
-				if isDead {
-					world.players[i].entity.isDead = true
-					world.players[i].entity.gameType.health = 0
-				}
+					fmt.Print("Player: ")
+					fmt.Println(e.entity.gameType.health)
+					if isDead {
+						world.players[i].entity.isDead = true
+						world.players[i].entity.gameType.health = 0
+					}
 
-				updateHealth(e)
+					updateHealth(e)
+				}
 			}
 		}
 	}
@@ -128,10 +142,10 @@ func MoveToPlayer(e *Entity, p []player, world *World) {
 	var closest int
 	closest = 0
 	manDis := 99999.0 // good enough for now
-	for i,pl := range p{
+	for i, pl := range p {
 
-		dis := math.Abs(float64(pl.entity.x) - float64(e.x)) + math.Abs(float64(pl.entity.y) - float64(e.y))
-		if dis < float64(manDis){
+		dis := math.Abs(float64(pl.entity.x)-float64(e.x)) + math.Abs(float64(pl.entity.y)-float64(e.y))
+		if dis < float64(manDis) {
 			closest = i
 			manDis = dis
 		}
@@ -178,8 +192,8 @@ func MoveToPlayer(e *Entity, p []player, world *World) {
 		case 't':
 			isAboutToCrash = true
 		}
-		for _,e := range world.entities{
-			if e.x == newX && e.y == newY{
+		for _, e := range world.entities {
+			if e.x == newX && e.y == newY {
 				isAboutToCrash = true
 			}
 		}

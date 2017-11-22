@@ -48,12 +48,24 @@ func (p *Projectile) update(deltaNano uint64, world *World) {
 			if p.x == entity.x && p.y == entity.y {
 				isAboutToCrash = true
 				// Damage the entity.
-				if entity.gameType.health <= p.damage {
+				if entity.gameType.health <= int(p.damage) {
 					deleteEntity(world, entity.id)
 					world.entities = append(world.entities[:i], world.entities[i+1:]...)
 				} else {
-					entity.gameType.health -= p.damage
+					entity.gameType.health -= int(p.damage)
 				}
+			}
+		}
+		for i, pl := range world.players {
+			if p.x == pl.entity.x && p.y == pl.entity.y {
+				isAboutToCrash = true
+				// Damage the entity.
+				if world.players[i].entity.gameType.health <= int(p.damage) {
+					world.players[i].entity.isDead = true
+				} else {
+					world.players[i].entity.gameType.health -= int(p.damage)
+				}
+				updateHealth(world.players[i])
 			}
 		}
 

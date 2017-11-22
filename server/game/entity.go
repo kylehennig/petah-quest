@@ -22,9 +22,10 @@ const (
 )
 
 type Entity struct {
-	id int32
-	x  int32
-	y  int32
+	id     int32
+	x      int32
+	y      int32
+	isDead bool
 
 	gameType Type
 }
@@ -32,7 +33,7 @@ type Entity struct {
 type Type struct {
 	drawChar byte
 	colour   byte
-	health   byte
+	health   int
 	speed    byte
 	fov      byte
 	weapon   Weapon
@@ -90,10 +91,10 @@ func getTypeByID(id byte) Type {
 
 func NewPlayer(ch byte, world *World) Entity {
 	playerType := Type{ch, COLOUR_WHT, 100, 5, 255, fist()}
-	return Entity{GetAvailableID(world), 126, 84, playerType}
+	return Entity{GetAvailableID(world), 126, 84, false, playerType}
 	//return Entity{GetAvailableID(world), 0, 0, playerType}
 }
 
 func createEntityToken(world *World, gt Type, x int32, y int32) Entity {
-	return Entity{GetAvailableID(world), x, y, gt}
+	return Entity{GetAvailableID(world), x, y, false, gt}
 }

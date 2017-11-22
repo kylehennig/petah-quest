@@ -39,7 +39,7 @@ func addPlayer(conn net.TCPConn, world *World) {
 	b := make([]byte, 1)
 	conn.Read(b)
 	newPlayer := NewPlayer(b[0], world)
-	newConnection := player{newPlayer, conn}
+	newConnection := player{newPlayer, conn, [8]bool{false, false, false, false, false, false, false, true}}
 
 	world.players = append(world.players, newConnection)
 	sendMap(conn, world.worldMap)
@@ -53,6 +53,16 @@ func addPlayer(conn net.TCPConn, world *World) {
 	for _, player := range world.players {
 		entity := player.entity
 		sendNewEntity(conn, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
+	}
+	for _, player := range world.players {
+		entity := player.entity
+		sendNewEntity(conn, entity.id, entity.gameType.drawChar, entity.gameType.colour, entity.x, entity.y)
+	}
+	for _, i := range world.itemSpawners {
+		fmt.Println("Spawning?")
+		if i.d.isSpawned {
+			sendNewEntity(conn, i.d.id, i.d.drawChar, COLOUR_YLW, i.d.x, i.d.y)
+		}
 	}
 	//runTests(conn)
 }
@@ -68,11 +78,18 @@ func runTests(conn net.TCPConn) {
 }
 
 func ListenToPlayers(world *World) {
-	for i := 0; i < len(world.players); i++ {
+	for i := len(world.players) - 1; i != -1; i-- {
 
 		world.players[i].playerCon.SetReadDeadline(time.Now().Add(time.Millisecond))
 
-		b := readConnection(world.players[i].playerCon)[0]
+		b := readConnection(world.players[i])[0]
+
+		if world.players[i].entity.isDead {
+			deleteEntity(world, world.players[i].entity.id)
+			world.players[i].playerCon.Close()
+			world.players = append(world.players[:i], world.players[i+1:]...)
+		}
+
 		switch b & 0xF0 {
 		case 0x00: // Nothing
 		case 0x10: // Move

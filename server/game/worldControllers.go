@@ -108,6 +108,7 @@ func interactPlayer(world *World, p *player, dir byte) {
 					isDead = true
 				}
 				world.players[i].entity.gameType.health -= int(p.entity.gameType.weapon.damage)
+				flashAtPoint(world, e.entity.x, e.entity.y)
 
 				fmt.Print("Player: ")
 				fmt.Println(e.entity.gameType.health)

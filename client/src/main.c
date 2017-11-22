@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <error.h>
 #include <poll.h>
+#include <signal.h>
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -12,6 +13,7 @@
 #include "net.h"
 #include "controller.h"
 #include "hud.h"
+#include "resize.h"
 
 
 int main(int argc, char *argv[]) {
@@ -49,6 +51,11 @@ int main(int argc, char *argv[]) {
         { .fd = STDIN_FILENO, .events = POLLIN | POLLPRI, .revents = 0 },
         { .fd = sock,         .events = POLLIN | POLLPRI, .revents = 0 }
     };
+
+    resize_set_you(you);
+    resize_set_map(&map);
+    resize_set_elist(&elist);
+    signal(SIGWINCH, &resize_handler);
 
 
     initscr();

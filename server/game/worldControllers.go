@@ -112,7 +112,7 @@ func interactPlayer(world *World, p *player, dir byte) {
 				fmt.Print("Player: ")
 				fmt.Println(e.entity.gameType.health)
 				if isDead {
-					e.entity.isDead = true
+					world.players[i].entity.isDead = true
 					world.players[i].entity.gameType.health = 0
 				}
 

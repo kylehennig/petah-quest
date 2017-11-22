@@ -75,6 +75,7 @@ func ListenToPlayers(world *World) {
 		b := readConnection(world.players[i])[0]
 
 		if world.players[i].entity.isDead{
+			deleteEntity(world, world.players[i].entity.id)
 			world.players[i].playerCon.Close()
 			world.players = append(world.players[:i], world.players[i+1:]...)
 		}

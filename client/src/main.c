@@ -64,6 +64,7 @@ int main(int argc, char *argv[]) {
     noecho();
 
     draw_weapon_sel(7);
+    resize_set_weapon(7);
 
     while (1) {
         poll(fds, 2, -1);

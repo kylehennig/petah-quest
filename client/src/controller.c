@@ -8,6 +8,7 @@
 #include "net.h"
 #include "draw.h"
 #include "hud.h"
+#include "resize.h"
 
 
 void keyboard_controller(int sockfd) {
@@ -15,6 +16,7 @@ void keyboard_controller(int sockfd) {
 
     if (keypress >= '1' && keypress <= '8') {
         draw_weapon_sel(keypress - '1');
+        resize_set_weapon(keypress - '1');
         refresh();
         send_switch(sockfd, keypress - '1');
     } else {
@@ -151,6 +153,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             uint8_t health;
             get_health(sockfd, &health);
 
+            resize_set_health(health);
             draw_health(health);
             refresh();
             break;

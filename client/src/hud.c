@@ -15,16 +15,16 @@ void draw_weapon_sel(uint8_t weapon) {
 
     //load whole white bar
     attron(COLOR_PAIR(10));
-    mvaddch(CHUNK_HEIGHT,MAX_HEALTH,' ');
+    mvaddch((LINES-1),MAX_HEALTH,' ');
     for(int i = 0; i < NUM_WEAPONS; i++){
-      mvaddch(CHUNK_HEIGHT,i+MAX_HEALTH+1,weapons[i]);
+      mvaddch((LINES-1),i+MAX_HEALTH+1,weapons[i]);
     }
-    mvaddch(CHUNK_HEIGHT,MAX_HEALTH+1+NUM_WEAPONS,' ');
+    mvaddch((LINES-1),MAX_HEALTH+1+NUM_WEAPONS,' ');
     attroff(COLOR_PAIR(10));
 
     //load highlighted
     attron(COLOR_PAIR(11));
-    mvaddch(CHUNK_HEIGHT,weapon+MAX_HEALTH+1,weapons[weapon]);
+    mvaddch((LINES-1),weapon+MAX_HEALTH+1,weapons[weapon]);
     attroff(COLOR_PAIR(10));
 }
 
@@ -39,14 +39,14 @@ void draw_health(uint8_t health){
   attron(COLOR_PAIR(8));
   for(uint8_t i = 0; i < health/5; i++){
    // use the above combination
-   mvprintw(CHUNK_HEIGHT,i,"-");
+   mvprintw((LINES-1),i,"-");
   }
   attroff(COLOR_PAIR(8));
 
   //draw empty health bars
   attron(COLOR_PAIR(9));
   for(uint8_t i = health/5; i < MAX_HEALTH; i++){
-    mvprintw(CHUNK_HEIGHT,i,"-");
+    mvprintw((LINES-1),i,"-");
   }
   attroff(COLOR_PAIR(9));
 }
@@ -55,6 +55,6 @@ void show_text(char *txt){
   start_color();
 	init_pair(14, COLOR_BLACK, COLOR_WHITE); // create foreground / background combination
 	attron(COLOR_PAIR(14)); // use the above combination
-  mvprintw(CHUNK_HEIGHT,NUM_WEAPONS+MAX_HEALTH+padded,txt);
+  mvprintw((LINES-1),NUM_WEAPONS+MAX_HEALTH+padded,txt);
   attroff(COLOR_PAIR(14));
 }

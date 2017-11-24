@@ -14,6 +14,7 @@ const (
 	SEND_UPDATE
 	SEND_HEALTH
 	SEND_ACTION
+	SEND_WEAPON
 )
 
 // sendMap sends the map object to the client
@@ -101,7 +102,11 @@ func readConnection(p player) []byte {
 	}
 	return data
 }
+func sendPlayerUnlockWeapon(conn net.TCPConn, weapID byte){
+		conn.Write([]byte{SEND_WEAPON, weapID})
+}
 
+// Int32ToBytes converts an int32 to a byte array
 func Int32ToBytes(n int32) []byte {
 	bytes := make([]byte, 4)
 	bytes[3] = (byte)((n >> 24) & 0xFF)

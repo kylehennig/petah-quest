@@ -8,6 +8,7 @@
 #include "net.h"
 #include "draw.h"
 #include "hud.h"
+#include "resize.h"
 
 
 void keyboard_controller(int sockfd) {
@@ -15,10 +16,10 @@ void keyboard_controller(int sockfd) {
 
     if (keypress >= '1' && keypress <= '8') {
         draw_weapon_sel(keypress - '1');
+        resize_set_weapon(keypress - '1');
         refresh();
         send_switch(sockfd, keypress - '1');
-    }
-    else {
+    } else {
         switch (keypress) {
             case 'w':
                 send_move(sockfd, NORTH);
@@ -126,7 +127,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
 
             draw_ent_scr(&elist->list[id], &elist->list[you]);
 
-            if (id == you && (x / CHUNK_WIDTH != oldx / CHUNK_WIDTH || y / CHUNK_HEIGHT != oldy / CHUNK_HEIGHT)) {
+            if (id == you && (x / COLS != oldx / COLS || y / (LINES-1) != oldy / (LINES-1))) {
                 draw_map_at(map, elist->list[you].x, elist->list[you].y);
                 draw_entities_screen(elist, &elist->list[you]);
             }
@@ -152,6 +153,7 @@ void server_controller(int sockfd, struct map *map, struct entity_list *elist, u
             uint8_t health;
             get_health(sockfd, &health);
 
+            resize_set_health(health);
             draw_health(health);
             refresh();
             break;

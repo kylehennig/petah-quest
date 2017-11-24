@@ -42,6 +42,7 @@ func movePlayer(world *World, p *player, dir byte) {
 			if e.d.x == newX && e.d.y == newY {
 				world.itemSpawners[i].d.isSpawned = false
 				p.isWeaponUnlocked[getWeaponId(e.dropItem)] = true
+				unlockWeapon(*p, getWeaponId(e.dropItem))
 				deleteEntity(world, e.d.id)
 				break
 			}

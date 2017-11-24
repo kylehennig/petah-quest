@@ -2,9 +2,6 @@
 #include <ncurses.h>
 #include "draw.h"
 
-#define MAX_HEALTH 20
-#define NUM_WEAPONS 8
-#define padded 2
 
 const char *weapons = ")}/-*!@O";
 

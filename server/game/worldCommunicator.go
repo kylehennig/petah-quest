@@ -30,6 +30,9 @@ func flashAtPoint(world *World, x int32, y int32) {
 func updateHealth(p player) {
 	sendPlayerHealth(p.playerCon, byte(p.entity.gameType.health))
 }
+func unlockWeapon(p player, weapID int) {
+	sendPlayerUnlockWeapon(p.playerCon, byte(weapID))
+}
 
 func sendToastToPlayer(p player, msg string) {
 	sendTextMessage(p.playerCon, msg)

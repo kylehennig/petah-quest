@@ -11,7 +11,8 @@ enum srv_cmd {
     MOVE = 3,
     UPDATE = 4,
     HEALTH = 5,
-    FLASH = 6
+    FLASH = 6,
+    WEAPON = 7
 };
 
 int handshake(struct map *map, char ch, uint32_t *id, int sockfd);
